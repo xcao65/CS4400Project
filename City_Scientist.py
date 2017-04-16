@@ -9,6 +9,11 @@ class CityScientist():
 
 	# Allow city scientists to add new location to the POI table.
 	def addNewLocation(self, locationname, city, state, zipcode, connection):
+
+		# Need to be implemented: check the format of ZipCode
+
+
+
 		try:
 			with connection.cursor() as cursor:
 				# Construct the SQL expression				
@@ -33,6 +38,15 @@ class CityScientist():
 
 	# Allow city scientists to
 	def addNewDataPoint(self, locationname, date, time, datatype, value, connection):
+
+		# Need to be implemented: Check format of Data, Time, type of value
+
+		# if type(value) is not int:
+		if not isinstance(value, int):
+			print "Wrong type of DataValue: should be INT, now %s" % type(value)
+			return 
+
+
 		try:
 			with connection.cursor() as cursor:
 				# Construct the SQL expression. Use default value for Status (e.g. "Pending").			
@@ -63,16 +77,16 @@ class CityScientist():
 
 ################
 # Test only
-connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
-                             user='cs4400_Group_79',
-                             password='tpyJ6PVQ',
-                             db='cs4400_Group_79',
-                             # charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+# connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
+#                              user='cs4400_Group_79',
+#                              password='tpyJ6PVQ',
+#                              db='cs4400_Group_79',
+#                              # charset='utf8mb4',
+#                              cursorclass=pymysql.cursors.DictCursor)
 
-scientistTest = CityScientist()
-# scientistTest.addNewLocation("ddd", "Atlanta", "Georgia", "30318", connection)
-scientistTest.addNewDataPoint("ccc", "1999/03/04", "05:06", "Mold", 666, connection)
+# scientistTest = CityScientist()
+# # scientistTest.addNewLocation("ddd", "Atlanta", "Georgia", "30318", connection)
+# scientistTest.addNewDataPoint("ccc", "1999/03/04", "05:06", "Mold", 666, connection)
 
 
 
