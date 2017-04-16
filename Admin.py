@@ -1,5 +1,3 @@
-
-
 class Admin():
 	def pendingDP(self, connection):
 		cursor = connection.cursor()
@@ -14,3 +12,4 @@ class Admin():
 		cursor.execute(sql, 'Pending')
 		result = cursor.fetchall()
 		print len(result)
+
