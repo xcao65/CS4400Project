@@ -10,7 +10,7 @@ connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
                              cursorclass=pymysql.cursors.DictCursor)
 
 test = LogIn()
-test.login("Xun Cao", "xuncao", connection)
+test.login('Justin Bieber','JustinBieber', connection)
 # It will print
 # Congrats! You successfully logged in
 # City Scientist
