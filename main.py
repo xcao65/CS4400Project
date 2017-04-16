@@ -1,5 +1,6 @@
-import pymysql.cursors
+import pymysql
 from all_user import LogIn
+from Admin import Admin
 
 
 connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
@@ -15,5 +16,8 @@ test.login('Justin Bieber','JustinBieber', connection)
 # Congrats! You successfully logged in
 # City Scientist
 # on Screen
+test1 = Admin()
+test1.pendingDP(connection)
+test1.pendingCOA(connection)
 
 connection.close()

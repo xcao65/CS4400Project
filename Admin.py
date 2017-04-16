@@ -1,13 +1,16 @@
 
 
 class Admin():
-	def pendingDataPoint(self, connection):
+	def pendingDP(self, connection):
 		cursor = connection.cursor()
-		sql = "SELECT LocName AS POI location, DataType AS Data type, DataValue AS Data value, DateTime AS Time&date of data reading, FROM Data_Point WHERE Status = Pending"
-		cursor.execute(sql)
-	def pendingCityOfficialAccounts(self, connection):
-		cursor = connection.cursor()
-		sql = "SELECT UserName, EmailAddress AS Email, City, State, Title, FROM User, City_Official, WHERE Status = Pending"
-		cursor.execute(sql)
+		sql = "SELECT LocName, DataType, DataValue FROM Data_Point WHERE Status = %s"
+		cursor.execute(sql, 'Pending')
+		result = cursor.fetchone()
+		print result
 
-	
+	def pendingCOA(self, connection):
+		cursor = connection.cursor()
+		sql = "SELECT UserName, B.EmailAddress, City, State, Title FROM User AS A, City_Official AS B WHERE Status = %s AND A.EmailAddress = B.EmailAddress"
+		cursor.execute(sql, 'Pending')
+		result = cursor.fetchall()
+		print len(result)
