@@ -25,12 +25,12 @@ def deleteUser(connection, name):
 # deleteUser(connection, 'Oprah Winfrey')
 
 
-test = LogIn()
+#test = LogIn()
 # test.login('Justin Bieber','JustinBieber', connection)
 # test.login('Oprah Winfrey','OprahWinfrey', connection)
 # print test.checkUniqueName('Justin Bieber', connection)
 
-test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', connection, 'Major', 'Jacksonville', 'Florida')
+#test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', connection, 'Major', 'Jacksonville', 'Florida')
 # test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', connection)
 # print test.checkUniqueName('Justin Bieber', connection)
 # print test.checkUniqueName('Xun Cao', connection)
@@ -41,7 +41,8 @@ test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahW
 # on Screen
 
 test1 = Admin()
-test1.pendingDP(connection)
+AdResult = test1.pendingDP(connection)
 test1.pendingCOA(connection)
+test1.changeDP([0,1], AdResult, 1, connection)
 
 connection.close()
