@@ -41,8 +41,14 @@ def deleteUser(connection, name):
 # on Screen
 
 test1 = Admin()
-AdResult = test1.pendingDP(connection)
-test1.pendingCOA(connection)
-test1.changeDP([0,1], AdResult, 1, connection)
+print 'Number of Pending DP:'
+dpResult = test1.pendingDP(connection)
+print 'Change two DPs:'
+test1.changeDP([0,1], dpResult, 1, connection)
+
+print 'Number of Pending COA:'
+coaResult = test1.pendingCOA(connection)
+print 'Change two COAs:'
+test1.changeCOA([0,1],coaResult, 1, connection)
 
 connection.close()
