@@ -1,4 +1,5 @@
 import pymysql
+import pymysql.cursors
 from all_user import LogIn
 from Admin import Admin
 
@@ -49,6 +50,7 @@ test1.changeDP([0,1], dpResult, 1, connection)
 print 'Number of Pending COA:'
 coaResult = test1.pendingCOA(connection)
 print 'Change two COAs:'
-test1.changeCOA([0,1],coaResult, 1, connection)
+test1.changeCOA([0],coaResult, 1, connection)
 
+connection.commit()
 connection.close()
