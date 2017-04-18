@@ -16,6 +16,12 @@ app = Flask(__name__)
 prof = Xavier()
 roles = {"admin", "scientist", "official"}
 
+def check_session(func):
+    def wrapper():
+        return func() if prof.has_login(session.get('session_id')) \
+            else jsonify({'succ': 6, 'msg': 'not logged in'})
+    return wrapper
+
 @app.route('/')
 def home():
     if session.get('session_id') and prof.has_login(session.get('session_id')):
@@ -60,6 +66,11 @@ def do_logout():
     if session.get('session_id'):
         prof.clear(session.get('session_id'))
     return redirect("login.html")
+    
+@app.route('/api/points', methods=["POST", "GET"])
+@check_session
+def fetch_points():
+    return jsonify([{"name": "Starling City"}])
 
 def signal_handler(signal, frame):
     print('Closing SQL connection...')
