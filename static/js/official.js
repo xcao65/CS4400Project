@@ -46,4 +46,9 @@ angular.module('p1', ['ngRoute'])
         if(data.succ == 0) $scope.filtered = data.c
       })
     }
+    $scope.reset = function() {
+      this.filtered = []
+      var none = $scope.non_opt[0].id
+      this.f = {'flagged': false, 'name': none, 'city': none, 'state': none }
+    }
   })
