@@ -70,7 +70,12 @@ def do_logout():
 @app.route('/api/points', methods=["POST", "GET"])
 @check_session
 def fetch_points():
-    return jsonify([{"name": "Starling City"}])
+    return jsonify(
+    [
+        {"loc": {"name": "Starling City"}, "attr": "AQI", "val": "31"}, 
+        {"loc": {"name": "shanghai"}, "attr": "AQI", "val": "1099"}, 
+        {"loc": {"name": "shanghai"}, "attr": "Flood", "val": "Tue Apr 18 20:13:59 EDT 2017"}
+    ])
 
 def signal_handler(signal, frame):
     print('Closing SQL connection...')
