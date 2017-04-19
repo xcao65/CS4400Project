@@ -42,11 +42,11 @@ angular.module('p2', ['ngRoute'])
      $scope.l = {'city': 0, 'state': 0}
      $scope.m = true // true for adding point, false for adding location
      $scope.switch = function() {
-       this.m = !this.m 
+       this.m = !this.m
      }
      
-     $scope.states = [{"id": 0, "name": "Georgia"}, {"id": 0, "name": "Georgia"}]
-     $scope.cities = [{"id": 0, "name":"Atlanta"}, {"id": 0, "name":"Smyrna"}]
+     $scope.states = [{"id": 0, "name": "Georgia"}, {"id": 1, "name": "Alaska"}]
+     $scope.cities = [{"id": 0, "name":"Atlanta"}, {"id": 1, "name":"Smyrna"}]
      $scope.save_point = function() {
        LocationsFactory.put_point(this.p)
         .success(function(data, status) {
@@ -56,21 +56,23 @@ angular.module('p2', ['ngRoute'])
      $scope.save_loc = function() {
        LocationsFactory.put_loc(this.l).success(function(data, status) {
          console.log("Successfully saved location: ", status, data)
-         $scope.locations.push(data.data)
+         $scope.locations.push(data.c)
        })
      }
      LocationsFactory.get_types()
-        .success(function(jsonData, statusCode) {
-           console.log('Successfully got types!', statusCode, jsonData)
-           // Now add the Email messages to the controller's scope
-           $scope.types = jsonData
-           $scope.p.type = jsonData[0].id
+        .success(function(data, statusCode) {
+           console.log('Successfully got types!', statusCode, data)
+          if(data.succ == 0) {
+            $scope.types = data.c
+            $scope.p.type = data.c[0].id
+          }
      })
      LocationsFactory.get_locations()
-        .success(function(jsonData, statusCode) {
-           console.log('Successfuly got locations!', statusCode, jsonData)
-           // Now add the Email messages to the controller's scope
-           $scope.locations = jsonData
-           $scope.p.loc = jsonData[0].id
+        .success(function(data, statusCode) {
+          console.log('Successfuly got locations!', statusCode, data)
+          if(data.succ == 0) {
+            $scope.locations = data.c
+            $scope.p.loc = data.c[0].id
+          }
      })
   })

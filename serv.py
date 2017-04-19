@@ -73,7 +73,8 @@ def do_logout():
 @app.route('/api/types', methods=["get"])
 @check_login
 def fetch_types():
-    return jsonify([{"name": "AQI", "id": 0}, {"name": "Mold", "id": 1}])
+    return jsonify({ 'succ': 0, 'c':
+        [{"name": "AQI", "id": 0}, {"name": "Mold", "id": 1}]})
 
 @app.route('/api/points', methods=["PUT"])
 @check_login
@@ -82,27 +83,36 @@ def save_point():
     print("save_point is called: ", payload)
     # pretend saving
     payload["id"] = 100
-    return jsonify({"succ": 0, "data":payload})
+    return jsonify({"succ": 0, "c":payload})
     
 @app.route('/api/points', methods=["POST", "GET"])
 @check_login
 def fetch_points():
-    return jsonify(
+    return jsonify({ 'succ': 0, 'c':
     [
-        {"loc": {"name": "Starling City"}, "attr": "AQI", "val": "31"}, 
-        {"loc": {"name": "shanghai"}, "attr": "AQI", "val": "1099"}, 
-        {"loc": {"name": "shanghai"}, "attr": "Flood", "val": "Tue Apr 18 20:13:59 EDT 2017"}
-    ])
+        {"loc": 0, "attr": "AQI", "val": "31"}, 
+        {"loc": 1, "attr": "AQI", "val": "1099"}, 
+        {"loc": 1, "attr": "Mold", "val": "653"}
+    ]})
 
 @app.route('/api/locations', methods=["POST", "GET"])
 @check_login
 def fetch_locations():
-    return jsonify(
-    [ {"name": "Starling City", "id": 0}
-     ,{"name": "Fairview", "id": 1}
-     ,{"name": "Mt. Pleasant", "id": 2}
-     ,{"name": "shanghai", "id": 3}
-    ])
+    return jsonify({ 'succ': 0, 'c':
+    [ {"name": "Chamblee", "id": 0, "zip": 24972, "city": 1, "state": 0, "flag": None}
+     ,{"name": "Duluth", "id": 1, "zip": 42623, "city": 1, "state": 0, "flag": '04-10-2017'}
+     ,{"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
+     ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": None}
+    ]})
+
+@app.route('/api/filter_loc', methods=["POST", "GET"])
+@check_login
+def filter_locations():
+    print('filter_locations called! ', request.get_json())
+    return jsonify({ 'succ': 0, 'c':
+    [ {"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
+     ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
+    ]})
 
 @app.route('/api/locations', methods=["PUT"])
 @check_login
@@ -110,7 +120,7 @@ def save_location():
     payload = request.get_json()
     print("save_location is called: ", payload)
     payload["id"] = 999
-    return jsonify({"succ": 0, "data":payload})
+    return jsonify({"succ": 0, "c":payload})
 
 def signal_handler(signal, frame):
     print('Closing SQL connection...')

@@ -61,7 +61,7 @@
       <tr>
         <td>Data type</td>
         <td><select ng-model="p.type" ng-options="t.id as t.name for t in types"></select></td></tr>
-      <tr><td>Data value</td><td><input type="text" ng-model="p.value"/></td></tr>
+      <tr><td>Data value</td><td><input type="text" ng-model="p.val"/></td></tr>
       <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
     </table>
     </div>
@@ -81,7 +81,7 @@
         <tr>
           <td>State</td>
           <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
-        <tr><td>Zip code</td><td><input type="text" ng-model="p.zip"/></td></tr>
+        <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
         <tr>
           <td><button ng-click="switch()">Back</button></td>
           <td><button ng-click="save_loc()">ADD</button></td>
