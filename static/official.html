@@ -80,7 +80,7 @@
           <td>Location name</td> <td>City</td> <td>State</td> <td>Zip code</td>
            <td>Flagged? </td> <td>Date Flagged</td>
         </tr>
-        <tr ng-repeat="l in filtered">
+        <tr ng-repeat="l in filtered" ng-click="goto('locations/' + l.id + '/' + l.name)">
           <td>{{l.name}}</td> <td>{{l.city}}</td> <td>{{l.state}}</td>
           <td>{{l.zip}}</td>
           <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
@@ -88,6 +88,39 @@
       </table>
     </div>
   </div>
+</script>
+
+<script type="text/ng-template" id="/detail.html">
+  <p>POI location: {{f.name}}</p>
+  <h2 class="ctx">POI Detail</h2>
+  <table>
+    <tr>
+      <td>Type</td>
+      <td><select ng-model="f.type" ng-options="t.id as t.name for t in types"></select></td>
+    </tr>
+    <tr>
+      <td>Data Value</td>
+      <td>
+        <input ng-model="f.from" type="text"/>
+        <span> to </span>
+        <input ng-model="f.to" type="text"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Time &amp; date</td>
+      <td>
+        <input type="date" id="flag_date_start" name="input" ng-model="f.start" 
+          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+        <input type="date" id="flag_date_end" name="input" ng-model="f.end" 
+          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+      </td>
+    </tr>
+    <tr>
+      <td><button ng-click="filter()">Apply Filter</button></td>
+      <td><button ng-click="reset()">Reset Filter</button></td>
+    </tr>
+  </table>
+  <button ng-click="goto('/')">Back</button>
 </script>
 <!-- add angular 1.2.x -->
 <script src="lib/angular.min.js"></script>

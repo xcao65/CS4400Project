@@ -95,6 +95,20 @@ def fetch_points():
         {"loc": 1, "attr": "Mold", "val": "653"}
     ]})
 
+@app.route('/api/filter_points', methods=["POST"])
+@check_login
+def filter_points():
+    payload = request.get_json()
+    print('filter_points is called with ', payload)
+    return jsonify({ 'succ': 0, 'c':
+    [ {"loc": 1, "attr": "AQI", "val": "31", 'ts': '04-11-2017'}
+    , {"loc": 1, "attr": "AQI", "val": "1099", 'ts': '04-12-2017'}
+    , {"loc": 1, "attr": "Mold", "val": "653", 'ts': '04-18-2017'}
+    , {"loc": 1, "attr": "AQI", "val": "12", 'ts': '04-22-2017'}
+    , {"loc": 1, "attr": "AQI", "val": "15", 'ts': '04-23-2017'}
+    ]})
+    
+
 @app.route('/api/locations', methods=["POST", "GET"])
 @check_login
 def fetch_locations():
