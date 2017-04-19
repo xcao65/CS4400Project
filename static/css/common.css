@@ -1,0 +1,83 @@
+* {
+  font-family: "Lato", "Lucida Grande", sans-serif, Arial, Tahoma;
+  font-size: 12pt;
+}
+
+html {
+  overflow: hidden;
+}
+
+table {
+  border-spacing: 0px; /* normalize.css handles the rest*/
+}
+
+.h100 {
+  height: 100%;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.ctx {
+  text-align: center;
+}
+
+.mg0 {
+  margin: 0;
+}
+
+.rel {
+  position: relative;
+}
+
+.abs {
+  position: absolute;
+}
+
+.fxd {
+  position: fixed;
+}
+
+.pd16l {
+  padding-left: 16px;
+}
+.pd16t {
+  padding-top:16px;
+}
+.pd16r {
+  padding-right: 16px;
+}
+
+.preview text.sample {
+  fill: #000000;
+  dominant-baseline: text-before-edge;
+  font-size: 12pt;
+}
+
+.preview text.ft-family {
+  text-anchor: end;
+  dominant-baseline: middle;
+  fill: #797979;
+  font-size: 8pt;
+  opacity: 1;
+}
+
+.numb {
+  pointer-events: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.anchor {
+  width: 8px;
+  height: 8px;
+  border: 1px solid #797979;
+  background-color: #ffffff;
+}
+
+.bdtg0 {
+  border-top: 1px solid #e2e2e2;
+}

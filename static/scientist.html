@@ -3,100 +3,48 @@
 <title>Home for Scientists</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {font-family: "Lato", sans-serif}
-.mySlides {display: none}
-</style>
 
 <body>
 
 <!-- Navbar -->
-<div class="w3-top">
+<div class="">
   <div class="w3-bar w3-black w3-card-2">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <span href="#" class="w3-bar-item w3-button w3-padding-large">Hi, Doctor!</span>
-    <a href="#band" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do something</a>
-    <a href="#other" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do more things</a>
+    <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, Doctor!</s>
+    <a href="#something" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do something</a>
+    <a href="#more" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do more things</a>
     <a href="/api/logout" class="w3-bar-item w3-padding-large w3-hover-red w3-hide-small w3-right">Logout</a>
   </div>
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
-
-  <!-- The Band Section -->
-  <div ng-controller="PointsCtrl" class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
-    <h2 class="w3-wide">You have added {{(points.length > 0)? points.length : "no"}} data points</h2>
-    <p class="w3-opacity"><i>We love music</i></p>
-    <p class="w3-justify">Add more explorations here.</p>
-    
-    <table>
-      <tr><td>Name</td><td>Data type</td><td>Data value</td></tr>
-      <tr ng-repeat="p in points">
-        <td>{{ p.loc.name }}</td> <td>{{p.attr}}</td> <td>{{p.val}}</td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- The Tour Section -->
-  <div class="w3-black" id="tour">
-    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-      <h2 class="w3-wide w3-center">TOUR DATES</h2>
-      <p class="w3-opacity w3-center"><i>Remember to book your tickets!</i></p><br>
-
-    </div>
-  </div>
-
-  <!-- Ticket Modal -->
-  <div id="ticketModal" class="w3-modal">
-    <div class="w3-modal-content w3-animate-top w3-card-4">
-      <header class="w3-container w3-teal w3-center w3-padding-32"> 
-        <span onclick="document.getElementById('ticketModal').style.display='none'" 
-       class="w3-button w3-teal w3-xlarge w3-display-topright">Ã—</span>
-        <h2 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Tickets</h2>
-      </header>
-      <div class="w3-container">
-        <p><label><i class="fa fa-shopping-cart"></i> Tickets, $15 per person</label></p>
-        <input class="w3-input w3-border" type="text" placeholder="How many?">
-        <p><label><i class="fa fa-user"></i> Send To</label></p>
-        <input class="w3-input w3-border" type="text" placeholder="Enter email">
-        <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">PAY <i class="fa fa-check"></i></button>
-        <button class="w3-button w3-red w3-section" onclick="document.getElementById('ticketModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
-        <p class="w3-right">Need <a href="#" class="w3-text-blue">help?</a></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- The Contact Section -->
-  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
-    <h2 class="w3-wide w3-center">CONTACT</h2>
-    <p class="w3-opacity w3-center"><i>Fan? Drop a note!</i></p>
-    <div class="w3-row w3-padding-32">
-      <div class="w3-col m6 w3-large w3-margin-bottom">
-        <i class="fa fa-map-marker" style="width:30px"></i> Chicago, US<br>
-        <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
-        <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
-      </div>
-      <div class="w3-col m6">
-        <form action="/action_page.php" target="_blank">
-          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-            <div class="w3-half">
-              <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
-            </div>
-            <div class="w3-half">
-              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
-            </div>
-          </div>
-          <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
-          <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<div class="w100" ng-controller="LocationListCtrl">
+  <h1 class="ctx">Add a new data point</h1>
+  <table>
+    <tr>
+      <td>PIOlocation name</td>
+      <td><select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select></td>
+    </tr>
+    <tr>
+      <td>time and data reading</td>
+      <td>
+        <input type="date" id="exampleInput" name="input" ng-model="p.ts" 
+          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+      </td>
+    </tr>
+    <tr>
+      <td>Data type</td>
+      <td><select ng-model="p.type" ng-options="t.id as t.name for t in types"></select></td></tr>
+    <tr><td>Data value</td><td><input type="text" ng-model="p.value"/></td></tr>
+    <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
+  </table>
   
+
+
 <!-- End Page Content -->
 </div>
 
@@ -120,35 +68,67 @@ body {font-family: "Lato", sans-serif}
    angular.module('p2', ['ngRoute'])
     .config(function ($routeProvider) {
        $routeProvider
-          .when('/points', {
-             templateUrl: 'views/inbox.html',
-             controller: 'PointsCtrl',
+          .when('/locations', {
+             templateUrl: 'views/locations.html',
+             controller: 'LocationListCtrl',
              controllerAs: 'points'
           })
-          .when('/points/:id', {
-             templateUrl: 'views/email.html',
-             controller: 'PointCtrl',
+          .when('/locations/:id', {
+             templateUrl: 'views/detail.html',
+             controller: 'LocationDetailCtrl',
              controllerAs: 'detail'
           })
+          .when('/add', {
+             templateUrl: 'views/add.html',
+             controller: 'PointCtrl',
+             controllerAs: 'add_point'
+          })
           .otherwise({
-             redirectTo: '/points'
+             redirectTo: '/locations'
           });
-    }).factory('PointsFactory', function PointsFactory ($http) {
+    }).factory('LocationsFactory', function LocationsFactory ($http) {
        var exports = {};
 
-       exports.get_points = function () {
-          return $http.get('api/points')
+       exports.get_types = function () {
+          return $http.get('api/types')
              .error(function (data) {
-                console.log('Failed to get points!', data);
+                console.log('Failed to get types!', data)
+          })
+       }
+       exports.get_locations = function () {
+          return $http.get('api/locations')
+             .error(function (data) {
+                console.log('Failed to get locations!', data)
+          })
+       }
+       exports.put_point = function(p) {
+         return $http.put('api/points', p)
+          .error(function (data) {
+            console.log('Failed to save point!', data)
           })
        }
        return exports
-    }).controller('PointsCtrl', function($scope, PointsFactory) {
-       PointsFactory.get_points()
+    }).controller('LocationListCtrl', function($scope, LocationsFactory) {
+       $scope.p = {'ts': new Date()}
+       $scope.save_point = function() {
+         LocationsFactory.put_point(this.p)
+          .success(function(data, status) {
+            console.log("Successfully saved point: ", status, data)
+          })
+       }
+       LocationsFactory.get_types()
           .success(function(jsonData, statusCode) {
-             console.log('The request was successful!', statusCode, jsonData);
+             console.log('Successfully got types!', statusCode, jsonData)
              // Now add the Email messages to the controller's scope
-             $scope.points = jsonData
+             $scope.types = jsonData
+             $scope.p.type = jsonData[0].id
+       })
+       LocationsFactory.get_locations()
+          .success(function(jsonData, statusCode) {
+             console.log('Successfuly got locations!', statusCode, jsonData)
+             // Now add the Email messages to the controller's scope
+             $scope.locations = jsonData
+             $scope.p.loc = jsonData[0].id
        })
     })
 </script>

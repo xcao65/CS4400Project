@@ -1,3 +1,4 @@
+from functools import wraps
 import os
 import signal
 import ssl
@@ -16,10 +17,12 @@ app = Flask(__name__)
 prof = Xavier()
 roles = {"admin", "scientist", "official"}
 
-def check_session(func):
-    def wrapper():
-        return func() if prof.has_login(session.get('session_id')) \
-            else jsonify({'succ': 6, 'msg': 'not logged in'})
+def check_login(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not prof.has_login(session.get('session_id')):
+            return jsonify({'succ': 6, 'msg': 'not logged in'})
+        return func(*args, **kwargs)
     return wrapper
 
 @app.route('/')
@@ -66,15 +69,39 @@ def do_logout():
     if session.get('session_id'):
         prof.clear(session.get('session_id'))
     return redirect("login.html")
+
+@app.route('/api/types', methods=["get"])
+@check_login
+def fetch_types():
+    return jsonify([{"name": "AQI", "id": 0}, {"name": "Mold", "id": 1}])
+
+@app.route('/api/points', methods=["PUT"])
+@check_login
+def save_point():
+    payload = request.get_json()
+    print("save_point is called: ", payload)
+    # pretend saving
+    payload["id"] = 100
+    return jsonify({"succ": 0, "data":payload})
     
 @app.route('/api/points', methods=["POST", "GET"])
-@check_session
+@check_login
 def fetch_points():
     return jsonify(
     [
         {"loc": {"name": "Starling City"}, "attr": "AQI", "val": "31"}, 
         {"loc": {"name": "shanghai"}, "attr": "AQI", "val": "1099"}, 
         {"loc": {"name": "shanghai"}, "attr": "Flood", "val": "Tue Apr 18 20:13:59 EDT 2017"}
+    ])
+
+@app.route('/api/locations', methods=["POST", "GET"])
+@check_login
+def fetch_locations():
+    return jsonify(
+    [ {"name": "Starling City", "id": 0}
+     ,{"name": "Fairview", "id": 1}
+     ,{"name": "Mt. Pleasant", "id": 2}
+     ,{"name": "shanghai", "id": 3}
     ])
 
 def signal_handler(signal, frame):
