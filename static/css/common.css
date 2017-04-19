@@ -53,6 +53,11 @@ table {
   padding-right: 16px;
 }
 
+.fake-link {
+  color: #224499;
+  text-decoration: underline;
+}
+
 .preview text.sample {
   fill: #000000;
   dominant-baseline: text-before-edge;

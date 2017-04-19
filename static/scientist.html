@@ -22,58 +22,10 @@
 </div>
 
 <!-- Page content -->
-<div class="w100" ng-controller="LocationListCtrl">
-  <div id="add_point_pack" ng-show="m">
-  <h1 class="ctx">Add a new data point</h1>
-  <table>
-    <tr>
-      <td>POI location name</td>
-      <td>
-        <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
-        <a ng-click="switch()">add a new location</a>
-      </td>
-    </tr>
-    <tr>
-      <td>time and data reading</td>
-      <td>
-        <input type="date" id="exampleInput" name="input" ng-model="p.ts" 
-          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
-      </td>
-    </tr>
-    <tr>
-      <td>Data type</td>
-      <td><select ng-model="p.type" ng-options="t.id as t.name for t in types"></select></td></tr>
-    <tr><td>Data value</td><td><input type="text" ng-model="p.value"/></td></tr>
-    <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
-  </table>
-  </div>
-  <div id="add_loc_pack" ng-hide="m">
-    <h1 class="ctx">Add a new location</h1>
-    <table>
-      <tr>
-        <td>POI location name</td>
-        <td>
-          <input type="text" ng-model="l.name"/>
-        </td>
-      </tr>
-      <tr>
-        <td>City</td>
-        <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
-      </tr>
-      <tr>
-        <td>State</td>
-        <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
-      <tr><td>Zip code</td><td><input type="text" ng-model="p.zip"/></td></tr>
-      <tr>
-        <td><button ng-click="switch()">Back</button></td>
-        <td><button ng-click="save_loc()">ADD</button></td>
-      </tr>
-    </table>
-  </div>
+<ng-view ng-class="{w100: true}"></ng-view>
 
 
 <!-- End Page Content -->
-</div>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
@@ -85,89 +37,62 @@
   <i class="fa fa-linkedin w3-hover-opacity"></i>
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
+
+<script type="text/ng-template" id="/locations.html">
+  
+  <div class="w100" ng-controller="LocationListCtrl">
+    <div id="add_point_pack" ng-show="m">
+    <h1 class="ctx">Add a new data point</h1>
+    <table>
+      <tr>
+        <td>POI location name</td>
+        <td>
+          <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
+          <a ng-click="switch()" class="clickable fake-link">add a new location</a>
+        </td>
+      </tr>
+      <tr>
+        <td>time and data reading</td>
+        <td>
+          <input type="date" id="exampleInput" name="input" ng-model="p.ts" 
+            placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+        </td>
+      </tr>
+      <tr>
+        <td>Data type</td>
+        <td><select ng-model="p.type" ng-options="t.id as t.name for t in types"></select></td></tr>
+      <tr><td>Data value</td><td><input type="text" ng-model="p.value"/></td></tr>
+      <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
+    </table>
+    </div>
+    <div id="add_loc_pack" ng-hide="m">
+      <h1 class="ctx">Add a new location</h1>
+      <table>
+        <tr>
+          <td>POI location name</td>
+          <td>
+            <input type="text" ng-model="l.name"/>
+          </td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
+        </tr>
+        <tr>
+          <td>State</td>
+          <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
+        <tr><td>Zip code</td><td><input type="text" ng-model="p.zip"/></td></tr>
+        <tr>
+          <td><button ng-click="switch()">Back</button></td>
+          <td><button ng-click="save_loc()">ADD</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</script>
 <!-- add angular 1.2.x -->
 <script src="lib/angular.min.js"></script>
 <script src="lib/angular-route.min.js"></script>
-<script>
-  //  function PointsCtrl($scope) {
-  //     $scope.title = 'Write a title here...'
-  //  }
-   angular.module('p2', ['ngRoute'])
-    .config(function ($routeProvider) {
-       $routeProvider
-          .when('/locations', {
-             templateUrl: 'views/locations.html',
-             controller: 'LocationListCtrl',
-             controllerAs: 'points'
-          })
-          .otherwise({
-             redirectTo: '/locations'
-          });
-    }).factory('LocationsFactory', function LocationsFactory ($http) {
-       var exports = {};
-
-       exports.get_types = function () {
-          return $http.get('api/types')
-             .error(function (data) {
-                console.log('Failed to get types!', data)
-          })
-       }
-       exports.get_locations = function () {
-          return $http.get('api/locations')
-             .error(function (data) {
-                console.log('Failed to get locations!', data)
-          })
-       }
-       exports.put_point = function(p) {
-         return $http.put('api/points', p)
-          .error(function (data) {
-            console.log('Failed to save point!', data)
-          })
-       }
-       exports.put_loc = function(l) {
-         return $http.put('api/locations', l)
-          .error(function (data) {
-            console.log('Failed to save location!', data)
-          })
-       }
-       return exports
-    }).controller('LocationListCtrl', function($scope, LocationsFactory) {
-       $scope.p = {'ts': new Date()}
-       $scope.l = {'city': 0, 'state': 0}
-       $scope.m = true // true for adding point, false for adding location
-       $scope.switch = function() {
-         this.m = !this.m 
-       }
-       
-       $scope.states = [{"id": 0, "name": "Georgia"}, {"id": 0, "name": "Georgia"}]
-       $scope.cities = [{"id": 0, "name":"Atlanta"}, {"id": 0, "name":"Smyrna"}]
-       $scope.save_point = function() {
-         LocationsFactory.put_point(this.p)
-          .success(function(data, status) {
-            console.log("Successfully saved point: ", status, data)
-          })
-       }
-       $scope.save_loc = function() {
-         LocationsFactory.put_loc(this.l).success(function(data, status) {
-           console.log("Successfully saved location: ", status, data)
-           $scope.locations.push(data.data)
-         })
-       }
-       LocationsFactory.get_types()
-          .success(function(jsonData, statusCode) {
-             console.log('Successfully got types!', statusCode, jsonData)
-             // Now add the Email messages to the controller's scope
-             $scope.types = jsonData
-             $scope.p.type = jsonData[0].id
-       })
-       LocationsFactory.get_locations()
-          .success(function(jsonData, statusCode) {
-             console.log('Successfuly got locations!', statusCode, jsonData)
-             // Now add the Email messages to the controller's scope
-             $scope.locations = jsonData
-             $scope.p.loc = jsonData[0].id
-       })
-    })
-</script>
+<script src="js/scientist.js"></script>
 </body>
 </html>
