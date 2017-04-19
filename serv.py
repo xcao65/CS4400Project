@@ -104,6 +104,14 @@ def fetch_locations():
      ,{"name": "shanghai", "id": 3}
     ])
 
+@app.route('/api/locations', methods=["PUT"])
+@check_login
+def save_location():
+    payload = request.get_json()
+    print("save_location is called: ", payload)
+    payload["id"] = 999
+    return jsonify({"succ": 0, "data":payload})
+
 def signal_handler(signal, frame):
     print('Closing SQL connection...')
     if connection: connection.close()

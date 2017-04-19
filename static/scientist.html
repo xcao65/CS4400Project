@@ -23,11 +23,15 @@
 
 <!-- Page content -->
 <div class="w100" ng-controller="LocationListCtrl">
+  <div id="add_point_pack" ng-show="m">
   <h1 class="ctx">Add a new data point</h1>
   <table>
     <tr>
-      <td>PIOlocation name</td>
-      <td><select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select></td>
+      <td>POI location name</td>
+      <td>
+        <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
+        <a ng-click="switch()">add a new location</a>
+      </td>
     </tr>
     <tr>
       <td>time and data reading</td>
@@ -42,7 +46,30 @@
     <tr><td>Data value</td><td><input type="text" ng-model="p.value"/></td></tr>
     <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
   </table>
-  
+  </div>
+  <div id="add_loc_pack" ng-hide="m">
+    <h1 class="ctx">Add a new location</h1>
+    <table>
+      <tr>
+        <td>POI location name</td>
+        <td>
+          <input type="text" ng-model="l.name"/>
+        </td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
+      <tr><td>Zip code</td><td><input type="text" ng-model="p.zip"/></td></tr>
+      <tr>
+        <td><button ng-click="switch()">Back</button></td>
+        <td><button ng-click="save_loc()">ADD</button></td>
+      </tr>
+    </table>
+  </div>
 
 
 <!-- End Page Content -->
@@ -73,16 +100,6 @@
              controller: 'LocationListCtrl',
              controllerAs: 'points'
           })
-          .when('/locations/:id', {
-             templateUrl: 'views/detail.html',
-             controller: 'LocationDetailCtrl',
-             controllerAs: 'detail'
-          })
-          .when('/add', {
-             templateUrl: 'views/add.html',
-             controller: 'PointCtrl',
-             controllerAs: 'add_point'
-          })
           .otherwise({
              redirectTo: '/locations'
           });
@@ -107,14 +124,34 @@
             console.log('Failed to save point!', data)
           })
        }
+       exports.put_loc = function(l) {
+         return $http.put('api/locations', l)
+          .error(function (data) {
+            console.log('Failed to save location!', data)
+          })
+       }
        return exports
     }).controller('LocationListCtrl', function($scope, LocationsFactory) {
        $scope.p = {'ts': new Date()}
+       $scope.l = {'city': 0, 'state': 0}
+       $scope.m = true // true for adding point, false for adding location
+       $scope.switch = function() {
+         this.m = !this.m 
+       }
+       
+       $scope.states = [{"id": 0, "name": "Georgia"}, {"id": 0, "name": "Georgia"}]
+       $scope.cities = [{"id": 0, "name":"Atlanta"}, {"id": 0, "name":"Smyrna"}]
        $scope.save_point = function() {
          LocationsFactory.put_point(this.p)
           .success(function(data, status) {
             console.log("Successfully saved point: ", status, data)
           })
+       }
+       $scope.save_loc = function() {
+         LocationsFactory.put_loc(this.l).success(function(data, status) {
+           console.log("Successfully saved location: ", status, data)
+           $scope.locations.push(data.data)
+         })
        }
        LocationsFactory.get_types()
           .success(function(jsonData, statusCode) {
