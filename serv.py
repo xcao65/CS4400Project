@@ -128,6 +128,14 @@ def filter_locations():
      ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
     ]})
 
+@app.route('/api/flag', methods=["PUT"])
+@check_login
+def flag_loc():
+    payload = request.get_json()
+    print('flag called! ', payload)
+    payload['flag'] = None if payload['flag'] else '05-01-2017'
+    return jsonify({'succ': 0, 'c': payload})
+    
 @app.route('/api/locations', methods=["PUT"])
 @check_login
 def save_location():
@@ -135,6 +143,19 @@ def save_location():
     print("save_location is called: ", payload)
     payload["id"] = 999
     return jsonify({"succ": 0, "c":payload})
+
+@app.route('/api/report', methods=["POST"])
+@check_login
+def generate_report():
+    return jsonify({'succ': 0, 'c': [
+      {'id': 10, 'name': 'Georgia Tech', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 11, 'name': 'GSU', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 12, 'name': 'Tenth and Home', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 13, 'name': 'Suntrust Park', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 15, 'name': 'Pepsi Theme park', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 19, 'name': 'Chtanooga river', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    , {'id': 22, 'name': 'Westmar', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    ]})
 
 def signal_handler(signal, frame):
     print('Closing SQL connection...')

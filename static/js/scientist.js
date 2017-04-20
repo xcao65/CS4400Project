@@ -64,7 +64,7 @@ angular.module('p2', ['ngRoute'])
            console.log('Successfully got types!', statusCode, data)
           if(data.succ == 0) {
             $scope.types = data.c
-            $scope.p.type = data.c[0].id
+            $scope.p.attr = data.c[0].id
           }
      })
      LocationsFactory.get_locations()

@@ -11,12 +11,12 @@
 <body>
 
 <!-- Navbar -->
-<div class="">
+<div class="" ng-controller="NavCtrl">
   <div class="w3-bar w3-black w3-card-2">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, there!</s>
-    <a href="#something" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do something</a>
-    <a href="#more" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do more things</a>
+    <a ng-click="goto('/')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View POIs</a>
+    <a ng-click="goto('report')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Generate Report</a>
     <a href="/api/logout" class="w3-bar-item w3-padding-large w3-hover-red w3-hide-small w3-right">Logout</a>
   </div>
 </div>
@@ -42,7 +42,7 @@
   
   <div class="w100" ng-controller="LocationListCtrl">
     <div id="filter_pack">
-    <h1 class="ctx">View POIs</h1>
+    <h2 class="ctx">View POIs</h2>
     <table>
       <tr>
         <td>POI location name</td>
@@ -80,8 +80,10 @@
           <td>Location name</td> <td>City</td> <td>State</td> <td>Zip code</td>
            <td>Flagged? </td> <td>Date Flagged</td>
         </tr>
-        <tr ng-repeat="l in filtered" ng-click="goto('locations/' + l.id + '/' + l.name)">
-          <td>{{l.name}}</td> <td>{{l.city}}</td> <td>{{l.state}}</td>
+        <tr ng-repeat="l in filtered" ng-click="inspect(l)">
+          <td>{{l.name}}</td> 
+          <td>{{id2city(l.city)}}</td> 
+          <td>{{id2state(l.state)}}</td>
           <td>{{l.zip}}</td>
           <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
         </tr>
@@ -93,10 +95,13 @@
 <script type="text/ng-template" id="/detail.html">
   <p>POI location: {{f.name}}</p>
   <h2 class="ctx">POI Detail</h2>
+  <div class="w3-right" ng-show='f.flag'>
+    <img alt="Flag" src="img/flag.svg" width="64" height="64"></img>
+  </div>
   <table>
     <tr>
       <td>Type</td>
-      <td><select ng-model="f.type" ng-options="t.id as t.name for t in types"></select></td>
+      <td><select ng-model="f.attr" ng-options="t.id as t.name for t in types"></select></td>
     </tr>
     <tr>
       <td>Data Value</td>
@@ -111,6 +116,7 @@
       <td>
         <input type="date" id="flag_date_start" name="input" ng-model="f.start" 
           placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+        <span> to </span>
         <input type="date" id="flag_date_end" name="input" ng-model="f.end" 
           placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
       </td>
@@ -120,7 +126,35 @@
       <td><button ng-click="reset()">Reset Filter</button></td>
     </tr>
   </table>
+  <div ng-show="filtered.length > 0">
+    <table>
+      <tr><td>Data type</td><td>Data value</td><td>Time &amp; dat of data reading</td></tr>
+      <tr ng-repeat="p in filtered">
+        <td>{{p.attr}}</td>
+        <td>{{p.val}}</td>
+        <td>{{p.ts}}</td>
+      </tr>
+    </table>
+  </div>
   <button ng-click="goto('/')">Back</button>
+  <button ng-click="flag()">flag</button>
+</script>
+<script type="text/ng-template" id="/report.html">
+  <h2 class="ctx">POI Report</h2>
+  <table>
+    <tr>
+      <td>PIO location</td><td>City</td><td>State</td>
+      <td>Mold Min</td><td>Mold Avg</td><td>Mold Max</td>
+      <td>AQ Min</td><td>AQ Avg</td><td>AQ Max</td>
+      <td># of data points</td><td>Flagged?</td>
+    </tr>
+    <tr ng-repeat="i in items">
+      <td>{{i.name}}</td><td>{{i.city}}</td><td>{{i.state}}</td>
+      <td>{{i.min_mold}}</td><td>{{i.avg_mold}}</td><td>{{i.max_mold}}</td>
+      <td>{{i.min_aq}}</td><td>{{i.avg_aq}}</td><td>{{i.max_aq}}</td>
+      <td>{{i.num_points}}</td><td>{{i.flag? 'yes': 'no'}}</td>
+    </tr>
+  </table>
 </script>
 <!-- add angular 1.2.x -->
 <script src="lib/angular.min.js"></script>
