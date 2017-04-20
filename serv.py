@@ -177,9 +177,10 @@ def save_account():
         payload.id = 2425
     return jsonify({'succ': 0, 'c': payload})
     
-@app.route('/api/gov_accounts', methods=["GET", "POST"])
+@app.route('/api/accounts', methods=["POST"])
 @check_login
-def fetch_pending_officials():
+def fetch_accounts():
+    print('type of accounts requested: ', request.get_json().get('type'))
     return jsonify({'succ': 0, 'c': 
     [ {'id': 9, 'name': 'Pearson', 'email': 'person@gatech.edu', 'city': 0, 'state': 0, 'title': 'Mayor', 'status': -1}
     , {'id': 3,'name': 'Sean', 'email': 'sean.scott.williams@gatech.edu', 'city': 0, 'state': 0, 'title': 'Ambassador', 'status': -1}

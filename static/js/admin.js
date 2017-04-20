@@ -71,8 +71,8 @@ angular.module('p0', ['ngRoute'])
   }).controller('OfficialAccountCtrl', function($scope, $location, $http, 
                                                 Commons) {
     $scope.accounts = []
-    $scope.get_accounts = function() {
-      $http.post('api/gov_accounts').error(function(data) {
+    $scope.get_official_accounts = function() {
+      $http.post('api/accounts', {'type': 1}).error(function(data) {
         console.log('Failed to get pending city official accounts! ', data)
       }).success(function(data, status) {
         console.log('Successfully get pending city official accounts', status, data)
@@ -81,7 +81,7 @@ angular.module('p0', ['ngRoute'])
         Commons.index_accounts(data.c)
       })
     }
-    $scope.get_accounts()
+    $scope.get_official_accounts()
     
     $scope.mark = function(p, acc) {
       p.status = -2 /* hide buttons, before new status arrives*/
