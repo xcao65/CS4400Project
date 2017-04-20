@@ -38,7 +38,7 @@ angular.module('p2', ['ngRoute'])
      }
      return exports
   }).controller('LocationListCtrl', function($scope, LocationsFactory) {
-     $scope.p = {'ts': new Date()}
+     $scope.p = {'ts': "2017-03-19T16:00"}
      $scope.l = {'city': 0, 'state': 0}
      $scope.m = true // true for adding point, false for adding location
      $scope.switch = function() {
