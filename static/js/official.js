@@ -140,9 +140,6 @@ angular.module('p1', ['ngRoute'])
     }
   }).controller('ReportCtrl', function($scope, $location, $http) {
       $scope.items = []
-      $scope.goto = function(view) {
-        $location.path(view); // path not hash
-      }
       $scope.generate_report = function(){
         $http.post('api/report').error(function(data) {
           console.log('Failed to get report! ', data)

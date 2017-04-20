@@ -1,3 +1,4 @@
+from datetime import datetime
 from functools import wraps
 import os
 import signal
@@ -83,6 +84,7 @@ def save_point():
     print("save_point is called: ", payload)
     # pretend saving
     payload["id"] = 100
+    print('parsed time: ', datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M'))
     return jsonify({"succ": 0, "c":payload})
     
 @app.route('/api/points', methods=["POST", "GET"])
