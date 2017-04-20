@@ -53,7 +53,6 @@ angular.module('p0', ['ngRoute'])
     }
     
     var reshape = function(d) {
-      d.val = +d.val
       d.ts4sort = new Date(d.ts)
     }
     

@@ -96,10 +96,10 @@ def save_point():
 @check_login
 def fetch_points():
     return jsonify({ 'succ': 0, 'c':
-    [ {"loc": 0, "attr": "AQI", "val": "31", 'id': 0, 'ts': '12-08-2014', 'status': -1}
-    , {"loc": 1, "attr": "AQI", "val": "1099", 'id': 3, 'ts': '04-21-2017', 'status': -1} 
-    , {"loc": 1, "attr": "Mold", "val": "653", 'id': 5, 'ts': '10-02-2017', 'status': -1}
-    , {"loc": 3, "attr": "Mold", "val": "9", 'id': 15, 'ts': '09-11-2015', 'status': -1}
+    [ {"loc": 0, "attr": "AQI", "val": 31, 'id': 0, 'ts': '12-08-2014', 'status': -1}
+    , {"loc": 1, "attr": "AQI", "val": 1099, 'id': 3, 'ts': '04-21-2017', 'status': -1} 
+    , {"loc": 1, "attr": "Mold", "val": 653, 'id': 5, 'ts': '10-02-2017', 'status': -1}
+    , {"loc": 3, "attr": "Mold", "val": 9, 'id': 15, 'ts': '09-11-2015', 'status': -1}
     ]})
 
 @app.route('/api/filter_points', methods=["POST"])
@@ -108,11 +108,11 @@ def filter_points():
     payload = request.get_json()
     print('filter_points is called with ', payload)
     return jsonify({ 'succ': 0, 'c':
-    [ {"loc": 1, "attr": "AQI", "val": "31", 'ts': '04-11-2017'}
-    , {"loc": 1, "attr": "AQI", "val": "1099", 'ts': '04-12-2017'}
-    , {"loc": 1, "attr": "Mold", "val": "653", 'ts': '04-18-2017'}
-    , {"loc": 1, "attr": "AQI", "val": "12", 'ts': '04-22-2017'}
-    , {"loc": 1, "attr": "AQI", "val": "15", 'ts': '04-23-2017'}
+    [ {"loc": 1, "attr": "AQI", "val": 31, 'ts': '04-11-2017'}
+    , {"loc": 1, "attr": "AQI", "val": 1099, 'ts': '04-12-2017'}
+    , {"loc": 1, "attr": "Mold", "val": 653, 'ts': '04-18-2017'}
+    , {"loc": 1, "attr": "AQI", "val": 12, 'ts': '04-22-2017'}
+    , {"loc": 1, "attr": "AQI", "val": 15, 'ts': '04-23-2017'}
     ]})
     
 
