@@ -1,83 +1,31 @@
 <!DOCTYPE html>
 <html ng-app="p0">
-<title>Home for Scientists</title>
+<title>Home for Administrators</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {font-family: "Lato", sans-serif}
-.mySlides {display: none}
-</style>
 
 <body>
 
 <!-- Navbar -->
-<div class="w3-top">
+<div class="" ng-controller="NavCtrl">
   <div class="w3-bar w3-black w3-card-2">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, Boss!</s>
-    <a href="#something" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do something</a>
-    <a href="#more" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do more things</a>
+    <a ng-click="goto('/')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending Data Points</a>
+    <a ng-click="goto('officials')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending City Offical Accounts</a>
     <a href="/api/logout" class="w3-bar-item w3-padding-large w3-hover-red w3-hide-small w3-right">Logout</a>
   </div>
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
+<ng-view ng-class="{w100: true}"></ng-view>
 
-  <!-- The Band Section -->
-  <div ng-controller="PointsCtrl" class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="point_list">
-    <h2 class="w3-wide">You have {{(points.length > 0)? points.length : "no"}} pending data points to review. </h2>
-    <p class="w3-opacity"><i>We love music</i></p>
-    
-    <table>
-      <tr><td>Name</td><td>Data type</td><td>Data value</td></tr>
-      <tr ng-repeat="p in points">
-        <td>{{ p.loc.name }}</td> <td>{{p.attr}}</td> <td>{{p.val}}</td>
-      </tr>
-    </table>
-  </div>
 
-  <!-- The Tour Section -->
-  <div class="w3-black" id="something">
-    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-      <h2 class="w3-wide w3-center">Something For You To Do</h2>
-      <p class="w3-opacity w3-center"><i>Remember to smile!</i></p><br>
-
-    </div>
-  </div>
-
-  <!-- The Contact Section -->
-  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="more">
-    <h2 class="w3-wide w3-center">Even More things to do</h2>
-    <p class="w3-opacity w3-center"><i>Get confused? Drop a note!</i></p>
-    <div class="w3-row w3-padding-32">
-      <div class="w3-col m6 w3-large w3-margin-bottom">
-        <i class="fa fa-map-marker" style="width:30px"></i> Chicago, US<br>
-        <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
-        <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
-      </div>
-      <div class="w3-col m6">
-        <form action="/action_page.php" target="_blank">
-          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-            <div class="w3-half">
-              <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
-            </div>
-            <div class="w3-half">
-              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
-            </div>
-          </div>
-          <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
-          <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  
 <!-- End Page Content -->
-</div>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
@@ -89,59 +37,51 @@ body {font-family: "Lato", sans-serif}
   <i class="fa fa-linkedin w3-hover-opacity"></i>
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
+
+<script type="text/ng-template" id="/points.html">
+  <h2 class="ctx">Pending data points</h2>
+  <p ng-show="points.length == 0">There is no pending data points for now. Come back later! </p>
+  <div ng-show="points.length > 0" ng-class="{'w100':true}">
+    <table>
+      <tr>
+        <td>PIO location</td><td>Data type</td><td>Data value</td>
+        <td>Time &amp; dat of data reading</td><td>Actions</td>
+      </tr>
+      <tr ng-repeat="p in points">
+        <td>{{p.loc}}</td>
+        <td>{{p.attr}}</td>
+        <td>{{p.val}}</td>
+        <td>{{p.ts}}</td>
+        <td>
+          <button ng-click="mark(p, true)" ng-show="p.status==-1">Accept</button>
+          <button ng-click="mark(p, false)" ng-show="p.status==-1">Reject</button>
+          <span ng-show="p.status > -1">{{p.status == 1? 'Accepted' : 'Rejected'}}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</script>
+<script type="text/ng-template" id="/officials.html">
+  <h2 class="ctx">Pending City Official Accounts</h2>
+  <p ng-show="accounts.length == 0">There is no pending accounts for now. Come back later! </p>
+  <table ng-show="accounts.length > 0">
+    <tr>
+      <td>Username</td><td>Email</td><td>City</td><td>State</td><td>Title</td>
+    </tr>
+    <tr ng-repeat="a in accounts">
+      <td>{{a.name}}</td><td>{{a.email}}</td><td>{{a.city}}</td>
+      <td>{{a.state}}</td><td>{{a.title}}</td>
+      <td>
+        <button ng-click="mark(a, true)" ng-show="a.status==-1">Accept</button>
+        <button ng-click="mark(a, false)" ng-show="a.status==-1">Reject</button>
+        <span ng-show="a.status > -1">{{a.status == 1? 'Accepted' : 'Rejected'}}</span>
+      </td>
+    </tr>
+  </table>
+</script>
 <!-- add angular 1.2.x -->
 <script src="lib/angular.min.js"></script>
 <script src="lib/angular-route.min.js"></script>
-<script>
-  //  function PointsCtrl($scope) {
-  //     $scope.title = 'Write a title here...'
-  //  }
-   angular.module('p0', ['ngRoute'])
-    .config(function ($routeProvider) {
-       $routeProvider
-          .when('/points', {
-             templateUrl: 'views/inbox.html',
-             controller: 'PointsCtrl',
-             controllerAs: 'points'
-          })
-          .when('/points/:id', {
-             templateUrl: 'views/email.html',
-             controller: 'PointCtrl',
-             controllerAs: 'detail'
-          })
-          .otherwise({
-             redirectTo: '/points'
-          });
-    }).factory('PointsFactory', function PointsFactory ($http) {
-       var exports = {};
-
-       exports.get_points = function () {
-          return $http.get('api/points')
-             .error(function (data) {
-                console.log('Failed to get points!', data)
-          })
-       }
-       exports.get_locations = function () {
-          return $http.get('api/locations')
-             .error(function (data) {
-                console.log('Failed to get locations!', data)
-          })
-       }
-       return exports
-    }).controller('PointsCtrl', function($scope, PointsFactory) {
-       PointsFactory.get_points()
-          .success(function(jsonData, statusCode) {
-             console.log('Successfully got points!', statusCode, jsonData)
-             // Now add the Email messages to the controller's scope
-             $scope.points = jsonData
-       })
-       PointsFactory.get_locations()
-          .success(function(jsonData, statusCode) {
-             console.log('Successfuly got locations!', statusCode, jsonData)
-             // Now add the Email messages to the controller's scope
-             $scope.locations = jsonData
-       })
-    })
-</script>
+<script src="js/admin.js"></script>
 </body>
 </html>

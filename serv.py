@@ -83,8 +83,13 @@ def save_point():
     payload = request.get_json()
     print("save_point is called: ", payload)
     # pretend saving
-    payload["id"] = 100
-    print('parsed time: ', datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M'))
+    if 'id' in payload:
+        # update a data point
+        pass
+    else:
+        payload["id"] = 100
+    if 'ts' in payload: 
+        print('parsed time: ', datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M'))
     return jsonify({"succ": 0, "c":payload})
     
 @app.route('/api/points', methods=["POST", "GET"])
@@ -92,9 +97,9 @@ def save_point():
 def fetch_points():
     return jsonify({ 'succ': 0, 'c':
     [
-        {"loc": 0, "attr": "AQI", "val": "31"}, 
-        {"loc": 1, "attr": "AQI", "val": "1099"}, 
-        {"loc": 1, "attr": "Mold", "val": "653"}
+        {"loc": 0, "attr": "AQI", "val": "31", 'id': 0, 'ts': '02-08-2017', 'status': -1}, 
+        {"loc": 1, "attr": "AQI", "val": "1099", 'id': 3, 'ts': '04-21-2017', 'status': -1}, 
+        {"loc": 1, "attr": "Mold", "val": "653", 'id': 5, 'ts': '04-11-2017', 'status': -1}
     ]})
 
 @app.route('/api/filter_points', methods=["POST"])
@@ -157,6 +162,29 @@ def generate_report():
     , {'id': 15, 'name': 'Pepsi Theme park', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
     , {'id': 19, 'name': 'Chtanooga river', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
     , {'id': 22, 'name': 'Westmar', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
+    ]})
+    
+@app.route('/api/accounts', methods=["PUT"])
+@check_login
+def save_account():
+    payload = request.get_json()
+    print('saving account ', payload)
+    if 'id' in payload:
+        # update account
+        pass
+    else:
+        # add new account
+        payload.id = 2425
+    return jsonify({'succ': 0, 'c': payload})
+    
+@app.route('/api/gov_accounts', methods=["GET", "POST"])
+@check_login
+def fetch_pending_officials():
+    return jsonify({'succ': 0, 'c': 
+    [ {'id': 9, 'name': 'Pearson', 'email': 'person@gatech.edu', 'city': 0, 'state': 0, 'title': 'Mayor', 'status': -1}
+    , {'id': 3,'name': 'Sean', 'email': 'sean.scott.williams@gatech.edu', 'city': 0, 'state': 0, 'title': 'Ambassador', 'status': -1}
+    , {'id': 6,'name': 'Jeff', 'email': 'jeff@georgia.gov', 'city': 0, 'state': 0, 'title': 'Secretary', 'status': -1}
+    , {'id': 15,'name': 'Jen', 'email': 'jen@georgia.gov', 'city': 0, 'state': 0, 'title': 'Deputy', 'status': -1}
     ]})
 
 def signal_handler(signal, frame):
