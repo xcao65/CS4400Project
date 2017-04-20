@@ -40,6 +40,22 @@ angular.module('p0', ['ngRoute'])
   }).controller('PointListCtrl', function($scope, $location, $http, 
       Commons) {
     $scope.points = []
+    $scope.sort_field = 'ts4sort'
+    $scope.sort_reverse = false
+    
+    $scope.switch_sort = function(field_name) {
+      if($scope.sort_field == field_name) {
+        $scope.sort_reverse = !$scope.sort_reverse
+      } else {
+        $scope.sort_field = field_name
+        $scope.sort_reverse = true
+      }
+    }
+    
+    var reshape = function(d) {
+      d.val = +d.val
+      d.ts4sort = new Date(d.ts)
+    }
     
     $scope.get_points = function() {
       $http.post('api/points').error(function(data) {
@@ -48,6 +64,7 @@ angular.module('p0', ['ngRoute'])
         console.log('Successfully get pending points', status, data)
         if(data.succ != 0) return
         $scope.points = data.c
+        $scope.points.forEach(reshape)
         Commons.index_points(data.c)
       })
     }

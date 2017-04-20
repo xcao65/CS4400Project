@@ -44,10 +44,13 @@
   <div ng-show="points.length > 0" ng-class="{'w100':true}">
     <table>
       <tr>
-        <td>PIO location</td><td>Data type</td><td>Data value</td>
-        <td>Time &amp; dat of data reading</td><td>Actions</td>
+        <td ng-click="switch_sort('loc')">PIO location</td>
+        <td ng-click="switch_sort('attr')">Data type</td>
+        <td ng-click="switch_sort('val')">Data value</td>
+        <td ng-click="switch_sort('ts4sort')">Time &amp; dat of data reading</td>
+        <td>Actions</td>
       </tr>
-      <tr ng-repeat="p in points">
+      <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse">
         <td>{{p.loc}}</td>
         <td>{{p.attr}}</td>
         <td>{{p.val}}</td>
