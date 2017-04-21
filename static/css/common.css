@@ -3,10 +3,6 @@
   font-size: 12pt;
 }
 
-html {
-  overflow: hidden;
-}
-
 table {
   border-spacing: 0px; /* normalize.css handles the rest*/
 }
@@ -17,6 +13,11 @@ table {
 
 .w100 {
   width: 100%;
+}
+
+.ctm {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ctx {
@@ -31,6 +32,18 @@ table {
   margin: 0;
 }
 
+.mg16l {
+  margin-left: 16px;
+}
+
+.mg16t {
+  margin-top: 16px;
+}
+
+.mg16b {
+  margin-bottom: 16px;
+}
+
 .bkgd-orange {
   background-color: #f4c315;
 }
@@ -41,8 +54,6 @@ table {
 
 .nm-alert {
   width: 40%;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 2px;
 }
 
@@ -66,6 +77,9 @@ table {
 }
 .pd16r {
   padding-right: 16px;
+}
+.pd16b {
+  padding-bottom: 16px;
 }
 
 .fake-link {

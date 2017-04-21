@@ -6,66 +6,73 @@
 </head>
 <body>
   <!-- Page content -->
-  <ng-view ng-class="{w100: true}"></ng-view>
+  <ng-view ng-class="{'w100': true}"></ng-view>
   
   <script type="text/ng-template" id="/default.html">
-    <form action="/api/login" method="POST">
-      <input type="username" name="username" placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input type="submit" value="Log in">
-    </form>
-    
-    <button ng-class="btn" ng-click="goto('/register')">Register</button>
+    <table class="ctm"><tr><td>
+      <form action="/api/login" method="POST">
+        <input type="username" name="username" placeholder="Username" class="mg16b">
+        <br/>
+        <input type="password" name="password" placeholder="Password" class="mg16b">
+        <br/>
+        <input type="submit" value="Log in">
+      </form>
+      </td></tr><tr><td>
+      <button ng-class="btn" ng-click="goto('/register')">Register</button>
+      </td></tr>
+    </table>
   </script>
   <script type="text/ng-template" id="/register.html">
-    <div id="add_point_pack">
+    <div id="add_point_pack" class="ctm">
     <h1 class="ctx">Register for free</h1>
-    <form name="reg_form">
-      <table>
+    <form name="reg_form" ng-submit="save_user()">
+      <table class="ctm" style="width: 70%">
         <tr>
           <td>User Name</td>
-          <td><input ng-model="u.username" type="text" placeholder="Please use letters, digits and '_' only, no space"></input></td>
+          <td class="pd16b"><input ng-model="u.username" type="text" placeholder="Please use letters, digits and '_' only, no space"></input></td>
         </tr>
         <tr>
           <td>Email</td>
-          <td>
+          <td class="pd16b">
             <input ng-model="u.email" name="email" type="email" placeholder="Something like john@google.com" required></input>
             <span class="error pd16l" ng-show="reg_form.email.$error.email">This does not look like a valid email:(</span>
           </td>
         </tr>
         <tr>
           <td>Choose a Password</td>
-          <td><input ng-model="u.password" ng-required name="password1" type="password" placeholder="Something complicated"></input></td>
+          <td class="pd16b"><input ng-model="u.password" ng-required name="password1" type="password" placeholder="Type something complicated"></input></td>
         </tr>
           <td>Confirm Password</td>
-          <td>
-            <input ng-model="u.conf_pwd" type="password" name="conf_pwd" ng-required placeholder="Type the password again"></input>
+          <td class="pd16b">
+            <input ng-model="u.conf_pwd" type="password" name="conf_pwd" ng-required placeholder="Type something equally complicated"></input>
             <span ng-show="u.password != u.conf_pwd">Passwords do not match:(</span>
           </td>
         <tr>
           <td>Type of Account</td>
           <td>
-            <select ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
+            <select class="mg16l mg16b" ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
           </td>
         </tr>
         <!-- More fields for city officials-->
         <tr ng-show="u.type=='official'">
           <td>City</td>
-          <td><select ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+          <td><select class="mg16l mg16b" ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
         </tr>
         <tr ng-show="u.type=='official'">
           <td>State</td>
-          <td><select ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+          <td><select class="mg16l mg16b" ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
         </tr>
         <tr ng-show="u.type=='official'">
           <td>Title</td>
           <td><input ng-model="u.title" type="text" placeholder=""></td>
         </tr>
-        <tr><td></td><td><button ng-click="save_user()">Register</button></td></tr>
+        <tr>
+          <td><button ng-click="goto('/')">Go back to Login</button></td>
+          <td><input type="submit" value="Register"/></td>
+        </tr>
       </table>
     </form>
-    <button ng-click="goto('/')">Go back to Login</button>
-    <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
+    <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
     </div>
   </script>
 

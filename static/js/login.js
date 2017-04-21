@@ -82,7 +82,13 @@ angular.module('p4', ['ngRoute'])
       Commons.put_user(this.u).success(function(data, status) {
         console.log("Successfully saved point: ", status, data)
         $scope.succ = data.succ
-        $scope.msg = data.succ == 0? "Success!" : ("Failed:( succ = " + data.succ)
+        if(data.succ == 0) {
+          $scope.msg = "You have successfully registered! "
+          if(data.c.type == "official") 
+            $scope.msg += " Waiting administrative review..."
+        } else {
+          $scope.msg = "Failed with succ code[" + data.succ + "]"
+        }
         $timeout(void_msg, 3000)
         $timeout(function() { Commons.goto('/') }, 3000)
       }).error(function(error, status) {
@@ -92,7 +98,7 @@ angular.module('p4', ['ngRoute'])
       })
     }
     
-    $scope.validate = function() {
+    $scope.validate = function() { // not called yet, need timeout/promise/delay
       Commons.check_availability(this.u.username).success(function(data, 
           status) {
         console.log("Successfully validated username: ", status, data)
