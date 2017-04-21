@@ -1,15 +1,17 @@
 * {
 box-sizing: border-box;
 }
+
+body {
+  padding: 0px;
+  margin:0;
+  background-color: #3498DB;
+}
  
 *:focus {
 	outline: none;
 }
-body {
-font-family: Arial;
-background-color: #3498DB;
-padding: 50px;
-}
+
 .login {
 margin: 20px auto;
 width: 300px;
@@ -102,4 +104,20 @@ box-shadow: none;
 
 form input {
   margin-left: 16px;
+}
+
+#login_pack {
+  padding-top: 20px;
+}
+
+#reg_pack {
+  padding-top: 24px;
+}
+
+#go_reg {
+  margin-top: 40px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+  bottom:0;
+  background-color: #176299;
 }
