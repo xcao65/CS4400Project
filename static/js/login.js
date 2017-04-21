@@ -97,7 +97,7 @@ angular.module('p4', ['ngRoute'])
         $timeout(void_msg, 3000)
       })
     }
-    
+
     $scope.validate = function() { // not called yet, need timeout/promise/delay
       Commons.check_availability(this.u.username).success(function(data, 
           status) {
