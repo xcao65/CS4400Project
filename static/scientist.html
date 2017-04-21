@@ -50,11 +50,11 @@
       </tr>
       <tr>
         <td>City</td>
-        <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
+        <td><select ng-model="l.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
       </tr>
       <tr>
         <td>State</td>
-        <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
+        <td><select ng-model="l.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
       <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
       <tr>
         <td></td>
