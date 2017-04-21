@@ -48,7 +48,7 @@ angular.module('p2', ['ngRoute'])
        })
      }
      return exports
-  }).controller('AddLocationCtrl', function($scope, Commons) {
+  }).controller('AddLocationCtrl', function($scope, $timeout, Commons) {
     $scope.l = {} // the data model for new city
     $scope.states = []
     $scope.cities = []
@@ -79,17 +79,20 @@ angular.module('p2', ['ngRoute'])
     $scope.opt_states = function() { $scope.states = c2s[$scope.l.city] }
     $scope.opt_cities = function() { $scope.cities = s2c[$scope.l.state] }
     
+    var void_msg = function() { $scope.msg = $scope.succ = null }
     $scope.save_loc = function() {
       Commons.put_loc(this.l).success(function(data, status) {
         console.log("Successfully saved location: ", status, data)
-        if(data.succ == 0) alert("Success!")
+        $scope.succ = data.succ
+        $scope.msg = data.succ == 0? "Success!" : "Failed:("
+        $timeout(void_msg, 3000)
       })
     }
   }).controller('NavCtrl', function($scope, Commons) {
     $scope.goto = Commons.goto
   }).controller('AddDataPointCtrl', function($scope, $timeout, Commons) {
     $scope.goto = Commons.goto
-    // $scope.msg = "haha"
+    $scope.succ = null
     $scope.p = {'ts': "2017-03-19T16:00"}
     
     Commons.get_types().success(function(data, statusCode) {
@@ -104,11 +107,12 @@ angular.module('p2', ['ngRoute'])
       $scope.locations = data.c
       $scope.p.loc = data.c[0].id
     })
-    var void_msg = function() { $scope.msg = null }
+    var void_msg = function() { $scope.msg = $scope.succ = null }
     
     $scope.save_point = function() {
       Commons.put_point(this.p).success(function(data, status) {
         console.log("Successfully saved point: ", status, data)
+        $scope.succ = data.succ
         $scope.msg = data.succ == 0? "Success!" : "Failed:("
         $timeout(void_msg, 3000)
       })

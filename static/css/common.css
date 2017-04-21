@@ -32,7 +32,18 @@ table {
 }
 
 .bkgd-orange {
-  background-color: #A3D415;
+  background-color: #f4c315;
+}
+
+.bkgd-lime {
+  background-color: #a3d415;
+}
+
+.nm-alert {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 2px;
 }
 
 .rel {
