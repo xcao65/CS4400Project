@@ -177,19 +177,28 @@ def generate_report():
     ]})
     
 @app.route('/api/accounts', methods=["PUT"])
-# @check_login
+@check_login
 def save_account():
     payload = request.get_json()
-    print('saving account ', payload)
+    print('saving account [accept / reject]', payload)
     if 'id' in payload: # currently only for accpet or reject accounts
-        # update account
-        @check_login
-        def mark():
-            print('wrapped marking!') # not sure if it is working
-        mark()
+        pass
     else:
-        # add new account
-        payload["id"] = 2425
+        pass # won't reach here for this assignment
+
+@app.route('/api/register', methods=["GET"])
+# no need to check login
+def check_availability():
+    print("check available? ", request.args["username"])
+    return {'succ': 1, 'c': request.args["username"]}
+    
+@app.route('/api/register', methods=["POST"])
+# no need to check login
+def create_user():
+    # add new account
+    payload = request.get_json()
+    print('Register for new user ', payload)
+    payload["id"] = 2425
     return jsonify({'succ': 0, 'c': payload})
     
 @app.route('/api/accounts', methods=["POST"])

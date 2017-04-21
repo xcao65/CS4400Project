@@ -20,42 +20,50 @@
   <script type="text/ng-template" id="/register.html">
     <div id="add_point_pack">
     <h1 class="ctx">Register for free</h1>
-    <table>
-      <tr>
-        <td>User Name</td>
-        <td><input ng-model="u.username" type="text" placeholder="Please use letters, digits and '_' only, no space"></input></td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td><input ng-model="u.email" type="text" placeholder="Something like john@google.com"></input></td>
-      </tr>
-      <tr>
-        <td>Choose a Password</td>
-        <td><input ng-model="u.password" type="password" placeholder="Something complicated"></input></td>
-      </tr>
-        <td>Confirm Password</td>
-        <td><input type="password" placeholder="Something complicated"></input></td>
-      <tr>
-        <td>Type of Account</td>
-        <td>
-          <select ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
-        </td>
-      </tr>
-      <!-- More fields for city officials-->
-      <tr ng-show="u.type=='official'">
-        <td>City</td>
-        <td><select ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
-      </tr>
-      <tr ng-show="u.type=='official'">
-        <td>State</td>
-        <td><select ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
-      </tr>
-      <tr ng-show="u.type=='official'">
-        <td>Title</td>
-        <td><input ng-model="u.title" type="text" placeholder=""></td>
-      </tr>
-      <tr><td></td><td><button ng-click="save_user()">Register</button></td></tr>
-    </table>
+    <form name="reg_form">
+      <table>
+        <tr>
+          <td>User Name</td>
+          <td><input ng-model="u.username" type="text" placeholder="Please use letters, digits and '_' only, no space"></input></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>
+            <input ng-model="u.email" name="email" type="email" placeholder="Something like john@google.com" required></input>
+            <span class="error pd16l" ng-show="reg_form.email.$error.email">This does not look like a valid email:(</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Choose a Password</td>
+          <td><input ng-model="u.password" ng-required name="password1" type="password" placeholder="Something complicated"></input></td>
+        </tr>
+          <td>Confirm Password</td>
+          <td>
+            <input ng-model="u.conf_pwd" type="password" name="conf_pwd" ng-required placeholder="Type the password again"></input>
+            <span ng-show="u.password != u.conf_pwd">Passwords do not match:(</span>
+          </td>
+        <tr>
+          <td>Type of Account</td>
+          <td>
+            <select ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
+          </td>
+        </tr>
+        <!-- More fields for city officials-->
+        <tr ng-show="u.type=='official'">
+          <td>City</td>
+          <td><select ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+        </tr>
+        <tr ng-show="u.type=='official'">
+          <td>State</td>
+          <td><select ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+        </tr>
+        <tr ng-show="u.type=='official'">
+          <td>Title</td>
+          <td><input ng-model="u.title" type="text" placeholder=""></td>
+        </tr>
+        <tr><td></td><td><button ng-click="save_user()">Register</button></td></tr>
+      </table>
+    </form>
     <button ng-click="goto('/')">Go back to Login</button>
     <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
     </div>
