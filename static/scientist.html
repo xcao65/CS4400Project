@@ -11,12 +11,12 @@
 <body>
 
 <!-- Navbar -->
-<div class="">
+<div class="" ng-controller="NavCtrl">
   <div class="w3-bar w3-black w3-card-2">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, Doctor!</s>
-    <a href="#something" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do something</a>
-    <a href="#more" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Do more things</a>
+    <a ng-click="goto('/add_point')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Add Data Points</a>
+    <a ng-click="goto('/add_loc')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Add Locations</a>
     <a href="/api/logout" class="w3-bar-item w3-padding-large w3-hover-red w3-hide-small w3-right">Logout</a>
   </div>
 </div>
@@ -38,59 +38,60 @@
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
-<script type="text/ng-template" id="/locations.html">
-  
-  <div class="w100" ng-controller="LocationListCtrl">
-    <div id="add_point_pack" ng-show="m">
-    <h1 class="ctx">Add a new data point</h1>
+<script type="text/ng-template" id="/add_location.html">
+  <div id="add_loc_pack">
+    <h1 class="ctx">Add a new location</h1>
     <table>
       <tr>
         <td>POI location name</td>
         <td>
-          <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
-          <a ng-click="switch()" class="clickable fake-link">add a new location</a>
+          <input type="text" ng-model="l.name"/>
         </td>
       </tr>
       <tr>
-        <td>time and data reading</td>
-        <td>
-          <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts" 
-            placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
-        </td>
+        <td>City</td>
+        <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
       </tr>
       <tr>
-        <td>Data type</td>
-        <td><select ng-model="p.attr" ng-options="t.id as t.name for t in types"></select></td>
+        <td>State</td>
+        <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
+      <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
+      <tr>
+        <td></td>
+        <td><button ng-click="save_loc()">ADD</button></td>
       </tr>
-      <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
-      <tr><td>Back</td><td><button ng-click="save_point()">ADD</button></td></tr>
     </table>
-    </div>
-    <div id="add_loc_pack" ng-hide="m">
-      <h1 class="ctx">Add a new location</h1>
-      <table>
-        <tr>
-          <td>POI location name</td>
-          <td>
-            <input type="text" ng-model="l.name"/>
-          </td>
-        </tr>
-        <tr>
-          <td>City</td>
-          <td><select ng-model="l.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
-        </tr>
-        <tr>
-          <td>State</td>
-          <td><select ng-model="l.state" ng-options="s.id as s.name for s in states"></select></td></tr>
-        <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
-        <tr>
-          <td><button ng-click="switch()">Back</button></td>
-          <td><button ng-click="save_loc()">ADD</button></td>
-        </tr>
-      </table>
-    </div>
   </div>
 </script>
+
+<script type="text/ng-template" id="/add_point.html">
+  <div id="add_point_pack">
+  <h1 class="ctx">Add a new data point</h1>
+  <table>
+    <tr>
+      <td>POI location name</td>
+      <td>
+        <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
+        <!-- <a ng-click="goto('/add_loc')" class="clickable fake-link">add a new location</a> -->
+      </td>
+    </tr>
+    <tr>
+      <td>time and data reading</td>
+      <td>
+        <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts" 
+          placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
+      </td>
+    </tr>
+    <tr>
+      <td>Data type</td>
+      <td><select ng-model="p.attr" ng-options="t.id as t.name for t in types"></select></td>
+    </tr>
+    <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
+    <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>
+  </table>
+  </div>
+</script>
+
 <!-- add angular 1.2.x -->
 <script src="lib/angular.min.js"></script>
 <script src="lib/angular-route.min.js"></script>
