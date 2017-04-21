@@ -73,8 +73,8 @@ angular.module('p4', ['ngRoute'])
       $scope.u.state = $scope.states[0]
     })
     
-    $scope.opt_states = function() { $scope.states = c2s[$scope.l.city] }
-    $scope.opt_cities = function() { $scope.cities = s2c[$scope.l.state] }
+    $scope.opt_states = function() { $scope.states = c2s[$scope.u.city] }
+    $scope.opt_cities = function() { $scope.cities = s2c[$scope.u.state] }
     
     var void_msg = function() { $scope.msg = $scope.succ = null }
     
