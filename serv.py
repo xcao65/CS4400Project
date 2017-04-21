@@ -142,6 +142,18 @@ def flag_loc():
     payload['flag'] = None if payload['flag'] else '05-01-2017'
     return jsonify({'succ': 0, 'c': payload})
     
+@app.route('/api/city_state', methods=["GET", "POST"])
+@check_login
+def fetch_city_state():
+    return jsonify({"succ":0, "c":[
+      {"c": "New York", "s": "NY"}
+    , {"c": "New York", "s": "SC"}
+    , {"c": "New York", "s": "CA"}
+    , {"c": "Los Angeles", "s": "CA"}
+    , {"c": "Chattanooga", "s": "SC"}
+    , {"c": "Atlanta", "s": "GA"}
+    ]})
+    
 @app.route('/api/locations', methods=["PUT"])
 @check_login
 def save_location():

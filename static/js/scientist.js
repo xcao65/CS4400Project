@@ -42,11 +42,42 @@ angular.module('p2', ['ngRoute'])
           console.log('Failed to save location!', data)
         })
      }
+     exports.get_city_state = function() {
+       return $http.post('api/city_state').error(function(data) {
+         console.log('Failed to fectch city_state!', data)
+       })
+     }
      return exports
   }).controller('AddLocationCtrl', function($scope, Commons) {
-    $scope.l = {'city': 0, 'state': 0}
-    $scope.states = [{"id": 0, "name": "Georgia"}, {"id": 1, "name": "Alaska"}]
-    $scope.cities = [{"id": 0, "name":"Atlanta"}, {"id": 1, "name":"Smyrna"}]
+    $scope.l = {} // the data model for new city
+    $scope.states = []
+    $scope.cities = []
+    
+    var non = "- Please Select", c2s = {}, s2c = {}
+    c2s[non] = [non], s2c[non] = [non]
+    Commons.get_city_state().success(function(data, status) {
+      console.log("Successfully got city_state: ", status, data)
+      if(data.succ != 0) return
+      data.c.forEach(function(d) {
+        if(!(d.c in c2s)) {
+          c2s[d.c] = [non]
+          s2c[non].push(d.c)
+        }
+        if(!(d.s in s2c)) {
+          s2c[d.s] = [non]
+          c2s[non].push(d.s)
+        }
+        c2s[d.c].push(d.s)
+        s2c[d.s].push(d.c)
+      })
+      $scope.states = c2s[non]
+      $scope.cities = s2c[non]
+      $scope.l.city = $scope.cities[0]
+      $scope.l.state = $scope.states[0]
+    })
+    
+    $scope.opt_states = function() { $scope.states = c2s[$scope.l.city] }
+    $scope.opt_cities = function() { $scope.cities = s2c[$scope.l.state] }
     
     $scope.save_loc = function() {
       Commons.put_loc(this.l).success(function(data, status) {
