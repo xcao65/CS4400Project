@@ -48,7 +48,7 @@ angular.module('p4', ['ngRoute'])
       {'v': 'scientist', 'n': 'Scientist'}
     , {'v': 'official', 'n': 'City Official'}
     ]
-    $scope.u = {'type': $scope.acc_types[0].v}
+    $scope.u = {'type': $scope.acc_types[0].v, 'password':'', 'conf_pwd': ''}
     
     var non = "- Please Select", c2s = {}, s2c = {}
     c2s[non] = [non], s2c[non] = [non]

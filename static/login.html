@@ -9,16 +9,20 @@
   <ng-view ng-class="{'w100': true}"></ng-view>
   
   <script type="text/ng-template" id="/default.html">
-    <table class="ctm"><tr><td>
-      <form action="/api/login" method="POST">
-        <input type="username" name="username" placeholder="Username" class="mg16b">
-        <br/>
-        <input type="password" name="password" placeholder="Password" class="mg16b">
-        <br/>
-        <input type="submit" value="Log in">
-      </form>
-      </td></tr><tr><td>
-      <button ng-class="btn" ng-click="goto('/register')">Register</button>
+    <table class="ctm">
+      <tr><td>
+        <form action="/api/login" method="POST">
+          <input type="username" name="username" placeholder="Username" class="mg16b">
+          <br/>
+          <input type="password" name="password" placeholder="Password" class="mg16b">
+          <br/>
+          <input type="submit" value="Log in">
+        </form>
+      </td></tr>
+      <tr><td height="64px"><center></center></td></tr>
+      <tr><td class="pd16l lbw">A dedicated scientist or city official?</td></tr>
+      <tr><td>
+        <button class="big-btn w360 mg16l mg16t" ng-click="goto('/register')">Register</button>
       </td></tr>
     </table>
   </script>
@@ -35,18 +39,22 @@
           <td class="rtt lbw">Email</td>
           <td class="pd16b">
             <input ng-model="u.email" name="email" type="email" placeholder="Something like john@google.com" required></input>
-            <span class="error pd16l" ng-show="reg_form.email.$error.email">This does not look like a valid email:(</span>
+            <p class="error pd16l" ng-show="reg_form.email.$error.email">This does not look like a valid email:(</p>
           </td>
         </tr>
         <tr>
           <td class="rtt lbw">Choose a password</td>
           <td class="pd16b"><input ng-model="u.password" ng-required name="password1" type="password" placeholder="Type something complicated"></input></td>
         </tr>
+        <tr>
           <td class="rtt lbw">Confirm password</td>
           <td class="pd8b">
             <input ng-model="u.conf_pwd" type="password" name="conf_pwd" ng-required placeholder="Type something equally complicated"></input>
-            <span ng-show="u.password != u.conf_pwd">Passwords do not match:(</span>
           </td>
+        </tr>
+        <tr><td></td><td>
+          <p class="pd8b pd16l" ng-show="u.password != u.conf_pwd">Passwords do not match:(</p>
+        </td></tr>
         <tr>
           <td class="rtt lbw">Type of account</td>
           <td>
@@ -67,7 +75,7 @@
           <td><input class="mg8b mg8t" ng-model="u.title" type="text" placeholder=""></td>
         </tr>
         <tr>
-          <td><button ng-click="goto('/')">Go back to Login</button></td>
+          <td><button class="big-btn w100 mg8t" ng-click="goto('/')">Go back to Login</button></td>
           <td><input class="mg8t" type="submit" value="Register"/></td>
         </tr>
       </table>

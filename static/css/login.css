@@ -31,17 +31,30 @@ text-align: center;
 .control-group {
 margin-bottom: 10px;
 }
+
+.big-btn {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+}
  
 input {
-text-align: center;
-background-color: #ECF0F1;
-border: 2px solid transparent;
-border-radius: 3px;
-font-size: 16px;
-font-weight: 200;
-padding: 10px 0;
-width: 360px;
-transition: border .5s;
+  text-align: center;
+  background-color: #ECF0F1;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+  width: 360px;
+  transition: border .5s;
+}
+
+.w360 {
+  width: 360px;
 }
 
 input[type=submit] {
