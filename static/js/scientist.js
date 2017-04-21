@@ -87,8 +87,9 @@ angular.module('p2', ['ngRoute'])
     }
   }).controller('NavCtrl', function($scope, Commons) {
     $scope.goto = Commons.goto
-  }).controller('AddDataPointCtrl', function($scope, Commons) {
+  }).controller('AddDataPointCtrl', function($scope, $timeout, Commons) {
     $scope.goto = Commons.goto
+    // $scope.msg = "haha"
     $scope.p = {'ts': "2017-03-19T16:00"}
     
     Commons.get_types().success(function(data, statusCode) {
@@ -103,11 +104,13 @@ angular.module('p2', ['ngRoute'])
       $scope.locations = data.c
       $scope.p.loc = data.c[0].id
     })
+    var void_msg = function() { $scope.msg = null }
     
     $scope.save_point = function() {
       Commons.put_point(this.p).success(function(data, status) {
         console.log("Successfully saved point: ", status, data)
-        if(data.succ == 0) alert("Success!")
+        $scope.msg = data.succ == 0? "Success!" : "Failed:("
+        $timeout(void_msg, 3000)
       })
     }
   })
