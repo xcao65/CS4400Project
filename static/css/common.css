@@ -24,6 +24,14 @@ table {
   text-align: center;
 }
 
+.rtt {
+  text-align: right;
+}
+
+.lbw { /* white label text */
+  color: #ffffff;
+}
+
 .hide {
   display: none;
 }
@@ -42,6 +50,14 @@ table {
 
 .mg16b {
   margin-bottom: 16px;
+}
+
+.mg8t {
+  margin-top: 8px;
+}
+
+.mg8b {
+  margin-bottom: 8px;
 }
 
 .bkgd-orange {
@@ -80,6 +96,9 @@ table {
 }
 .pd16b {
   padding-bottom: 16px;
+}
+.pd8b {
+  padding-bottom: 8px;
 }
 
 .fake-link {

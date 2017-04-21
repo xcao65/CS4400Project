@@ -43,6 +43,10 @@ padding: 10px 0;
 width: 360px;
 transition: border .5s;
 }
+
+input[type=submit] {
+  background-color: #93E513;
+}
  
 input:focus {
 border: 2px solid #3498DB;
