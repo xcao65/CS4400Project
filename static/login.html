@@ -16,19 +16,19 @@
           <br/>
           <input type="password" name="password" placeholder="Password" class="mg16b">
           <br/>
-          <input type="submit" value="Log in">
+          <input class="clickable" type="submit" value="Log in">
         </form>
       </td></tr>
       <tr><td height="64px"><center></center></td></tr>
       <tr><td class="pd16l lbw">A dedicated scientist or city official?</td></tr>
       <tr><td>
-        <button class="big-btn w360 mg16l mg16t" ng-click="goto('/register')">Register</button>
+        <button class="big-btn w360 frame-w mg16l mg16t clickable" ng-click="goto('/register')">Register</button>
       </td></tr>
     </table>
   </script>
   <script type="text/ng-template" id="/register.html">
     <div id="add_point_pack" class="ctm">
-    <h1 class="ctx">Register for free</h1>
+    <h1 class="ctx lbw">Register for free</h1>
     <form name="reg_form" ng-submit="save_user()">
       <table class="ctm" style="width: 70%">
         <tr>
@@ -58,25 +58,25 @@
         <tr>
           <td class="rtt lbw">Type of account</td>
           <td>
-            <select class="mg16l mg8t mg8b" ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
+            <select class="mg16l mg8t mg8b w360" ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
           </td>
         </tr>
         <!-- More fields for city officials-->
         <tr ng-show="u.type=='official'">
           <td class="rtt lbw">City</td>
-          <td><select class="mg16l mg8b mg8t" ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+          <td><select class="mg16l mg8b mg8t w360" ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
         </tr>
         <tr ng-show="u.type=='official'">
           <td class="rtt lbw">State</td>
-          <td><select class="mg16l mg8b mg8t" ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+          <td><select class="mg16l mg8b mg8t w360" ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
         </tr>
         <tr ng-show="u.type=='official'">
           <td class="rtt lbw">Title</td>
           <td><input class="mg8b mg8t" ng-model="u.title" type="text" placeholder=""></td>
         </tr>
         <tr>
-          <td><button class="big-btn w100 mg8t" ng-click="goto('/')">Go back to Login</button></td>
-          <td><input class="mg8t" type="submit" value="Register"/></td>
+          <td><button class="big-btn frame-w w100 mg8t clickable" ng-click="goto('/')">Go back to Login</button></td>
+          <td><input class="mg8t clickable" type="submit" value="Register"/></td>
         </tr>
       </table>
     </form>

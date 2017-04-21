@@ -1,6 +1,8 @@
 * {
   font-family: "Lato", "Lucida Grande", sans-serif, Arial, Tahoma;
-  font-size: 12pt;
+}
+select {
+  font-size: 14pt;
 }
 
 table {
