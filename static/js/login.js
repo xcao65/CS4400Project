@@ -19,7 +19,13 @@ angular.module('p4', ['ngRoute'])
        $location.path(view); // path not hash
      }
      exports.put_user = function(u) {
-       return $http.put('api/accounts', u)
+       return $http.post('api/register', u)
+        .error(function (data) {
+          console.log('Failed to create new user!', data)
+        })
+     }
+     exports.check_availability = function(name) {
+       return $http.get('api/register', {'username': name})
         .error(function (data) {
           console.log('Failed to create new user!', data)
         })
@@ -63,8 +69,8 @@ angular.module('p4', ['ngRoute'])
       })
       $scope.states = c2s[non]
       $scope.cities = s2c[non]
-      // $scope.l.city = $scope.cities[0]
-      // $scope.l.state = $scope.states[0]
+      $scope.u.city = $scope.cities[0]
+      $scope.u.state = $scope.states[0]
     })
     
     $scope.opt_states = function() { $scope.states = c2s[$scope.l.city] }
@@ -83,6 +89,13 @@ angular.module('p4', ['ngRoute'])
         $scope.succ = 1000
         $scope.msg = 'Error with status code [' + status + ']'
         $timeout(void_msg, 3000)
+      })
+    }
+    
+    $scope.validate = function() {
+      Commons.check_availability(this.u.username).success(function(data, 
+          status) {
+        console.log("Successfully validated username: ", status, data)
       })
     }
   })
