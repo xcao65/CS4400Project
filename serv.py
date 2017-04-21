@@ -143,7 +143,7 @@ def flag_loc():
     return jsonify({'succ': 0, 'c': payload})
     
 @app.route('/api/city_state', methods=["GET", "POST"])
-@check_login
+# @check_login # allow registration to retrieve city_state
 def fetch_city_state():
     return jsonify({"succ":0, "c":[
       {"c": "New York", "s": "NY"}
