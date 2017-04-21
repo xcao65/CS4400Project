@@ -45,7 +45,8 @@ def send_static(path):
             return send_from_directory('static', memo['role'] + ".html")
         else:
             return redirect("login.html")
-    if path != "login.html" and not prof.has_login(session.get('session_id')):
+    if path != "login.html" and path[-5:] == '.html' and \
+            not prof.has_login(session.get('session_id')):
         print("redirect to login")
         return redirect('login.html')
     else:
