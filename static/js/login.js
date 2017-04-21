@@ -35,10 +35,14 @@ angular.module('p4', ['ngRoute'])
   }).controller('RegisterCtrl', function($scope, $timeout, Commons) {
     $scope.goto = Commons.goto
     $scope.succ = null
-    $scope.u = {}
     
     $scope.states = []
     $scope.cities = []
+    $scope.acc_types = [
+      {'v': 'scientist', 'n': 'Scientist'}
+    , {'v': 'official', 'n': 'City Official'}
+    ]
+    $scope.u = {'type': $scope.acc_types[0].v}
     
     var non = "- Please Select", c2s = {}, s2c = {}
     c2s[non] = [non], s2c[non] = [non]
@@ -59,8 +63,8 @@ angular.module('p4', ['ngRoute'])
       })
       $scope.states = c2s[non]
       $scope.cities = s2c[non]
-      $scope.l.city = $scope.cities[0]
-      $scope.l.state = $scope.states[0]
+      // $scope.l.city = $scope.cities[0]
+      // $scope.l.state = $scope.states[0]
     })
     
     $scope.opt_states = function() { $scope.states = c2s[$scope.l.city] }
@@ -74,6 +78,7 @@ angular.module('p4', ['ngRoute'])
         $scope.succ = data.succ
         $scope.msg = data.succ == 0? "Success!" : ("Failed:( succ = " + data.succ)
         $timeout(void_msg, 3000)
+        $timeout(function() { Commons.goto('/') }, 3000)
       }).error(function(error, status) {
         $scope.succ = 1000
         $scope.msg = 'Error with status code [' + status + ']'

@@ -177,16 +177,19 @@ def generate_report():
     ]})
     
 @app.route('/api/accounts', methods=["PUT"])
-@check_login
+# @check_login
 def save_account():
     payload = request.get_json()
     print('saving account ', payload)
-    if 'id' in payload:
+    if 'id' in payload: # currently only for accpet or reject accounts
         # update account
-        pass
+        @check_login
+        def mark():
+            print('wrapped marking!') # not sure if it is working
+        mark()
     else:
         # add new account
-        payload.id = 2425
+        payload["id"] = 2425
     return jsonify({'succ': 0, 'c': payload})
     
 @app.route('/api/accounts', methods=["POST"])

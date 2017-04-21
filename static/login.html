@@ -22,25 +22,39 @@
     <h1 class="ctx">Register for free</h1>
     <table>
       <tr>
-        <td>POI location name</td>
-        <td>
-          <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
-          <!-- <a ng-click="goto('/add_loc')" class="clickable fake-link">add a new location</a> -->
-        </td>
+        <td>User Name</td>
+        <td><input ng-model="u.username" type="text" placeholder="Please use letters, digits and '_' only, no space"></input></td>
       </tr>
       <tr>
-        <td>time and data reading</td>
-        <td>
-          <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts" 
-            placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
-        </td>
+        <td>Email</td>
+        <td><input ng-model="u.email" type="text" placeholder="Something like john@google.com"></input></td>
       </tr>
       <tr>
-        <td>Data type</td>
-        <td><select ng-model="p.attr" ng-options="t as t for t in types"></select></td>
+        <td>Choose a Password</td>
+        <td><input ng-model="u.password" type="password" placeholder="Something complicated"></input></td>
       </tr>
-      <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
-      <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>
+        <td>Confirm Password</td>
+        <td><input type="password" placeholder="Something complicated"></input></td>
+      <tr>
+        <td>Type of Account</td>
+        <td>
+          <select ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
+        </td>
+      </tr>
+      <!-- More fields for city officials-->
+      <tr ng-show="u.type=='official'">
+        <td>City</td>
+        <td><select ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+      </tr>
+      <tr ng-show="u.type=='official'">
+        <td>State</td>
+        <td><select ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+      </tr>
+      <tr ng-show="u.type=='official'">
+        <td>Title</td>
+        <td><input ng-model="u.title" type="text" placeholder=""></td>
+      </tr>
+      <tr><td></td><td><button ng-click="save_user()">Register</button></td></tr>
     </table>
     <button ng-click="goto('/')">Go back to Login</button>
     <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
