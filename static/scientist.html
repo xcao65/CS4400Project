@@ -84,7 +84,7 @@
     </tr>
     <tr>
       <td>Data type</td>
-      <td><select ng-model="p.attr" ng-options="t.id as t.name for t in types"></select></td>
+      <td><select ng-model="p.attr" ng-options="t as t for t in types"></select></td>
     </tr>
     <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
     <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>

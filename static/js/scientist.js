@@ -64,7 +64,7 @@ angular.module('p2', ['ngRoute'])
       console.log('Successfully got types!', statusCode, data)
       if(data.succ != 0) return
       $scope.types = data.c
-      $scope.p.attr = data.c[0].id
+      $scope.p.attr = data.c[0]
     })
     Commons.get_locations().success(function(data, statusCode) {
       console.log('Successfuly got locations!', statusCode, data)

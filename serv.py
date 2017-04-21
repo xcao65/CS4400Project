@@ -74,8 +74,7 @@ def do_logout():
 @app.route('/api/types', methods=["get"])
 @check_login
 def fetch_types():
-    return jsonify({ 'succ': 0, 'c':
-        [{"name": "AQI", "id": 0}, {"name": "Mold", "id": 1}]})
+    return jsonify({ 'succ': 0, 'c': ["AQ", "Mold"]})
 
 @app.route('/api/points', methods=["PUT"])
 @check_login
