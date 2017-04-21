@@ -1,12 +1,55 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="p4">
 <head>
+  <link rel="stylesheet" href="/static/css/common.css" type="text/css">
   <link rel="stylesheet" href="/static/css/login.css" type="text/css">
 </head>
 <body>
-  <form action="/api/login" method="POST">
-    <input type="username" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Log in">
-  </form>
+  <!-- Page content -->
+  <ng-view ng-class="{w100: true}"></ng-view>
+  
+  <script type="text/ng-template" id="/default.html">
+    <form action="/api/login" method="POST">
+      <input type="username" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit" value="Log in">
+    </form>
+    
+    <button ng-class="btn" ng-click="goto('/register')">Register</button>
+  </script>
+  <script type="text/ng-template" id="/register.html">
+    <div id="add_point_pack">
+    <h1 class="ctx">Register for free</h1>
+    <table>
+      <tr>
+        <td>POI location name</td>
+        <td>
+          <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
+          <!-- <a ng-click="goto('/add_loc')" class="clickable fake-link">add a new location</a> -->
+        </td>
+      </tr>
+      <tr>
+        <td>time and data reading</td>
+        <td>
+          <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts" 
+            placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
+        </td>
+      </tr>
+      <tr>
+        <td>Data type</td>
+        <td><select ng-model="p.attr" ng-options="t as t for t in types"></select></td>
+      </tr>
+      <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
+      <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>
+    </table>
+    <button ng-click="goto('/')">Go back to Login</button>
+    <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
+    </div>
+  </script>
+
+  <!-- add angular 1.2.x -->
+  <script type="text/javascript" src="lib/angular.min.js"></script>
+  <script src="lib/angular-route.min.js"></script>
+  <script src="js/login.js"></script>
 </body>
 </html>
