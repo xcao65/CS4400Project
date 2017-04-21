@@ -113,7 +113,11 @@ angular.module('p2', ['ngRoute'])
       Commons.put_point(this.p).success(function(data, status) {
         console.log("Successfully saved point: ", status, data)
         $scope.succ = data.succ
-        $scope.msg = data.succ == 0? "Success!" : "Failed:("
+        $scope.msg = data.succ == 0? "Success!" : ("Failed:( succ = " + data.succ)
+        $timeout(void_msg, 3000)
+      }).error(function(error, status) {
+        $scope.succ = 1000
+        $scope.msg = 'Error with status code [' + status + ']'
         $timeout(void_msg, 3000)
       })
     }
