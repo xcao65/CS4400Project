@@ -121,6 +121,13 @@ def fetch_points(): # fetch pending data points
 
     return jsonify({ 'succ' : 0, 'c': result})
 
+@app.route('/api/mark_points', methods=["POST"])
+@check_login
+def select_points(): #
+    payload = request.get_json()
+    print("select_point is called: ", payload)
+    return jsonify({"succ": 0, "c":payload})
+
 @app.route('/api/filter_points', methods=["POST"])
 @check_login
 def filter_points():

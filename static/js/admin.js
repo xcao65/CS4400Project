@@ -77,7 +77,7 @@ angular.module('p0', ['ngRoute'])
       })
     }
     $scope.get_points()
-    
+
     $scope.all_mark = false
     $scope.select_all = function() {
       if($scope.points.length < 1) return
@@ -96,7 +96,7 @@ angular.module('p0', ['ngRoute'])
         Commons.update_point(data.c)
       })
     }
-    
+
     $scope.mark_selected = function(acc) {
       var selected = $scope.points.filter(function(d) { return d.marked }).map(
           function(d) { return {'LocName': d.LocName, 'DateTime': d.DateTime} })
@@ -104,7 +104,7 @@ angular.module('p0', ['ngRoute'])
       console.log("payload ", payload)
       $http.post('api/mark_points', payload).error(function(error, status) {
         console.log("Failed to batch mark!", error, status)
-      }).succ(function(data, status) {
+      }).success(function(data, status) {
         console.log('Successfully marked point', status, data)
         $scope.get_points() // Refresh!
       })
