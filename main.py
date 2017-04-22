@@ -58,8 +58,8 @@ def deleteUser(connection, name):
 test = CityOfficial()
 # test.applyFilter('Georgia Tech', 'Atlanta', 'Georgia', '30332', 1, ['1993/01/10', '2017/10/10'], connection)
 
-test.showPOIDetail('Georgia Tech', None, [30,100], ['1993/01/10', '2017/10/10'], ['00:00', '22:22'], connection)
-test.flagPOI('Georgia Tech', connection)
+test.showPOIDetail('Georgia Tech', None, [30,100], ['1993/01/10', '2017/10/10'], ['00:00', '22:22'])
+test.flagPOI('Georgia Tech')
 
 
 # connection.commit()

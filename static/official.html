@@ -39,7 +39,7 @@
 </footer>
 
 <script type="text/ng-template" id="/locations.html">
-  
+
   <div class="w100" ng-controller="LocationListCtrl">
     <div id="filter_pack">
     <h2 class="ctx">View POIs</h2>
@@ -47,25 +47,25 @@
       <tr>
         <td>POI location name</td>
         <td>
-          <select ng-model="f.name" ng-options="l.id as l.name for l in locations"></select>
+          <select ng-model="f.name" ng-options="l.LocationName as l.LocationName for l in locations"></select>
         </td>
       </tr>
       <tr>
         <td>City</td>
-        <td><select ng-model="f.city" ng-options="c.id as c.name for c in cities"></select></td></tr>
+        <td><select ng-model="f.city" ng-options="City as City for City in cities" ng-change="id2state()"></select></td></tr>
       </tr>
       <tr>
         <td>State</td>
-        <td><select ng-model="f.state" ng-options="s.id as s.name for s in states"></select></td></tr>
+        <td><select ng-model="f.state" ng-options="State as State for State in states" ng-change="id2city()"></select></td></tr>
       <tr><td>Zip code</td><td><input type="text" ng-model="f.zip"/></td></tr>
       <tr><td>Flagged? </td><td><input type="checkbox" ng-model="f.flagged"/></td></tr>
       <tr>
         <td>Date Flagged</td>
         <td>
-          <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start" 
+          <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start"
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
           <span> to </span>
-          <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end" 
+          <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end"
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
         </td>
       </tr>
@@ -82,8 +82,8 @@
            <td>Flagged? </td> <td>Date Flagged</td>
         </tr>
         <tr ng-repeat="l in filtered" ng-click="inspect(l)">
-          <td>{{l.name}}</td> 
-          <td>{{id2city(l.city)}}</td> 
+          <td>{{l.name}}</td>
+          <td>{{id2city(l.city)}}</td>
           <td>{{id2state(l.state)}}</td>
           <td>{{l.zip}}</td>
           <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
@@ -115,10 +115,10 @@
     <tr>
       <td>Time &amp; date</td>
       <td>
-        <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start" 
+        <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start"
           placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
         <span> to </span>
-        <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end" 
+        <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end"
           placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
       </td>
     </tr>

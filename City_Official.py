@@ -1,10 +1,11 @@
 # from connection import *
 from datetime import datetime
+from connection import *
 
 class CityOfficial():
-	
-	def applyFilter(self, name, city, state, zipCode, flag, dateFlag, connection):
-		# connection = connect()
+
+	def applyFilter(self, name, city, state, zipCode, flag, dateFlag):
+		connection = connect()
 		cursor = connection.cursor()
 
 		isFirstCondition = True
@@ -61,7 +62,7 @@ class CityOfficial():
 
 		if dateFlag == None:
 			sql = sql
-		else:	
+		else:
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
 			for i in range(0,2):
 				Date = dateFlag[i].split('/')
@@ -77,8 +78,8 @@ class CityOfficial():
 
 		print (sql)
 
-		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s" 
-		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'" 
+		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
+		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'"
 
 		cursor.execute(sql)
 
@@ -89,16 +90,12 @@ class CityOfficial():
 		connection.close()
 
 
-
-	def showPOIDetail(self, locname, dataType, dataValue, date, time, connection):
+	def showPOIDetail(self, locname, dataType, dataValue, date, time):
 		# Must input input two datetime value
-
+		connection = connect()
 		cursor = connection.cursor()
-		
-		isFirstCondition = True
 
 		sql = "SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = \'{0}\'".format(locname)
-		
 
 		if dataType == None:
 			sql = sql
@@ -130,7 +127,8 @@ class CityOfficial():
 
 		connection.close()
 
-	def flagPOI(self, locname, connection):
+	def flagPOI(self, locname):
+		connection = connect()
 		cursor = connection.cursor()
 
 		# get current time
