@@ -74,6 +74,10 @@ table {
   margin-bottom: 8px;
 }
 
+.vgap1 {
+  margin-bottom: 40px;
+}
+
 .bkgd-orange {
   background-color: #f4c315;
 }
@@ -207,6 +211,12 @@ table {
 .action1 {
   width: 240px;
 }
+.action2 {
+  width: 160px;
+}
+.action3 {
+  width: 360px;
+}
 
 .fake-link {
   color: #224499;
@@ -224,7 +234,7 @@ table {
 }
 
 .data-sheet td {
-  padding: 12px 32px;
+  padding: 12px 12px;
 }
 
 .data-sheet tr.odd {

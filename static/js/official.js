@@ -203,4 +203,20 @@ angular.module('p1', ['ngRoute'])
         })
       }
       $scope.generate_report()
+
+      $scope.sort_field = 'name'
+      $scope.sort_reverse = false
+
+      $scope.switch_sort = function(field_name) {
+        if($scope.sort_field == field_name) {
+          $scope.sort_reverse = !$scope.sort_reverse
+        } else {
+          $scope.sort_field = field_name
+          $scope.sort_reverse = true
+        }
+      }
+      var bin2clz = ['arrow-non', 'arrow-non', 'arrow-up', 'arrow-down']
+      $scope.eval_sc = function(name) {
+        return bin2clz[+(this.sort_field == name) * 2 + (+this.sort_reverse)]
+      }
   })
