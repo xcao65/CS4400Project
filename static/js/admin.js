@@ -58,6 +58,7 @@ angular.module('p0', ['ngRoute'])
 
     var reshape = function(d) {
       d.ts4sort = new Date(d.DateTime)
+      d.id = d.LocName + '_' + d.DateTime
     }
 
     $scope.get_points = function() {
@@ -72,6 +73,12 @@ angular.module('p0', ['ngRoute'])
       })
     }
     $scope.get_points()
+    
+    $scope.all_mark = false
+    $scope.select_all = function() {
+      if($scope.points.length < 1) return
+      $scope.points.forEach(function(d) { d.marked = $scope.all_mark })
+    }
 
     $scope.mark = function(p, acc) {
       p.Status = -2 /* hide buttons, before new status arrives*/
