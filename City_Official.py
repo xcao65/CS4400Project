@@ -15,7 +15,6 @@ class CityOfficial():
 		else:
 			sql = "SELECT * FROM POI WHERE"
 
-
 		if name == None:
 			sql = sql
 		else:
@@ -88,9 +87,24 @@ class CityOfficial():
 		cursor.execute(sql)
 		# # cursor.execute(sql, (name, city, state, zipCode, flag, Formalized_Date[0], Formalized_Date[1]))
 		results = cursor.fetchall()
-		print results
 		connection.close()
 
+		# print results
+		# print results[0].keys()
+
+		# Change the name of keys to make it compatible with jsonify() in serv.py
+		if results is not None:
+			for dic in results:
+				dic['id'] = results.index(dic)
+				dic['name'] = dic.pop(u'LocationName')
+				dic['zip'] = dic.pop(u'ZipCode')
+				dic['city'] = dic.pop(u'City')
+				dic['state'] = dic.pop(u'State')
+				dic['flag'] = dic.pop(u'DateFlagged')
+				dic['flagged'] = dic.pop(u'Flag')
+
+		print results
+		return results
 
 
 	def showPOIDetail(self, locname, dataType, dataValue, date, time):
@@ -130,11 +144,23 @@ class CityOfficial():
 
 		sql = sql + " ORDER BY DateTime"
 
-		print sql
+		# print sql
 		cursor.execute(sql)
 		results = cursor.fetchall()
-		print results
+		# print results
 		connection.close()
+
+		if results is not None:
+			for dic in results:
+				# dic['id'] = results.index(dic)
+				dic['attr'] = dic.pop(u'DataType')
+				dic['val'] = dic.pop(u'DataValue')
+				dic['ts'] = dic.pop(u'DateTime')
+				dic['loc'] = locname
+
+		print results
+		return results
+
 
 	def flagPOI(self, locname):
 		connection = connect()
