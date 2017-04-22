@@ -9,6 +9,10 @@ table {
   border-spacing: 0px; /* normalize.css handles the rest*/
 }
 
+.blk {
+  display: block;
+}
+
 .h100 {
   height: 100%;
 }

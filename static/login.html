@@ -5,33 +5,27 @@
   <link rel="stylesheet" href="/static/css/login.css" type="text/css">
   <title>CS4400 Project - G79</title>
 </head>
-<body>
+<body class="reg-darker">
   <!-- Page content -->
   <ng-view></ng-view>
   
   <script type="text/ng-template" id="/default.html">
-    <div class="w100" id="login_pack">
-    <h1 class="ctx lbw">Login with your account</h1>
-    <table class="ctm">
-      <tr><td>
-        <form action="/api/login" method="POST">
-          <input type="username" name="username" placeholder="Username" class="mg16b" required>
+    <table class="w100">
+      <tr class="reg-lighter"><td style="padding-bottom: 40px;">
+        <h1 class="ctx lbw">Login with your account</h1>
+        <form action="/api/login" method="POST" class="w100">
+          <input type="username" name="username" placeholder="Username" class="mg16b ctm blk" required>
           <br/>
-          <input type="password" name="password" placeholder="Password" class="mg16b" required>
+          <input type="password" name="password" placeholder="Password" class="mg16b ctm blk" required>
           <br/>
-          <input class="clickable" type="submit" value="Log in">
+          <input class="clickable ctm blk" type="submit" value="Log in">
         </form>
       </td></tr>
-    </table>
-    </div>
-    <div class="w100 abs" id="go_reg">
-    <table class="ctm">
-      <tr><td class="pd16l lbw">A dedicated scientist or city official?</td></tr>
+      <tr><td class="pd16l lbw" style="padding-top:40px;"><center>A dedicated scientist or city official?</center></td></tr>
       <tr><td>
-        <button class="big-btn w360 frame-w mg16l mg16t clickable" ng-click="goto('/register')">Register</button>
+        <button class="big-btn w360 frame-w mg16t clickable ctm blk" ng-click="goto('/register')">Register</button>
       </td></tr>
     </table>
-    </div>
   </script>
   <script type="text/ng-template" id="/register.html">
     <div id="reg_pack" class="ctm">

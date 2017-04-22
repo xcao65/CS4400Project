@@ -5,7 +5,6 @@ box-sizing: border-box;
 body {
   padding: 0px;
   margin:0;
-  background-color: #3498DB;
 }
  
 *:focus {
@@ -111,18 +110,10 @@ form input {
   margin-left: 16px;
 }
 
-#login_pack {
-  padding-top: 20px;
+.reg-lighter {
+  background-color: #3498DB;
 }
 
-#reg_pack {
-  padding-top: 24px;
-}
-
-#go_reg {
-  margin-top: 40px;
-  padding-top: 64px;
-  padding-bottom: 64px;
-  bottom:0;
+.reg-darker {
   background-color: #176299;
 }
