@@ -14,7 +14,7 @@ angular.module('p4', ['ngRoute'])
         });
   }).factory('Commons', function Commons ($http, $location) {
      var exports = {};
-     
+
      exports.goto = function(view) {
        $location.path(view); // path not hash
      }
@@ -41,7 +41,7 @@ angular.module('p4', ['ngRoute'])
   }).controller('RegisterCtrl', function($scope, $timeout, Commons) {
     $scope.goto = Commons.goto
     $scope.succ = null
-    
+
     $scope.states = []
     $scope.cities = []
     $scope.acc_types = [
@@ -49,42 +49,42 @@ angular.module('p4', ['ngRoute'])
     , {'v': 'official', 'n': 'City Official'}
     ]
     $scope.u = {'type': $scope.acc_types[0].v, 'password':'', 'conf_pwd': ''}
-    
+
     var non = "- Please Select", c2s = {}, s2c = {}
     c2s[non] = [non], s2c[non] = [non]
     Commons.get_city_state().success(function(data, status) {
       console.log("Successfully got city_state: ", status, data)
       if(data.succ != 0) return
       data.c.forEach(function(d) {
-        if(!(d.c in c2s)) {
-          c2s[d.c] = [non]
-          s2c[non].push(d.c)
+        if(!(d.City in c2s)) {
+          c2s[d.City] = [non]
+          s2c[non].push(d.City)
         }
-        if(!(d.s in s2c)) {
-          s2c[d.s] = [non]
-          c2s[non].push(d.s)
+        if(!(d.State in s2c)) {
+          s2c[d.State] = [non]
+          c2s[non].push(d.State)
         }
-        c2s[d.c].push(d.s)
-        s2c[d.s].push(d.c)
+        c2s[d.City].push(d.State)
+        s2c[d.State].push(d.City)
       })
       $scope.states = c2s[non]
       $scope.cities = s2c[non]
       $scope.u.city = $scope.cities[0]
       $scope.u.state = $scope.states[0]
     })
-    
+
     $scope.opt_states = function() { $scope.states = c2s[$scope.u.city] }
     $scope.opt_cities = function() { $scope.cities = s2c[$scope.u.state] }
-    
+
     var void_msg = function() { $scope.msg = $scope.succ = null }
-    
+
     $scope.save_user = function() {
       Commons.put_user(this.u).success(function(data, status) {
         console.log("Successfully saved point: ", status, data)
         $scope.succ = data.succ
         if(data.succ == 0) {
           $scope.msg = "You have successfully registered! "
-          if(data.c.type == "official") 
+          if(data.c.type == "official")
             $scope.msg += " Waiting administrative review..."
         } else {
           $scope.msg = "Failed with succ code[" + data.succ + "]"
@@ -99,7 +99,7 @@ angular.module('p4', ['ngRoute'])
     }
 
     $scope.validate = function() { // not called yet, need timeout/promise/delay
-      Commons.check_availability(this.u.username).success(function(data, 
+      Commons.check_availability(this.u.username).success(function(data,
           status) {
         console.log("Successfully validated username: ", status, data)
       })

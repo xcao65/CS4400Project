@@ -20,6 +20,7 @@ import pymysql.cursors
 
 app = Flask(__name__)
 t2r = {"Admin":"admin", "City Scientist":"scientist", "City Official": "official"}
+t2i = {"admin":1, "scientist":2, "official": 3}
 
 def check_login(func):
     @wraps(func)
@@ -230,7 +231,19 @@ def create_user():
     # add new account
     payload = request.get_json()
     print('Register for new user ', payload)
-    payload["id"] = 2425
+    # {u'username': u'111', u'city': u'- Please Select',
+    # u'conf_pwd': u'111', u'state': u'- Please Select',
+    # u'password': u'111', u'type': u'scientist', u'email': u'111@gmail.com'})
+    # (name, email, pwd, cpwd, utype, *others)
+    new_user = LogIn()
+    user_type = payload['type']
+    if user_type == 'scientist':
+        new_user.register(payload['username'], payload['email'], \
+        payload['password'], payload['conf_pwd'], t2i[user_type])
+    else:
+        new_user.register(payload['username'], payload['email'], payload['password'], \
+        payload['conf_pwd'], t2i[user_type], payload['title'], payload['city'], payload['state'])
+    payload["id"] = 6666
     return jsonify({'succ': 0, 'c': payload})
 
 @app.route('/api/accounts', methods=["POST"])
