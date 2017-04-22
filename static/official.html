@@ -86,8 +86,8 @@
         </tr>
         <tr ng-repeat="l in filtered" ng-click="inspect(l)" class="clickable"  ng-class-odd="'odd'" ng-class-even="'even'">
           <td>{{l.name}}</td>
-          <td>{{id2city(l.city)}}</td>
-          <td>{{id2state(l.state)}}</td>
+          <td>{{id_city(l.city)}}</td>
+          <td>{{id_state(l.state)}}</td>
           <td>{{l.zip}}</td>
           <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
         </tr>
