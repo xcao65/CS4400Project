@@ -52,6 +52,7 @@ angular.module('p1', ['ngRoute'])
     //$scope.locations = $scope.non_opt
     var non = "- Please Select", c2s = {}, s2c = {}, get_loc = []
     c2s[non] = [non], s2c[non] = [non], get_loc.push({"LocationName": non})
+    var all_cities = [], all_states = []
 
     LocationsFactory.get_locations().success(function(data, status) {
       console.log("Successfully got locations: ", status, data)
@@ -87,6 +88,8 @@ angular.module('p1', ['ngRoute'])
       $scope.cities = s2c[non]
       $scope.f.city = $scope.cities[0]
       $scope.f.state = $scope.states[0]
+      all_states = c2s[non]
+      all_cities = s2c[non]
     })
 
     $scope.id2state = function() { $scope.states = c2s[$scope.f.city] }
@@ -116,9 +119,11 @@ angular.module('p1', ['ngRoute'])
     }
     $scope.reset = function() {
       this.filtered = []
-      //console.log("$scope.non_opt[0] is ", $scope.non_opt[0])
       var none = $scope.non_opt[0].id
       this.f = {'flagged': false, 'name': none, 'city': none, 'state': none }
+      $scope.states = all_states
+      $scope.cities = all_cities
+      console.log("after reset f is ", this.f)
     }
     $scope.inspect = function(obj) {
       console.log("switch to detial - ", obj)
@@ -203,7 +208,7 @@ angular.module('p1', ['ngRoute'])
         })
       }
       $scope.generate_report()
-      
+
       $scope.sort_field = 'name'
       $scope.sort_reverse = false
 
