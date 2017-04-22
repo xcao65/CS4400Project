@@ -55,6 +55,10 @@ angular.module('p0', ['ngRoute'])
         $scope.sort_reverse = true
       }
     }
+    var bin2clz = ['arrow-non', 'arrow-non', 'arrow-up', 'arrow-down']
+    $scope.eval_sc = function(name) {
+      return bin2clz[+(this.sort_field == name) * 2 + (+this.sort_reverse)]
+    }
 
     var reshape = function(d) {
       d.ts4sort = new Date(d.DateTime)

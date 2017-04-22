@@ -72,25 +72,15 @@
     <table class="ctm data-sheet">
       <tr class="data-header">
         <td><input ng-change="select_all()" ng-model="all_mark" type="checkbox" value="Select/Deselect All"/></td>
-        <td ng-click="switch_sort('LocName')" class="clickable">
-          <span>PIO location</span> 
-          <span ng-show="sort_field=='LocName' && (!sort_reverse)">&#x25B2;</span>
-          <span ng-show="sort_field=='LocName' && sort_reverse">&#x25BC;</span>
-        </td>
-        <td ng-click="switch_sort('DataType')" class="clickable">
+        <td ng-click="switch_sort('LocName')" class="clickable" ng-class="eval_sc('LocName')">PIO location</td>
+        <td ng-click="switch_sort('DataType')" class="clickable" ng-class="eval_sc('DataType')">
           <span>Data type</span>
-          <span ng-show="sort_field=='DataType' && (!sort_reverse)">&#x25B2;</span>
-          <span ng-show="sort_field=='DataType' && sort_reverse">&#x25BC;</span>
         </td>
-        <td ng-click="switch_sort('DataValue')" class="clickable">
+        <td ng-click="switch_sort('DataValue')" class="clickable" ng-class="eval_sc('DataValue')"> 
           <span>Data value</span>
-          <span ng-show="sort_field=='DataValue' && (!sort_reverse)">&#x25B2;</span>
-          <span ng-show="sort_field=='DataValue' && sort_reverse">&#x25BC;</span>
         </td>
-        <td ng-click="switch_sort('ts4sort')" class="clickable">
+        <td ng-click="switch_sort('ts4sort')" class="clickable" ng-class="eval_sc('ts4sort')">
           <span>Time &amp; date of data reading</span>
-          <span ng-show="sort_field=='ts4sort' && (!sort_reverse)">&#x25B2;</span>
-          <span ng-show="sort_field=='ts4sort' && sort_reverse">&#x25BC;</span>
         </td>
       </tr>
       <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
