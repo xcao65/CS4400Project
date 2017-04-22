@@ -6,17 +6,9 @@
   <title>CS4400 Project - G79</title>
 </head>
 <body>
-<<<<<<< HEAD
-  <form action="/api/login" method="POST">
-    <input type="username" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Log in">
-    <input type="button" value="Register">
-  </form>
-=======
   <!-- Page content -->
   <ng-view></ng-view>
-  
+
   <script type="text/ng-template" id="/default.html">
     <div class="w100" id="login_pack">
     <h1 class="ctx lbw">Login with your account</h1>
@@ -43,7 +35,7 @@
   </script>
   <script type="text/ng-template" id="/register.html">
     <div id="reg_pack" class="ctm">
-    
+
     <form name="reg_form" ng-submit="save_user()">
       <table class="ctm" style="width: 70%">
         <tr><td></td><td><h1 class="pd16l lbw">Establish a free account</h1></td></tr>
@@ -102,6 +94,5 @@
   <script type="text/javascript" src="lib/angular.min.js"></script>
   <script src="lib/angular-route.min.js"></script>
   <script src="js/login.js"></script>
->>>>>>> 17e23edb6d7e6d683bc63d392c8e1073dde1fd2c
 </body>
 </html>
