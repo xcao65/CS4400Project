@@ -5,6 +5,10 @@ angular.module('p0', ['ngRoute'])
            templateUrl: '/points.html',
            controller: 'PointListCtrl',
            controllerAs: 'points'
+        }).when('/pt2', {
+         'templateUrl': '/point_alt.html'
+        ,'controller': 'PointListCtrl'
+        , 'controllerAs': 'pt2'
         }).when('/officials', {
           templateUrl:'/officials.html',
           controller: 'OfficialAccountCtrl',
@@ -53,7 +57,7 @@ angular.module('p0', ['ngRoute'])
     }
 
     var reshape = function(d) {
-      d.ts4sort = new Date(d.ts)
+      d.ts4sort = new Date(d.DateTime)
     }
 
     $scope.get_points = function() {
@@ -79,6 +83,19 @@ angular.module('p0', ['ngRoute'])
         console.log('Successfully marked point', status, data)
         if(data.succ != 0) return
         Commons.update_point(data.c)
+      })
+    }
+    
+    $scope.mark_selected = function(acc) {
+      var selected = $scope.points.filter(function(d) { return d.marked }).map(
+          function(d) { return {'LocName': d.LocName, 'DateTime': d.DateTime} })
+      var payload = {'acc': acc, 'keys': selected}
+      console.log("payload ", payload)
+      $http.post('api/mark_points', payload).error(function(error, status) {
+        console.log("Failed to batch mark!", error, status)
+      }).succ(function(data, status) {
+        console.log('Successfully marked point', status, data)
+        $scope.get_points() // Refresh!
       })
     }
 
