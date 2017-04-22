@@ -102,6 +102,11 @@ box-shadow: none;
 	margin-top: 12px;
 }
 
+.error {
+  color: #E5E512;
+  font-size: 12pt;
+}
+
 form input {
   margin-left: 16px;
 }

@@ -102,6 +102,9 @@ table {
 .pd8b {
   padding-bottom: 8px;
 }
+pd2t {
+  padding-top: 2px;
+}
 
 .fake-link {
   color: #224499;
