@@ -69,15 +69,31 @@
   <h2 class="ctx">Pending data points</h2>
   <p ng-show="points.length == 0">There is no pending data points for now. Come back later! </p>
   <div ng-show="points.length > 0" ng-class="{'w100':true}">
-    <table>
-      <tr>
+    <table class="ctm data-sheet">
+      <tr class="data-header">
         <td><input ng-change="select_all()" ng-model="all_mark" type="checkbox" value="Select/Deselect All"/></td>
-        <td ng-click="switch_sort('LocName')">PIO location</td>
-        <td ng-click="switch_sort('DataType')">Data type</td>
-        <td ng-click="switch_sort('DataValue')">Data value</td>
-        <td ng-click="switch_sort('ts4sort')">Time &amp; date of data reading</td>
+        <td ng-click="switch_sort('LocName')" class="clickable">
+          <span>PIO location</span> 
+          <span ng-show="sort_field=='LocName' && (!sort_reverse)">&#x25B2;</span>
+          <span ng-show="sort_field=='LocName' && sort_reverse">&#x25BC;</span>
+        </td>
+        <td ng-click="switch_sort('DataType')" class="clickable">
+          <span>Data type</span>
+          <span ng-show="sort_field=='DataType' && (!sort_reverse)">&#x25B2;</span>
+          <span ng-show="sort_field=='DataType' && sort_reverse">&#x25BC;</span>
+        </td>
+        <td ng-click="switch_sort('DataValue')" class="clickable">
+          <span>Data value</span>
+          <span ng-show="sort_field=='DataValue' && (!sort_reverse)">&#x25B2;</span>
+          <span ng-show="sort_field=='DataValue' && sort_reverse">&#x25BC;</span>
+        </td>
+        <td ng-click="switch_sort('ts4sort')" class="clickable">
+          <span>Time &amp; date of data reading</span>
+          <span ng-show="sort_field=='ts4sort' && (!sort_reverse)">&#x25B2;</span>
+          <span ng-show="sort_field=='ts4sort' && sort_reverse">&#x25BC;</span>
+        </td>
       </tr>
-      <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse">
+      <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
         <td>
           <input type="checkbox" ng-model="p.marked"/>
           <span ng-show="p.Status > -1">{{p.Status == 1? 'Accepted' : 'Rejected'}}</span>
@@ -87,9 +103,13 @@
         <td>{{p.DataValue}}</td>
         <td>{{p.DateTime}}</td>
       </tr>
+      <tr><td colspan="5">
+        <center class="mg16t mg16b">
+          <button class="med-btn action1 frame-blue trans clickable mg16r" ng-click="mark_selected(true)">Accept</button>
+          <button class="med-btn action1 frame-red trans clickable mg16l" ng-click="mark_selected(false)">Reject</button>
+        </center>
+      </td></tr>
     </table>
-    <button class="big-btn" ng-click="mark_selected(true)">Accept</button>
-    <button class="big-btn" ng-click="mark_selected(false)">Reject</button>
   </div>
 </script>
 <script type="text/ng-template" id="/officials.html">

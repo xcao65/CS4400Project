@@ -21,6 +21,10 @@ table {
   width: 100%;
 }
 
+.fl {
+  float: left;
+}
+
 .ctm {
   margin-left: auto;
   margin-right: auto;
@@ -48,6 +52,10 @@ table {
 
 .mg16l {
   margin-left: 16px;
+}
+
+.mg16r {
+  margin-right: 16px;
 }
 
 .mg16t {
@@ -106,8 +114,54 @@ table {
 .pd8b {
   padding-bottom: 8px;
 }
-pd2t {
+.pd2t {
   padding-top: 2px;
+}
+
+.med-btn {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 4px 0;
+}
+
+.big-btn {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+}
+
+.frame-red {
+  border: 1px solid #e91765;
+  color: #e91765;
+}
+
+.frame-red:hover {
+  background-color: #e91765;
+  color: #ffffff;
+}
+
+.frame-blue {
+  border: 1px solid #3498DB;
+  color: #3498DB;
+}
+
+.frame-blue:hover {
+  background-color: #3498DB;
+  color: #ffffff;
+}
+
+.trans {
+  background-color: transparent;
+}
+
+.action1 {
+  width: 240px;
 }
 
 .fake-link {
@@ -119,6 +173,23 @@ pd2t {
   fill: #000000;
   dominant-baseline: text-before-edge;
   font-size: 12pt;
+}
+
+.data-sheet td {
+  padding: 12px 32px;
+}
+
+.data-sheet tr.odd {
+  background-color: #f0f0f0;
+}
+
+.data-sheet tr.even {
+  background-color: #e2e2e2;
+}
+
+.data-header {
+  background-color: #176299;
+  color: #e9e9e9;
 }
 
 .preview text.ft-family {
