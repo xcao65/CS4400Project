@@ -119,11 +119,9 @@ class CityOfficial():
 			sql = sql + " AND DateTime BETWEEN \'{0}\' AND \'{1}\'".format(Formalized_DateTime[0], Formalized_DateTime[1])
 
 		sql = sql + " ORDER BY DateTime"
-		print sql
+
 		cursor.execute(sql)
-		
-		results = cursor.fetchall()
-		print len(results)
+
 
 		connection.close()
 
@@ -138,21 +136,10 @@ class CityOfficial():
 		
 
 
-		# sql = "UPDATE POI SET Flag = 1, DateFlagged = \'{0}\' WHERE LocName = \'{1}\'".format(dateFlagged, locname)
-		sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
-		print sql
-		print locname
-		print dateFlagged
+		sql = "UPDATE POI SET Flag = 1, DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
+		# sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
+
 		cursor.execute(sql)
 
-		connection.close()
-		
-		cursor = connection.cursor()
-		sql = "SELECT Flag FROM POI WHERE LocName = %s"
-		cursor.execute(sql, locname)
-		
-		result = cursor.fetchall()
-		print result
-
-		# cursor.commit()
+		connection.commit()
 		connection.close()
