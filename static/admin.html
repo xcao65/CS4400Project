@@ -36,7 +36,7 @@
   <i class="fa fa-pinterest-p w3-hover-opacity"></i>
   <i class="fa fa-twitter w3-hover-opacity"></i>
   <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p class="w3-medium">Built on <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
 <script type="text/ng-template" id="/points.html">
@@ -69,19 +69,13 @@
   <h2 class="ctx">Pending data points</h2>
   <p ng-show="points.length == 0">There is no pending data points for now. Come back later! </p>
   <div ng-show="points.length > 0" ng-class="{'w100':true}">
-    <table class="ctm data-sheet">
+    <table class="ctm data-sheet w100">
       <tr class="data-header">
         <td><input ng-change="select_all()" ng-model="all_mark" type="checkbox" value="Select/Deselect All"/></td>
         <td ng-click="switch_sort('LocName')" class="clickable" ng-class="eval_sc('LocName')">PIO location</td>
-        <td ng-click="switch_sort('DataType')" class="clickable" ng-class="eval_sc('DataType')">
-          <span>Data type</span>
-        </td>
-        <td ng-click="switch_sort('DataValue')" class="clickable" ng-class="eval_sc('DataValue')"> 
-          <span>Data value</span>
-        </td>
-        <td ng-click="switch_sort('ts4sort')" class="clickable" ng-class="eval_sc('ts4sort')">
-          <span>Time &amp; date of data reading</span>
-        </td>
+        <td ng-click="switch_sort('DataType')" class="clickable" ng-class="eval_sc('DataType')">Data type</td>
+        <td ng-click="switch_sort('DataValue')" class="clickable" ng-class="eval_sc('DataValue')">Data value</td>
+        <td ng-click="switch_sort('ts4sort')" class="clickable" ng-class="eval_sc('ts4sort')">Time &amp; date of data reading</td>
       </tr>
       <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
         <td>
