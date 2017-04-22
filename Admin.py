@@ -36,9 +36,27 @@ class Admin():
 		return result
 
 	#change status of data point
-	def changeDP(self, index, results, bool):
+	def changeDP_one(self, date_time, location, state):
 		connection = connect()
-		if bool == 1:
+		status = 'Accepted' if state else 'Rejected'
+		# cursor0 = connection.cursor()
+		# sql0 = "SELECT DateTime, Status FROM Data_Point WHERE LocName = %s AND DateTime = %s"
+		# cursor0.execute(sql0, (location, datetime))
+		# result0 = cursor.fetchall()
+		# print '\nBefore change:'
+		# print result0
+		cursor = connection.cursor()
+		sql = "UPDATE Data_Point SET Status = %s WHERE LocName = %s AND DateTime = %s"
+		cursor.execute(sql, (status, location, date_time))
+		result = cursor.fetchall()
+		print '\nAfter change:'
+		print result
+		connection.commit()
+		connection.close()
+
+	def changeDP(self, index, results, state):
+		connection = connect()
+		if state == 1:
 			status = 'Accepted'
 		else:
 			status = 'Rejected'
@@ -63,9 +81,9 @@ class Admin():
 
 
 	#change status of city official account
-	def changeCOA(self, index, results, bool):
+	def changeCOA(self, index, results, state):
 		connection = connect()
-		if bool == 1:
+		if state == 1:
 			status = 'Approved'
 		else:
 			status = 'Rejected'
