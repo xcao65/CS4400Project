@@ -1,13 +1,22 @@
 import pymysql
 import pymysql.cursors
+import uuid
+from collections import OrderedDict
+import random
+from connection import *
 
 class POIreport():
-	def getlocation(self, connection):
+	def getlocation(self):
 		cursor = connection.cursor()
-		sql = "SELECT LocationName,Flag,City,State FROM POI"
+		sql = "SELECT LocationName,City,State FROM POI"
 		cursor.execute(sql)
-		#connection.commit()
-		
+		result = cursor.fetchall()
+		return result
+
+	def getflag(self, connection):
+		cursor = connection.cursor()
+		sql = "SELECT Flag FROM POI"
+		cursor.execute(sql)
 		result = cursor.fetchall()
 		return result
 
@@ -21,7 +30,7 @@ class POIreport():
 			result = cursor.fetchall()
 			minM.extend(result)
 		return minM
-		
+
 	def maxMold(self, connection, location):
 		cursor = connection.cursor()
 		maxM = []
@@ -32,7 +41,7 @@ class POIreport():
 			result = cursor.fetchall()
 			maxM.extend(result)
 		return maxM
-	
+
 	def avgMold(self, connection, location):
 		cursor = connection.cursor()
 		avgM = []
@@ -54,7 +63,7 @@ class POIreport():
 			result = cursor.fetchall()
 			minAQ.extend(result)
 		return minAQ
-		
+
 	def maxAQ(self, connection, location):
 		cursor = connection.cursor()
 		maxAQ = []
@@ -65,7 +74,7 @@ class POIreport():
 			result = cursor.fetchall()
 			maxAQ.extend(result)
 		return maxAQ
-	
+
 	def avgAQ(self, connection, location):
 		cursor = connection.cursor()
 		avgAQ = []
@@ -76,7 +85,7 @@ class POIreport():
 			result = cursor.fetchall()
 			avgAQ.extend(result)
 		return avgAQ
-	
+
 	def numofDP(self, connection, location):
 		cursor = connection.cursor()
 		nDP = []
@@ -86,39 +95,73 @@ class POIreport():
 			cursor.execute(sql, (locationname,))
 			result = cursor.fetchall()
 			nDP.extend(result)
-		return nDP		
-	
-	def merge(self, connection, location, moldmin, moldavg, moldmax, AQmin, AQavg, AQmax, dpnum):
+		return nDP
+
+	def assignid(self, connection, location):
 		cursor = connection.cursor()
-		mergedlist = []
+		id = []
 		length = len(location)
 		for i in range(length):
-			temp = location[i].copy()
-			moldmin[i]['Moldmin'] = moldmin[i].pop('MIN(DataValue)')
-			temp.update(moldmin[i])
-			moldavg[i]['Moldavg'] = moldavg[i].pop('AVG(DataValue)')
-			temp.update(moldavg[i])
-			moldmax[i]['Moldmax'] = moldmax[i].pop('MAX(DataValue)')
-			temp.update(moldmax[i])
-			
-			AQmin[i]['AQmin'] = AQmin[i].pop('MIN(DataValue)')
-			temp.update(AQmin[i])
-			AQavg[i]['AQavg'] = AQavg[i].pop('AVG(DataValue)')
-			temp.update(AQavg[i])
-			AQmax[i]['AQmax'] = AQmax[i].pop('MAX(DataValue)')
-			temp.update(AQmax[i])
-			
-			temp.update(dpnum[i])
-			mergedlist.append(temp)	
-		return mergedlist
-	
-	def sort(self, connection, list, sortby):
+			#seed = random.getrandbits(32)
+			#unique_sequence = uniqueid()
+			result = [{'id':i}]
+			#result["id"] = i
+			#print result
+			id.extend(result)
+		return id
+
+	def merge(self, connection):
 		cursor = connection.cursor()
-		newlist = sorted(list, key=lambda k: k[sortby]) 
+		mergedlist = []
+		location = self.getlocation(connection)
+		moldmin = self.minMold(connection,location)
+		moldavg = self.avgMold(connection,location)
+		moldmax = self.maxMold(connection,location)
+		AQmin = self.minAQ(connection,location)
+		AQavg = self.avgAQ(connection,location)
+		AQmax = self.maxAQ(connection,location)
+		dpnum = self.numofDP(connection,location)
+		flag = self.getflag(connection)
+		id = self.assignid(connection,location)
+
+		length = len(location)
+		for i in range(length):
+			temp = OrderedDict()
+			temp.update(id[i])
+			temp.update(location[i])
+			temp['name'] = temp.pop('LocationName')
+			temp['city'] = temp.pop('City')
+			temp['state'] = temp.pop('State')
+			#temp.update(location[i])
+			moldmin[i]['min_mold'] = moldmin[i].pop('MIN(DataValue)')
+			temp.update(moldmin[i])
+			moldavg[i]['avg_mold'] = moldavg[i].pop('AVG(DataValue)')
+			temp.update(moldavg[i])
+			moldmax[i]['max_mold'] = moldmax[i].pop('MAX(DataValue)')
+			temp.update(moldmax[i])
+
+			AQmin[i]['min_aq'] = AQmin[i].pop('MIN(DataValue)')
+			temp.update(AQmin[i])
+			AQavg[i]['avg_aq'] = AQavg[i].pop('AVG(DataValue)')
+			temp.update(AQavg[i])
+			AQmax[i]['max_aq'] = AQmax[i].pop('MAX(DataValue)')
+			temp.update(AQmax[i])
+
+			dpnum[i]['num_points'] = dpnum[i].pop('COUNT(LocName)')
+			temp.update(dpnum[i])
+			flag[i]['flag'] = flag[i].pop('Flag')
+			temp.update(flag[i])
+			mergedlist.append(temp)
+		return mergedlist
+
+	def sort(self, connection, sortby):
+		cursor = connection.cursor()
+		list = self.merge(connection)
+		newlist = sorted(list, key=lambda k: k[sortby])
 		return newlist
 
 
-#main
+# #main
 # poi = POIreport()
 
 # connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
@@ -127,9 +170,12 @@ class POIreport():
 #                              db='cs4400_Group_79',
 #                              # charset='utf8mb4',
 #                              cursorclass=pymysql.cursors.DictCursor)
-                             
+# '''
 # test1 = poi.getlocation(connection)
 # print test1
+# test11 = poi.assignid(connection,test1)
+# print test11
+
 # test2 = poi.minMold(connection,test1)
 # print test2
 # test3 = poi.avgMold(connection,test1)
@@ -149,6 +195,12 @@ class POIreport():
 # print test9
 # #for example, use locationname for sorting
 # test10 = poi.sort(connection,test9,'LocationName')
+# print test10
+# '''
+# test9 = poi.merge(connection)
+# print test9
+
+# test10 = poi.sort(connection,'name')
 # print test10
 
 # connection.commit()
