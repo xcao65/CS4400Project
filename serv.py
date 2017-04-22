@@ -100,22 +100,30 @@ def save_point():
     # {u'loc': u'Chastain Park', u'ts': u'2017-03-19T16:00', u'val': 111, u'attr': u'Air Quality'})
     # DateTime	LocName	Status	DataType	DataValue -- pretend saving
     # addNewDataPoint(self, locationname, date, time, datatype, value) "1999/03/04", "05:06"
-    '''
+
+    # change data point status
+    # print payload: {'id': p.id, 'status': acc? 1 : 0, 'datetime': p.DateTime, 'loc': p.LocName}
     if 'id' in payload:
         # update a data points
-        pass
+        print('parsed time: ', datetime.strptime(payload['datetime'], '%a, %d %b %Y %H:%M:%S %Z'))
+        newtime = datetime.strptime(payload['datetime'], '%a, %d %b %Y %H:%M:%S %Z')
+        date, time = str(newtime.date()), str(newtime.time())
+        new_date_time = date + ' ' + time
+        print new_date_time
+        new_admin = Admin()
+        new_admin.changeDP_one(new_date_time, payload['loc'], payload['status'])
     else:
         payload["id"] = 100
-    '''
-    newS = CityScientist()
+
     if 'ts' in payload:
         print('parsed time: ', datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M'))
-    newtime = datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M')
-    date, time = str(newtime.date()), str(newtime.time())
-    date = "/".join(date.split('-'))
-    time = time[0:5]
-    newS.addNewDataPoint(payload['loc'], date, time, payload["attr"], payload["val"])
-    print "addNewDataPoint Successfully"
+        new_scientist = CityScientist()
+        newtime = datetime.strptime(payload['ts'], '%Y-%m-%dT%H:%M')
+        date, time = str(newtime.date()), str(newtime.time())
+        date = "/".join(date.split('-'))
+        time = time[0:5]
+        new_scientist.addNewDataPoint(payload['loc'], date, time, payload["attr"], payload["val"])
+        print "addNewDataPoint Successfully"
     return jsonify({"succ": 0, "c":payload})
 
 @app.route('/api/points', methods=["POST", "GET"])
@@ -233,7 +241,7 @@ def save_account():
 def check_availability():
     print("check available? ", request.args["username"])
     return {'succ': 1, 'c': request.args["username"]}
-    
+
 @app.route('/api/register', methods=["POST"])
 # no need to check login
 def create_user():
