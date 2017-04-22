@@ -22,7 +22,7 @@ class LogIn():
                 if password == results["Password"]:
                     # print results
                     utype = results["Type"]
-                    # print("Congrats! You successfully logged in")
+                    print("Congrats! You successfully logged in")
                     #print utype
                     return utype
                 else:
@@ -45,7 +45,7 @@ class LogIn():
         sql = "INSERT INTO User (EmailAddress, UserName, Password, Type) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (email, name, pwd, utype))
         connection.commit()
-        # print 'Added new user successfully'
+        print 'Added new user successfully'
 
         if utype == 'City Official':
             extras = []
@@ -87,7 +87,7 @@ class LogIn():
 
 if __name__ == "__main__":
     test = LogIn()
-    # print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')
-    # print test.checkUniqueName('Justin Bieber')
+    print test.deleteUser('Oprah Winfrey')
+    print test.checkUniqueName('Justin Bieber')
     print test.login('Oprah Winfrey', 'OprahWinfrey')
-    # print test.deleteUser('Oprah Winfrey')
+    print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')

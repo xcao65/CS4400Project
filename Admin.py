@@ -1,4 +1,5 @@
 from connection import *
+from all_user import *
 
 class Admin():
 
@@ -39,12 +40,6 @@ class Admin():
 	def changeDP_one(self, date_time, location, state):
 		connection = connect()
 		status = 'Accepted' if state else 'Rejected'
-		# cursor0 = connection.cursor()
-		# sql0 = "SELECT DateTime, Status FROM Data_Point WHERE LocName = %s AND DateTime = %s"
-		# cursor0.execute(sql0, (location, datetime))
-		# result0 = cursor.fetchall()
-		# print '\nBefore change:'
-		# print result0
 		cursor = connection.cursor()
 		sql = "UPDATE Data_Point SET Status = %s WHERE LocName = %s AND DateTime = %s"
 		cursor.execute(sql, (status, location, date_time))
@@ -80,6 +75,17 @@ class Admin():
 		connection.close()
 
 
+	def changeCOA_one(self, email, status):
+		# status = 'Accepted' if s else 'Rejected'
+		connection = connect()
+		cursor = connection.cursor()
+		sql = "UPDATE City_Official SET Status = %s WHERE EmailAddress = %s"
+		# cursor.execute(sql, (status, email))
+		cursor.execute(sql, (status, email))
+		connection.commit()
+		connection.close()
+		print "changed status for ", email
+
 	#change status of city official account
 	def changeCOA(self, index, results, state):
 		connection = connect()
@@ -109,8 +115,12 @@ class Admin():
 		connection.close()
 
 if __name__ == "__main__":
-    test = Admin()
-    # print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')
-    # print test.checkUniqueName('Justin Bieber')
-    print test.pendingCOA()
-    # print test.deleteUser('Oprah Winfrey')
+	test = LogIn()
+	test1 = Admin()
+	test.deleteUser('Oprah Winfrey')
+	print test.checkUniqueName('Justin Bieber')
+	print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')
+	print test1.pendingCOA()
+	test1.changeCOA_one('Oprah.Winfrey@gatech.edu', 1)
+	print test1.pendingCOA()
+    #
