@@ -18,41 +18,28 @@ from flask import (
 import pymysql
 import pymysql.cursors
 
-from sessions import Xavier
-
 app = Flask(__name__)
-prof = Xavier()
-roles = {"admin", "scientist", "official"}
+t2r = {"Admin":"admin", "City Scientist":"scientist", 
+    "City Official": "official"}
 
 def check_login(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if not prof.has_login(session.get('session_id')):
+        if 'login' not in session or not session['login'][1]:
             return jsonify({'succ': 6, 'msg': 'not logged in'})
         return func(*args, **kwargs)
     return wrapper
 
 @app.route('/')
 def home():
-    if session.get('session_id') and prof.has_login(session.get('session_id')):
-        return redirect("index.html")
-    else:
-        return redirect("login.html")
+    role = session['login'][1] if 'login' in session else None
+    return redirect((role if role else 'login') + '.html')
 
 @app.route('/<path:path>')
 def send_static(path):
-    print("Someone is up to something! ")
-    if not session.get('session_id'): # inject session id
-        print("Injecting session_id..")
-        session['session_id'] = prof.generate()
-    if path == "index.html" and prof.has_login(session.get('session_id')):
-        _, memo = prof.get(session.get('session_id'))
-        if memo and "role" in memo and memo["role"] in roles:
-            return send_from_directory('static', memo['role'] + ".html")
-        else:
-            return redirect("login.html")
+    print("Someone wants {}".format(path))
     if path != "login.html" and path[-5:] == '.html' and \
-            not prof.has_login(session.get('session_id')):
+            ('login' not in session or not session['login'][1]):
         print("redirect to login")
         return redirect('login.html')
     else:
@@ -61,28 +48,20 @@ def send_static(path):
 
 @app.route('/api/login', methods=["POST"])
 def do_login():
-    if not session.get('session_id'):
-        return jsonify({"succ": 5, "msg": "bad session"})
-    if not request.form["username"]:
-        return jsonify({"succ": 6, "msg": "bad username"})
-    print("login api is called, session id = " + session.get('session_id'))
+    if not request.form["username"] or not request.form["password"]:
+        return jsonify({"succ": 6, "msg": "blank username or pasword"})
     uid = request.form["username"]
-    pwd = request.form["password"]
-    newUser = LogIn()
-    userType = newUser.login(uid, pwd) # call all_user login functions
-    print userType
-    # c0 = uid[0].lower()
-    l = len(userType) if userType != None else 0
-    #print l
-    role = 'admin' if l==5 else ('official' if l==13 else ('scientist' if l==14 else None))
-    print role
-    prof.put(session.get('session_id'), uid, {"role": role})
-    return redirect("index.html")
+    print("login api is called, username = {}".format(uid))
+    # call all_user login functions
+    user_type = LogIn().login(uid, request.form["password"])
+    role = t2r[user_type] if user_type in t2r else None
+    print("user type = {}, role = {}".format(user_type, role))
+    session['login'] = (uid, role)
+    return redirect((role or 'login') + ".html")
 
 @app.route('/api/logout', methods=["POST", "GET"])
 def do_logout():
-    if session.get('session_id'):
-        prof.clear(session.get('session_id'))
+    session.pop('login', None)
     return redirect("login.html")
 
 @app.route('/api/types', methods=["get"])
