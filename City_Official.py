@@ -129,4 +129,4 @@ class CityOfficial():
 		
 		connection.close()
 
->>>>>>> e199fb77e8a446c1cf3d6b4f1d07823d91c5face
+
