@@ -19,8 +19,7 @@ import pymysql
 import pymysql.cursors
 
 app = Flask(__name__)
-t2r = {"Admin":"admin", "City Scientist":"scientist",
-    "City Official": "official"}
+t2r = {"Admin":"admin", "City Scientist":"scientist", "City Official": "official"}
 
 def check_login(func):
     @wraps(func)
