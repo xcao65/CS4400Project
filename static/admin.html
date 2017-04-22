@@ -44,21 +44,21 @@
   <div ng-show="points.length > 0" ng-class="{'w100':true}">
     <table>
       <tr>
-        <td ng-click="switch_sort('loc')">PIO location</td>
-        <td ng-click="switch_sort('attr')">Data type</td>
-        <td ng-click="switch_sort('val')">Data value</td>
-        <td ng-click="switch_sort('ts4sort')">Time &amp; dat of data reading</td>
+        <td ng-click="switch_sort('LocName')">PIO location</td>
+        <td ng-click="switch_sort('DataType')">Data type</td>
+        <td ng-click="switch_sort('DataValue')">Data value</td>
+        <td ng-click="switch_sort('ts4sort')">Time &amp; date of data reading</td>
         <td>Actions</td>
       </tr>
       <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse">
-        <td>{{p.loc}}</td>
-        <td>{{p.attr}}</td>
-        <td>{{p.val}}</td>
-        <td>{{p.ts}}</td>
+        <td>{{p.LocName}}</td>
+        <td>{{p.DataType}}</td>
+        <td>{{p.DataValue}}</td>
+        <td>{{p.DateTime}}</td>
         <td>
-          <button ng-click="mark(p, true)" ng-show="p.status==-1">Accept</button>
-          <button ng-click="mark(p, false)" ng-show="p.status==-1">Reject</button>
-          <span ng-show="p.status > -1">{{p.status == 1? 'Accepted' : 'Rejected'}}</span>
+          <button ng-click="mark(p, true)" ng-show="p.Status==-1">Accept</button>
+          <button ng-click="mark(p, false)" ng-show="p.Status==-1">Reject</button>
+          <span ng-show="p.Status > -1">{{p.Status == 1? 'Accepted' : 'Rejected'}}</span>
         </td>
       </tr>
     </table>
@@ -72,12 +72,12 @@
       <td>Username</td><td>Email</td><td>City</td><td>State</td><td>Title</td>
     </tr>
     <tr ng-repeat="a in accounts">
-      <td>{{a.name}}</td><td>{{a.email}}</td><td>{{a.city}}</td>
-      <td>{{a.state}}</td><td>{{a.title}}</td>
+      <td>{{a.UserName}}</td><td>{{a.EmailAddress}}</td><td>{{a.City}}</td>
+      <td>{{a.State}}</td><td>{{a.Title}}</td>
       <td>
-        <button ng-click="mark(a, true)" ng-show="a.status==-1">Accept</button>
-        <button ng-click="mark(a, false)" ng-show="a.status==-1">Reject</button>
-        <span ng-show="a.status > -1">{{a.status == 1? 'Accepted' : 'Rejected'}}</span>
+        <button ng-click="mark(a, true)" ng-show="a.Status==-1">Accept</button>
+        <button ng-click="mark(a, false)" ng-show="a.Status==-1">Reject</button>
+        <span ng-show="a.Status > -1">{{a.Status == 1? 'Accepted' : 'Rejected'}}</span>
       </td>
     </tr>
   </table>
