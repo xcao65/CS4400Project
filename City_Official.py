@@ -57,27 +57,9 @@ class CityOfficial():
 			else:
 				sql = sql + " AND Flag = {0}".format(flag)
 
-
-
-		# if name == None:
-		# 	name = "LocationName"
-
-		# if city == None:
-		# 	city = "City"
-
-		# if state == None:
-		# 	state = "State"
-
-		# if zipCode == None:
-		# 	zipCode = "ZipCode"
-
-		# if flag == None:
-		# 	flag = "Flag"
-
 		Formalized_Date = ['1','2']
 
 		if dateFlag == None:
-			Formalized_Date = ""
 			sql = sql
 		else:	
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
@@ -104,29 +86,75 @@ class CityOfficial():
 		results = cursor.fetchall()
 		print results
 
-		connection.commit()
 		connection.close()
 
 
 
 	def showPOIDetail(self, locname, dataType, dataValue, date, time, connection):
+		# Must input input two datetime value
+
 		cursor = connection.cursor()
 		
-		Formalized_DateTime = []
+		isFirstCondition = True
 
-		for i in range(0,2):
-
-			DateTime = date[i].split('/') + time[i].split(':')
-			DateTime = map(int, DateTime)
-			# Convert the format into yyyy-mm-dd hh:mm
-			Formalized_DateTime.append(datetime(*DateTime).strftime('%Y-%m-%d %H:%M'))
-
-		sql = "SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = %s AND DataType = %s AND DataValue BETWEEN %s AND %s AND DateTime BETWEEN %s AND %s"
-		print Formalized_DateTime
-		cursor.execute(sql, (locname, dataType, dataValue[0], dataValue[1], Formalized_DateTime[0], Formalized_DateTime[1]))
-		results = cursor.fetchall()
-		print results
+		sql = "SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = \'{0}\'".format(locname)
 		
+
+		if dataType == None:
+			sql = sql
+		else:
+			sql = sql + " AND DataType = \'{0}\'".format(dataType)
+
+		if dataValue == None:
+			sql = sql
+		else:
+			sql = sql + " AND DataValue BETWEEN \'{0}\' AND \'{1}\'".format(dataValue[0], dataValue[1])
+
+		if date == None:
+			sql = sql
+		else:
+			Formalized_DateTime = []
+			for i in range(0,2):
+				DateTime = date[i].split('/') + time[i].split(':')
+				DateTime = map(int, DateTime)
+				# Convert the format into yyyy-mm-dd hh:mm
+				Formalized_DateTime.append(datetime(*DateTime).strftime('%Y-%m-%d %H:%M'))
+			sql = sql + " AND DateTime BETWEEN \'{0}\' AND \'{1}\'".format(Formalized_DateTime[0], Formalized_DateTime[1])
+
+		sql = sql + " ORDER BY DateTime"
+		print sql
+		cursor.execute(sql)
+		
+		results = cursor.fetchall()
+		print len(results)
+
 		connection.close()
 
+	def flagPOI(self, locname, connection):
+		cursor = connection.cursor()
 
+		# get current time
+		dateFlagged = "{0}".format(datetime.now())
+		dateFlagged = dateFlagged.split(' ')
+		dateFlagged = dateFlagged[0]
+		
+
+
+		# sql = "UPDATE POI SET Flag = 1, DateFlagged = \'{0}\' WHERE LocName = \'{1}\'".format(dateFlagged, locname)
+		sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
+		print sql
+		print locname
+		print dateFlagged
+		cursor.execute(sql)
+
+		connection.close()
+		
+		cursor = connection.cursor()
+		sql = "SELECT Flag FROM POI WHERE LocName = %s"
+		cursor.execute(sql, locname)
+		
+		result = cursor.fetchall()
+		print result
+
+		# cursor.commit()
+		connection.close()
