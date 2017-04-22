@@ -24,7 +24,6 @@
 <!-- Page content -->
 <ng-view ng-class="{w100: true}"></ng-view>
 
-
 <!-- End Page Content -->
 
 <!-- Footer -->
@@ -61,7 +60,7 @@
         <td><button ng-click="save_loc()">ADD</button></td>
       </tr>
     </table>
-    <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
+    <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
   </div>
 </script>
 
@@ -90,7 +89,7 @@
     <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
     <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>
   </table>
-  <p class="ctx nm-alert" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
+  <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
   </div>
 </script>
 

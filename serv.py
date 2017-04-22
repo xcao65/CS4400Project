@@ -51,7 +51,8 @@ def send_static(path):
             return send_from_directory('static', memo['role'] + ".html")
         else:
             return redirect("login.html")
-    if path != "login.html" and not prof.has_login(session.get('session_id')):
+    if path != "login.html" and path[-5:] == '.html' and \
+            not prof.has_login(session.get('session_id')):
         print("redirect to login")
         return redirect('login.html')
     else:
@@ -221,13 +222,25 @@ def generate_report():
 @check_login
 def save_account():
     payload = request.get_json()
-    print('saving account ', payload)
-    if 'id' in payload:
-        # update account
+    print('saving account [accept / reject]', payload)
+    if 'id' in payload: # currently only for accpet or reject accounts
         pass
     else:
-        # add new account
-        payload.id = 2425
+        pass # won't reach here for this assignment
+
+@app.route('/api/register', methods=["GET"])
+# no need to check login
+def check_availability():
+    print("check available? ", request.args["username"])
+    return {'succ': 1, 'c': request.args["username"]}
+    
+@app.route('/api/register', methods=["POST"])
+# no need to check login
+def create_user():
+    # add new account
+    payload = request.get_json()
+    print('Register for new user ', payload)
+    payload["id"] = 2425
     return jsonify({'succ': 0, 'c': payload})
 
 @app.route('/api/accounts', methods=["POST"])

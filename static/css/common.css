@@ -1,10 +1,8 @@
 * {
   font-family: "Lato", "Lucida Grande", sans-serif, Arial, Tahoma;
-  font-size: 12pt;
 }
-
-html {
-  overflow: hidden;
+select {
+  font-size: 14pt;
 }
 
 table {
@@ -19,8 +17,21 @@ table {
   width: 100%;
 }
 
+.ctm {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .ctx {
   text-align: center;
+}
+
+.rtt {
+  text-align: right;
+}
+
+.lbw { /* white label text */
+  color: #ffffff;
 }
 
 .hide {
@@ -29,6 +40,26 @@ table {
 
 .mg0 {
   margin: 0;
+}
+
+.mg16l {
+  margin-left: 16px;
+}
+
+.mg16t {
+  margin-top: 16px;
+}
+
+.mg16b {
+  margin-bottom: 16px;
+}
+
+.mg8t {
+  margin-top: 8px;
+}
+
+.mg8b {
+  margin-bottom: 8px;
 }
 
 .bkgd-orange {
@@ -41,8 +72,6 @@ table {
 
 .nm-alert {
   width: 40%;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 2px;
 }
 
@@ -66,6 +95,15 @@ table {
 }
 .pd16r {
   padding-right: 16px;
+}
+.pd16b {
+  padding-bottom: 16px;
+}
+.pd8b {
+  padding-bottom: 8px;
+}
+pd2t {
+  padding-top: 2px;
 }
 
 .fake-link {

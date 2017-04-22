@@ -86,6 +86,10 @@ angular.module('p2', ['ngRoute'])
         $scope.succ = data.succ
         $scope.msg = data.succ == 0? "Success!" : "Failed:("
         $timeout(void_msg, 3000)
+      }).error(function(error, status) {
+        $scope.succ = 1000
+        $scope.msg = 'Error with status code [' + status + ']'
+        $timeout(void_msg, 3000)
       })
     }
   }).controller('NavCtrl', function($scope, Commons) {
