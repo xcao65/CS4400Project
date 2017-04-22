@@ -87,7 +87,7 @@ box-shadow: none;
  
 .login-link {
   font-size: 12px;
-  color: #444;
+  color: #444;nt
   display: block;
 	margin-top: 12px;
 }
@@ -107,4 +107,14 @@ form input {
 
 .reg-darker {
   background-color: #176299;
+}
+
+.login-sel {
+    padding: 5px 3px 5px 10px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 10px;
+    height: 42px;
+    font-size: 16px;
+    font-weight: 200;
 }
