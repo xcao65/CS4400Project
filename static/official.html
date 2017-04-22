@@ -39,11 +39,10 @@
 </footer>
 
 <script type="text/ng-template" id="/locations.html">
-
-  <div class="w100" ng-controller="LocationListCtrl">
-    <div id="filter_pack">
+  <div class="w100 vgap1" ng-controller="LocationListCtrl">
+    <div id="filter_pack" class="vgap1">
     <h2 class="ctx">View POIs</h2>
-    <table>
+    <table class="ctm med-form">
       <tr>
         <td>POI location name</td>
         <td>
@@ -64,25 +63,29 @@
         <td>
           <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start"
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
-          <span> to </span>
-          <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end"
+        </td>
+      </tr>
+      <tr>
+        <td>To</td>
+        <td>
+          <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end" 
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
         </td>
       </tr>
       <tr>
-        <td><button ng-click="filter()">Apply Filter</button></td>
-        <td><button ng-click="reset()">Reset Filter</button></td>
+        <td><button ng-click="reset()" class="trans frame-red action2 med-btn clickable">Reset Filter</button></td>
+        <td><button ng-click="filter()" class="trans frame-blue action3 med-btn clickable">Apply Filter</button></td>
       </tr>
     </table>
     </div>
     <div id="location_list" ng-show="filtered.length > 0">
-      <table>
-        <tr>
+      <table class="data-sheet ctm w100">
+        <tr class="data-header">
           <td>Location name</td> <td>City</td> <td>State</td> <td>Zip code</td>
            <td>Flagged? </td> <td>Date Flagged</td>
         </tr>
-        <tr ng-repeat="l in filtered" ng-click="inspect(l)">
-          <td>{{l.name}}</td>
+        <tr ng-repeat="l in filtered" ng-click="inspect(l)" class="clickable"  ng-class-odd="'odd'" ng-class-even="'even'">
+          <td>{{l.name}}</td> 
           <td>{{id2city(l.city)}}</td>
           <td>{{id2state(l.state)}}</td>
           <td>{{l.zip}}</td>
@@ -99,7 +102,7 @@
   <div class="w3-right" ng-show='f.flag'>
     <img alt="Flag" src="img/flag.svg" width="64" height="64"></img>
   </div>
-  <table>
+  <table class="ctm med-form vgap1">
     <tr>
       <td>Type</td>
       <td><select ng-model="f.attr" ng-options="t.id as t.name for t in types"></select></td>
@@ -123,33 +126,41 @@
       </td>
     </tr>
     <tr>
-      <td><button ng-click="filter()">Apply Filter</button></td>
-      <td><button ng-click="reset()">Reset Filter</button></td>
+      <td><button ng-click="reset()" class="trans frame-red action2 med-btn clickable">Reset Filter</button></td>
+      <td><button ng-click="filter()" class="trans frame-blue action3 med-btn clickable">Apply Filter</button>
+      <button ng-click="flag()" class="trans frame-blue action3 med-btn clickable">Flag</button></td>
     </tr>
   </table>
   <div ng-show="filtered.length > 0">
-    <table>
-      <tr><td>Data type</td><td>Data value</td><td>Time &amp; dat of data reading</td></tr>
-      <tr ng-repeat="p in filtered">
+    <table class="data-sheet ctm w100">
+      <tr class="data-header"><td>Data type</td><td>Data value</td><td>Time &amp; dat of data reading</td></tr>
+      <tr ng-repeat="p in filtered" ng-class-odd="'odd'" ng-class-even="'even'">
         <td>{{p.attr}}</td>
         <td>{{p.val}}</td>
         <td>{{p.ts}}</td>
       </tr>
     </table>
   </div>
-  <button ng-click="goto('/')">Back</button>
-  <button ng-click="flag()">flag</button>
+  <!-- <button ng-click="goto('/')">Back</button>
+  <button ng-click="flag()">flag</button> -->
 </script>
 <script type="text/ng-template" id="/report.html">
   <h2 class="ctx">POI Report</h2>
-  <table>
-    <tr>
-      <td>PIO location</td><td>City</td><td>State</td>
-      <td>Mold Min</td><td>Mold Avg</td><td>Mold Max</td>
-      <td>AQ Min</td><td>AQ Avg</td><td>AQ Max</td>
-      <td># of data points</td><td>Flagged?</td>
+  <table class="data-sheet ctm w100">
+    <tr class="data-header clickable">
+      <td ng-class="eval_sc('name')" ng-click="switch_sort('name')">PIO location</td>
+      <td ng-class="eval_sc('city')" ng-click="switch_sort('city')">City</td>
+      <td ng-class="eval_sc('state')" ng-click="switch_sort('state')">State</td>
+      <td ng-class="eval_sc('min_mold')" ng-click="switch_sort('min_mold')">Mold Min</td>
+      <td ng-class="eval_sc('avg_mold')" ng-click="switch_sort('avg_mold')">Mold Avg</td>
+      <td ng-class="eval_sc('max_mold')" ng-click="switch_sort('max_mold')">Mold Max</td>
+      <td ng-class="eval_sc('min_aq')" ng-click="switch_sort('min_aq')">AQ Min</td>
+      <td ng-class="eval_sc('avg_aq')" ng-click="switch_sort('avg_aq')">AQ Avg</td>
+      <td ng-class="eval_sc('max_aq')" ng-click="switch_sort('max_aq')">AQ Max</td>
+      <td ng-class="eval_sc('num_points')" ng-click="switch_sort('num_points')"># of data points</td>
+      <td ng-class="eval_sc('flag')" ng-click="switch_sort('flag')">Flagged?</td>
     </tr>
-    <tr ng-repeat="i in items">
+    <tr ng-repeat="i in items | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
       <td>{{i.name}}</td><td>{{i.city}}</td><td>{{i.state}}</td>
       <td>{{i.min_mold}}</td><td>{{i.avg_mold}}</td><td>{{i.max_mold}}</td>
       <td>{{i.min_aq}}</td><td>{{i.avg_aq}}</td><td>{{i.max_aq}}</td>
