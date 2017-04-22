@@ -12,40 +12,40 @@ class LogIn():
         connection.close()
 
         if username == "" or password == "":
-            print("Error! Please do not leave any fields blank")
+            # print("Error! Please do not leave any fields blank")
             return None
         else:
             if results is None:
-                print "Invalid! Please enter a correct username and password combination"
+                # print "Invalid! Please enter a correct username and password combination"
                 return None
             else:
                 if password == results["Password"]:
                     # print results
                     utype = results["Type"]
-                    print("Congrats! You successfully logged in")
+                    # print("Congrats! You successfully logged in")
                     #print utype
                     return utype
                 else:
-                    print "Error! Please enter a correct username and password combination"
+                    # print "Error! Please enter a correct username and password combination"
                     return None
 
 
     def register(self, name, email, pwd, cpwd, utype, *others):
         if not self.checkUniqueName(name):
-            print 'Username has been used, try another one'
+            # print 'Username has been used, try another one'
             return
         if not self.checkUniqueEmail(email):
-            print 'Email has been registered, try another one'
+            # print 'Email has been registered, try another one'
             return
         if pwd != cpwd:
-            print 'password must be matched'
+            # print 'password must be matched'
             return
         connection = connect()
         cursor = connection.cursor()
         sql = "INSERT INTO User (EmailAddress, UserName, Password, Type) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (email, name, pwd, utype))
         connection.commit()
-        print 'Added new user successfully'
+        # print 'Added new user successfully'
 
         if utype == 'City Official':
             extras = []
@@ -54,7 +54,7 @@ class LogIn():
             sql = "INSERT INTO City_Official (EmailAddress, Title, City, State) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (email, extras[0], extras[1], extras[2]))
             connection.commit()
-            print 'Added New City Official Successfully'
+            # print 'Added New City Official Successfully'
         connection.close()
 
     def checkUniqueName(self, name):
@@ -83,7 +83,7 @@ class LogIn():
         cursor.execute(sql, name)
         connection.commit()
         connection.close()
-        print 'delete successfully'
+        # print 'delete successfully'
 
 if __name__ == "__main__":
     test = LogIn()

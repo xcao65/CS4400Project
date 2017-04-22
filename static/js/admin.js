@@ -37,12 +37,12 @@ angular.module('p0', ['ngRoute'])
       for(var k in incoming) t[k] = incoming[k]
     }
     return exports
-  }).controller('PointListCtrl', function($scope, $location, $http, 
+  }).controller('PointListCtrl', function($scope, $location, $http,
       Commons) {
     $scope.points = []
     $scope.sort_field = 'ts4sort'
     $scope.sort_reverse = false
-    
+
     $scope.switch_sort = function(field_name) {
       if($scope.sort_field == field_name) {
         $scope.sort_reverse = !$scope.sort_reverse
@@ -51,11 +51,11 @@ angular.module('p0', ['ngRoute'])
         $scope.sort_reverse = true
       }
     }
-    
+
     var reshape = function(d) {
       d.ts4sort = new Date(d.ts)
     }
-    
+
     $scope.get_points = function() {
       $http.post('api/points').error(function(data) {
         console.log('Failed to get pending points! ', data)
@@ -68,23 +68,23 @@ angular.module('p0', ['ngRoute'])
       })
     }
     $scope.get_points()
-    
+
     $scope.mark = function(p, acc) {
-      p.status = -2 /* hide buttons, before new status arrives*/
+      p.Status = -2 /* hide buttons, before new status arrives*/
       var payload = {'id': p.id, 'status': acc? 1 : 0}
       $http.put('api/points', payload).error(function(data) {
         console.log('Failed to mark point! ', data)
-        p.status = -1 /* restore on failure */
+        p.Status = -1 /* restore on failure */
       }).success(function(data, status) {
         console.log('Successfully marked point', status, data)
         if(data.succ != 0) return
         Commons.update_point(data.c)
       })
     }
-        
+
   }).controller('NavCtrl', function($scope, Commons) {
     $scope.goto = Commons.goto
-  }).controller('OfficialAccountCtrl', function($scope, $location, $http, 
+  }).controller('OfficialAccountCtrl', function($scope, $location, $http,
                                                 Commons) {
     $scope.accounts = []
     $scope.get_official_accounts = function() {
@@ -98,13 +98,13 @@ angular.module('p0', ['ngRoute'])
       })
     }
     $scope.get_official_accounts()
-    
+
     $scope.mark = function(p, acc) {
-      p.status = -2 /* hide buttons, before new status arrives*/
+      p.Status = -2 /* hide buttons, before new status arrives*/
       var payload = {'id': p.id, 'status': acc? 1 : 0}
       $http.put('api/accounts', payload).error(function(data) {
         console.log('Failed to mark account! ', data)
-        p.status = -1 /* restore on failure */
+        p.Status = -1 /* restore on failure */
       }).success(function(data, status) {
         console.log('Successfully marked account', status, data)
         if(data.succ != 0) return
