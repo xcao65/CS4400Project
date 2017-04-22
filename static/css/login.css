@@ -1,15 +1,16 @@
 * {
 box-sizing: border-box;
 }
+
+body {
+  padding: 0px;
+  margin:0;
+}
  
 *:focus {
 	outline: none;
 }
-body {
-font-family: Arial;
-background-color: #3498DB;
-padding: 50px;
-}
+
 .login {
 margin: 20px auto;
 width: 300px;
@@ -31,17 +32,31 @@ text-align: center;
 .control-group {
 margin-bottom: 10px;
 }
- 
+
 input {
-text-align: center;
-background-color: #ECF0F1;
-border: 2px solid transparent;
-border-radius: 3px;
-font-size: 16px;
-font-weight: 200;
-padding: 10px 0;
-width: 250px;
-transition: border .5s;
+  text-align: center;
+  background-color: #ECF0F1;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+  width: 360px;
+  transition: border .5s;
+}
+
+.w360 {
+  width: 360px;
+}
+
+.frame-w {
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+input[type=submit] {
+  background-color: #93E513;
 }
  
 input:focus {
@@ -77,6 +92,19 @@ box-shadow: none;
 	margin-top: 12px;
 }
 
+.error {
+  color: #E5E512;
+  font-size: 12pt;
+}
+
 form input {
   margin-left: 16px;
+}
+
+.reg-lighter {
+  background-color: #3498DB;
+}
+
+.reg-darker {
+  background-color: #176299;
 }

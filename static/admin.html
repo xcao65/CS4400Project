@@ -16,6 +16,7 @@
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, Boss!</s>
     <a ng-click="goto('/')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending Data Points</a>
+    <a ng-click="goto('/pt2')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">[Checkbox] Pending Data Points</a>
     <a ng-click="goto('officials')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending City Offical Accounts</a>
     <a href="/api/logout" class="w3-bar-item w3-padding-large w3-hover-red w3-hide-small w3-right">Logout</a>
   </div>
@@ -35,7 +36,7 @@
   <i class="fa fa-pinterest-p w3-hover-opacity"></i>
   <i class="fa fa-twitter w3-hover-opacity"></i>
   <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p class="w3-medium">Built on <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
 <script type="text/ng-template" id="/points.html">
@@ -44,23 +45,54 @@
   <div ng-show="points.length > 0" ng-class="{'w100':true}">
     <table>
       <tr>
-        <td ng-click="switch_sort('loc')">PIO location</td>
-        <td ng-click="switch_sort('attr')">Data type</td>
-        <td ng-click="switch_sort('val')">Data value</td>
-        <td ng-click="switch_sort('ts4sort')">Time &amp; dat of data reading</td>
+        <td ng-click="switch_sort('LocName')">PIO location</td>
+        <td ng-click="switch_sort('DataType')">Data type</td>
+        <td ng-click="switch_sort('DataValue')">Data value</td>
+        <td ng-click="switch_sort('ts4sort')">Time &amp; date of data reading</td>
         <td>Actions</td>
       </tr>
       <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse">
-        <td>{{p.loc}}</td>
-        <td>{{p.attr}}</td>
-        <td>{{p.val}}</td>
-        <td>{{p.ts}}</td>
+        <td>{{p.LocName}}</td>
+        <td>{{p.DataType}}</td>
+        <td>{{p.DataValue}}</td>
+        <td>{{p.DateTime}}</td>
         <td>
-          <button ng-click="mark(p, true)" ng-show="p.status==-1">Accept</button>
-          <button ng-click="mark(p, false)" ng-show="p.status==-1">Reject</button>
-          <span ng-show="p.status > -1">{{p.status == 1? 'Accepted' : 'Rejected'}}</span>
+          <button ng-click="mark(p, true)" ng-show="p.Status==-1">Accept</button>
+          <button ng-click="mark(p, false)" ng-show="p.Status==-1">Reject</button>
+          <span ng-show="p.Status > -1">{{p.Status == 1? 'Accepted' : 'Rejected'}}</span>
         </td>
       </tr>
+    </table>
+  </div>
+</script>
+<script type="text/ng-template" id="/point_alt.html">
+  <h2 class="ctx">Pending data points</h2>
+  <p ng-show="points.length == 0">There is no pending data points for now. Come back later! </p>
+  <div ng-show="points.length > 0" ng-class="{'w100':true}">
+    <table class="ctm data-sheet w100">
+      <tr class="data-header">
+        <td><input ng-change="select_all()" ng-model="all_mark" type="checkbox" value="Select/Deselect All"/></td>
+        <td ng-click="switch_sort('LocName')" class="clickable" ng-class="eval_sc('LocName')">PIO location</td>
+        <td ng-click="switch_sort('DataType')" class="clickable" ng-class="eval_sc('DataType')">Data type</td>
+        <td ng-click="switch_sort('DataValue')" class="clickable" ng-class="eval_sc('DataValue')">Data value</td>
+        <td ng-click="switch_sort('ts4sort')" class="clickable" ng-class="eval_sc('ts4sort')">Time &amp; date of data reading</td>
+      </tr>
+      <tr ng-repeat="p in points | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
+        <td>
+          <input type="checkbox" ng-model="p.marked"/>
+          <span ng-show="p.Status > -1">{{p.Status == 1? 'Accepted' : 'Rejected'}}</span>
+        </td>
+        <td>{{p.LocName}}</td>
+        <td>{{p.DataType}}</td>
+        <td>{{p.DataValue}}</td>
+        <td>{{p.DateTime}}</td>
+      </tr>
+      <tr><td colspan="5">
+        <center class="mg16t mg16b">
+          <button class="med-btn action1 frame-blue trans clickable mg16r" ng-click="mark_selected(true)">Accept</button>
+          <button class="med-btn action1 frame-red trans clickable mg16l" ng-click="mark_selected(false)">Reject</button>
+        </center>
+      </td></tr>
     </table>
   </div>
 </script>
@@ -72,12 +104,12 @@
       <td>Username</td><td>Email</td><td>City</td><td>State</td><td>Title</td>
     </tr>
     <tr ng-repeat="a in accounts">
-      <td>{{a.name}}</td><td>{{a.email}}</td><td>{{a.city}}</td>
-      <td>{{a.state}}</td><td>{{a.title}}</td>
+      <td>{{a.UserName}}</td><td>{{a.EmailAddress}}</td><td>{{a.City}}</td>
+      <td>{{a.State}}</td><td>{{a.Title}}</td>
       <td>
-        <button ng-click="mark(a, true)" ng-show="a.status==-1">Accept</button>
-        <button ng-click="mark(a, false)" ng-show="a.status==-1">Reject</button>
-        <span ng-show="a.status > -1">{{a.status == 1? 'Accepted' : 'Rejected'}}</span>
+        <button ng-click="mark(a, true)" ng-show="a.Status==-1">Accept</button>
+        <button ng-click="mark(a, false)" ng-show="a.Status==-1">Reject</button>
+        <span ng-show="a.Status > -1">{{a.Status == 1? 'Accepted' : 'Rejected'}}</span>
       </td>
     </tr>
   </table>

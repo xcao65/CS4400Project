@@ -1,12 +1,92 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="p4">
 <head>
+  <link rel="stylesheet" href="/static/css/common.css" type="text/css">
   <link rel="stylesheet" href="/static/css/login.css" type="text/css">
+  <title>CS4400 Project - G79</title>
 </head>
-<body>
-  <form action="/api/login" method="POST">
-    <input type="username" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Log in">
-  </form>
+<body class="reg-darker">
+  <!-- Page content -->
+  <ng-view></ng-view>
+
+  <script type="text/ng-template" id="/default.html">
+    <table class="w100">
+      <tr class="reg-lighter"><td style="padding-bottom: 40px;">
+        <h1 class="ctx lbw">Login with your account</h1>
+        <form action="/api/login" method="POST" class="w100">
+          <input type="username" name="username" placeholder="Username" class="mg16b ctm blk" required>
+          <br/>
+          <input type="password" name="password" placeholder="Password" class="mg16b ctm blk" required>
+          <br/>
+          <input class="clickable ctm blk" type="submit" value="Log in">
+        </form>
+      </td></tr>
+      <tr><td class="pd16l lbw" style="padding-top:40px;"><center>A dedicated scientist or city official?</center></td></tr>
+      <tr><td>
+        <button class="big-btn w360 frame-w mg16t clickable ctm blk" ng-click="goto('/register')">Register</button>
+      </td></tr>
+    </table>
+  </script>
+  <script type="text/ng-template" id="/register.html">
+    <div id="reg_pack" class="ctm">
+
+    <form name="reg_form" ng-submit="save_user()">
+      <table class="ctm" style="width: 70%">
+        <tr><td></td><td><h1 class="pd16l lbw">Establish a free account</h1></td></tr>
+        <tr>
+          <td class="rtt lbw">User name</td>
+          <td class="pd16b"><input ng-model="u.username" type="text" required placeholder="Please use letters, digits, '_' and speces only"></input></td>
+        </tr>
+        <tr>
+          <td class="rtt lbw">Email</td>
+          <td class="pd16b">
+            <input ng-model="u.email" name="email" type="email" placeholder="Something like john@google.com" required></input>
+            <p class="error pd16l mg0 pd2t" ng-show="reg_form.email.$error.email">This does not look like a valid email:(</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="rtt lbw">Choose a password</td>
+          <td class="pd16b"><input ng-model="u.password" required name="password1" type="password" placeholder="Type something complicated"></input></td>
+        </tr>
+        <tr>
+          <td class="rtt lbw">Confirm password</td>
+          <td class="pd8b">
+            <input ng-model="u.conf_pwd" type="password" name="conf_pwd" required placeholder="Type something equally complicated"></input>
+            <p class="pd8b pd16l error mg0 pd2t" ng-show="u.password != u.conf_pwd">Passwords do not match:(</p>
+          </td>
+        </tr>
+        <tr>
+          <td class="rtt lbw">Type of account</td>
+          <td>
+            <select class="mg16l mg8t mg8b w360" ng-model="u.type" ng-options="l.v as l.n for l in acc_types"></select>
+          </td>
+        </tr>
+        <!-- More fields for city officials-->
+        <tr ng-show="u.type=='official'">
+          <td class="rtt lbw">City</td>
+          <td><select class="mg16l mg8b mg8t w360" ng-model="u.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+        </tr>
+        <tr ng-show="u.type=='official'">
+          <td class="rtt lbw">State</td>
+          <td><select class="mg16l mg8b mg8t w360" ng-model="u.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+        </tr>
+        <tr ng-show="u.type=='official'">
+          <td class="rtt lbw">Title</td>
+          <td><input class="mg8b mg8t" ng-model="u.title" type="text" placeholder="How would you like to be addressed?"></td>
+        </tr>
+        <tr>
+          <td><button class="big-btn frame-w w100 mg8t clickable" ng-click="goto('/')">Go back to Login</button></td>
+          <td><input class="mg8t clickable" type="submit" value="Register"/></td>
+        </tr>
+      </table>
+    </form>
+    <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
+    </div>
+  </script>
+
+  <!-- add angular 1.2.x -->
+  <script type="text/javascript" src="lib/angular.min.js"></script>
+  <script src="lib/angular-route.min.js"></script>
+  <script src="js/login.js"></script>
 </body>
 </html>

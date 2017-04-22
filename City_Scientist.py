@@ -1,22 +1,23 @@
 from datetime import datetime
+from connection import *
 
 ################
 # Test only
 import pymysql
 import pymysql.cursors
 
+
+
 class CityScientist():
 
 	# Allow city scientists to add new location to the POI table.
-	def addNewLocation(self, locationname, city, state, zipcode, connection):
+	def addNewLocation(self, locationname, city, state, zipcode):
 
 		# Need to be implemented: check the format of ZipCode
-
-
-
+		connection = connect()
 		try:
 			with connection.cursor() as cursor:
-				# Construct the SQL expression				
+				# Construct the SQL expression
 				sql = "INSERT INTO POI (Flag, LocationName, ZipCode, City, State) VALUES (%s, %s, %s, %s, %s)"
 
 				# MySQL automatically set False = 0, True = 1. So explicitly change the first variable
@@ -29,27 +30,27 @@ class CityScientist():
 					raise Exception("Bad response in addNewLocation - CityScientist!", result)
 				else:
 					connection.commit()
-		except ExceptionType, Argument:
-				print "Type:%s , %s  in addNewLocation of CityScientist!" % (ExceptionType, Argument)
+		# except ExceptionType, Argument:
+		#		print "Type:%s , %s  in addNewLocation of CityScientist!" % (ExceptionType, Argument)
 		finally:
 			if connection:
 				connection.close()
 
 
 	# Allow city scientists to
-	def addNewDataPoint(self, locationname, date, time, datatype, value, connection):
+	def addNewDataPoint(self, locationname, date, time, datatype, value):
 
 		# Need to be implemented: Check format of Data, Time, type of value
 
 		# if type(value) is not int:
 		if not isinstance(value, int):
 			print "Wrong type of DataValue: should be INT, now %s" % type(value)
-			return 
+			return
 
-
+		connection = connect()
 		try:
 			with connection.cursor() as cursor:
-				# Construct the SQL expression. Use default value for Status (e.g. "Pending").			
+				# Construct the SQL expression. Use default value for Status (e.g. "Pending").
 				sql = "INSERT INTO Data_Point (DateTime, LocName, DataType, DataValue) VALUES (%s, %s, %s, %s)"
 
 				# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
@@ -68,8 +69,8 @@ class CityScientist():
 				else:
 					connection.commit()
 				connection.commit()
-		except ExceptionType, Argument:
-				print "Type:%s , %s  in addNewDataPoint of CityScientist!" % (ExceptionType, Argument)
+		# except ExceptionType, Argument:
+		#		print "Type:%s , %s  in addNewDataPoint of CityScientist!" % (ExceptionType, Argument)
 		finally:
 			if connection:
 				connection.close()
@@ -87,12 +88,3 @@ class CityScientist():
 # scientistTest = CityScientist()
 # # scientistTest.addNewLocation("ddd", "Atlanta", "Georgia", "30318", connection)
 # scientistTest.addNewDataPoint("ccc", "1999/03/04", "05:06", "Mold", 666, connection)
-
-
-
-
-
-
-
-
-
