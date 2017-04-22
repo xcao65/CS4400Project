@@ -1,10 +1,11 @@
 # from connection import *
 from datetime import datetime
+from connection import *
 
 class CityOfficial():
-	
-	def applyFilter(self, name, city, state, zipCode, flag, dateFlag, connection):
-		# connection = connect()
+
+	def applyFilter(self, name, city, state, zipCode, flag, dateFlag):
+		connection = connect()
 		cursor = connection.cursor()
 
 		isFirstCondition = True
@@ -79,7 +80,7 @@ class CityOfficial():
 		if dateFlag == None:
 			Formalized_Date = ""
 			sql = sql
-		else:	
+		else:
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
 			for i in range(0,2):
 				Date = dateFlag[i].split('/')
@@ -95,8 +96,8 @@ class CityOfficial():
 
 		print (sql)
 
-		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s" 
-		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'" 
+		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
+		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'"
 
 		cursor.execute(sql)
 
@@ -107,11 +108,10 @@ class CityOfficial():
 		connection.commit()
 		connection.close()
 
-
-
-	def showPOIDetail(self, locname, dataType, dataValue, date, time, connection):
+	def showPOIDetail(self, locname, dataType, dataValue, date, time):
+		connection = connect()
 		cursor = connection.cursor()
-		
+
 		Formalized_DateTime = []
 
 		for i in range(0,2):
@@ -126,7 +126,9 @@ class CityOfficial():
 		cursor.execute(sql, (locname, dataType, dataValue[0], dataValue[1], Formalized_DateTime[0], Formalized_DateTime[1]))
 		results = cursor.fetchall()
 		print results
-		
+
 		connection.close()
 
 
+if __name__ == '__main__':
+	pass
