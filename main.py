@@ -2,6 +2,7 @@ import pymysql
 import pymysql.cursors
 from all_user import LogIn
 from Admin import Admin
+from City_Official import CityOfficial
 
 
 connection = pymysql.connect(host='academic-mysql.cc.gatech.edu',
@@ -41,16 +42,24 @@ def deleteUser(connection, name):
 # City Scientist
 # on Screen
 
-test1 = Admin()
-print 'Number of Pending DP:'
-dpResult = test1.pendingDP(connection)
-print 'Change two DPs:'
-test1.changeDP([0,1], dpResult, 1, connection)
+# test1 = Admin()
+# print 'Number of Pending DP:'
+# dpResult = test1.pendingDP(connection)
+# print 'Change two DPs:'
+# test1.changeDP([0,1], dpResult, 1, connection)
 
-print 'Number of Pending COA:'
-coaResult = test1.pendingCOA(connection)
-print 'Change two COAs:'
-test1.changeCOA([0],coaResult, 1, connection)
+# print 'Number of Pending COA:'
+# coaResult = test1.pendingCOA(connection)
+# print 'Change two COAs:'
+# test1.changeCOA([0],coaResult, 1, connection)
 
-connection.commit()
-connection.close()
+# Test CityOfficial
+
+test = CityOfficial()
+# test.applyFilter('Georgia Tech', 'Atlanta', 'Georgia', '30332', 1, ['1993/01/10', '2017/10/10'], connection)
+
+test.showPOIDetail('Georgia Tech', 'Mold', [0,100], ['1993/01/10', '2017/10/10'], ['00:00', '22:22'], connection)
+
+
+
+# connection.commit()

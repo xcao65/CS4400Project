@@ -1,8 +1,8 @@
 # from connection import *
 from datetime import datetime
 
-
 class CityOfficial():
+	
 	def applyFilter(self, name, city, state, zipCode, flag, dateFlag, connection):
 		# connection = connect()
 		cursor = connection.cursor()
@@ -107,4 +107,26 @@ class CityOfficial():
 		connection.commit()
 		connection.close()
 
-#	def showDetail():
+
+
+	def showPOIDetail(self, locname, dataType, dataValue, date, time, connection):
+		cursor = connection.cursor()
+		
+		Formalized_DateTime = []
+
+		for i in range(0,2):
+
+			DateTime = date[i].split('/') + time[i].split(':')
+			DateTime = map(int, DateTime)
+			# Convert the format into yyyy-mm-dd hh:mm
+			Formalized_DateTime.append(datetime(*DateTime).strftime('%Y-%m-%d %H:%M'))
+
+		sql = "SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = %s AND DataType = %s AND DataValue BETWEEN %s AND %s AND DateTime BETWEEN %s AND %s"
+		print Formalized_DateTime
+		cursor.execute(sql, (locname, dataType, dataValue[0], dataValue[1], Formalized_DateTime[0], Formalized_DateTime[1]))
+		results = cursor.fetchall()
+		print results
+		
+		connection.close()
+
+>>>>>>> e199fb77e8a446c1cf3d6b4f1d07823d91c5face

@@ -49,11 +49,11 @@
       </tr>
       <tr>
         <td>City</td>
-        <td><select ng-model="l.city" ng-options="c as c for c in cities" ng-change="opt_states()"></select></td></tr>
+        <td><select ng-model="l.city" ng-options="City as City for City in cities" ng-change="opt_states()"></select></td></tr>
       </tr>
       <tr>
         <td>State</td>
-        <td><select ng-model="l.state" ng-options="s as s for s in states" ng-change="opt_cities()"></select></td></tr>
+        <td><select ng-model="l.state" ng-options="State as State for State in states" ng-change="opt_cities()"></select></td></tr>
       <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
       <tr>
         <td></td>
@@ -71,14 +71,14 @@
     <tr>
       <td>POI location name</td>
       <td>
-        <select ng-model="p.loc" ng-options="l.id as l.name for l in locations"></select>
+        <select ng-model="p.loc" ng-options="l.LocationName as l.LocationName for l in locations"></select>
         <!-- <a ng-click="goto('/add_loc')" class="clickable fake-link">add a new location</a> -->
       </td>
     </tr>
     <tr>
       <td>time and data reading</td>
       <td>
-        <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts" 
+        <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts"
           placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
       </td>
     </tr>

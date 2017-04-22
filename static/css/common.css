@@ -1,10 +1,16 @@
 * {
   font-family: "Lato", "Lucida Grande", sans-serif, Arial, Tahoma;
-  font-size: 12pt;
+}
+select {
+  font-size: 14pt;
 }
 
 table {
   border-spacing: 0px; /* normalize.css handles the rest*/
+}
+
+.blk {
+  display: block;
 }
 
 .h100 {
@@ -13,6 +19,10 @@ table {
 
 .w100 {
   width: 100%;
+}
+
+.fl {
+  float: left;
 }
 
 .ctm {
@@ -42,6 +52,10 @@ table {
 
 .mg16l {
   margin-left: 16px;
+}
+
+.mg16r {
+  margin-right: 16px;
 }
 
 .mg16t {
@@ -100,6 +114,55 @@ table {
 .pd8b {
   padding-bottom: 8px;
 }
+.pd2t {
+  padding-top: 2px;
+}
+
+.med-btn {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 4px 0;
+}
+
+.big-btn {
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+}
+
+.frame-red {
+  border: 1px solid #e91765;
+  color: #e91765;
+}
+
+.frame-red:hover {
+  background-color: #e91765;
+  color: #ffffff;
+}
+
+.frame-blue {
+  border: 1px solid #3498DB;
+  color: #3498DB;
+}
+
+.frame-blue:hover {
+  background-color: #3498DB;
+  color: #ffffff;
+}
+
+.trans {
+  background-color: transparent;
+}
+
+.action1 {
+  width: 240px;
+}
 
 .fake-link {
   color: #224499;
@@ -110,6 +173,27 @@ table {
   fill: #000000;
   dominant-baseline: text-before-edge;
   font-size: 12pt;
+}
+
+.data-sheet {
+  border-spacing: 1px 0px;
+}
+
+.data-sheet td {
+  padding: 12px 32px;
+}
+
+.data-sheet tr.odd {
+  background-color: #f0f0f0;
+}
+
+.data-sheet tr.even {
+  background-color: #e2e2e2;
+}
+
+.data-header {
+  background-color: #176299;
+  color: #e9e9e9;
 }
 
 .preview text.ft-family {
@@ -137,4 +221,24 @@ table {
 
 .bdtg0 {
   border-top: 1px solid #e2e2e2;
+}
+
+.arrow-frame {
+  width: 32px;
+  height: 32px;
+}
+
+.arrow-up {
+  background-image: url("../img/up_arrow.gif");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+}
+
+.arrow-down {
+  background: url("../img/down_arrow.gif") right 12px center/12px 12px no-repeat;
+}
+
+.arrow-non {
+  background-image: none;
 }
