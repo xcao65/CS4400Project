@@ -58,23 +58,27 @@ class CityOfficial():
 			else:
 				sql = sql + " AND Flag = {0}".format(flag)
 
-		Formalized_Date = ['1','2']
 
-		if dateFlag == None:
+		Formalized_Date = ["DateFlagged", "DateFlagged"]
+
+		if dateFlag == None: # or maybe [None, None] ?
 			sql = sql
 		else:
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
-			for i in range(0,2):
-				Date = dateFlag[i].split('/')
-				Date = map(int, Date)
-				# Convert the format into yyyy-mm-dd hh:mm
-				Formalized_Date[i] = datetime(*Date).strftime('%Y-%m-%d')
+			for i in range(len(dateFlag)):
+				if dateFlag[i] is not None:
+					Date = dateFlag[i].split('/')
+					Date = map(int, Date)
+					# Convert the format into yyyy-mm-dd hh:mm
+					Formalized_Date[i] = (datetime(*Date).strftime('%Y-%m-%d'))
+					Formalized_Date[i] = "\'%s\'" % Formalized_Date[i]
 
 			if isFirstCondition:
-				sql = sql + " DateFlagged BETWEEN \'{0}\' AND \'{1}\'".format(Formalized_Date[0], Formalized_Date[1])
-				sFirstCondition = False
+				# if not (None in dateFlag):
+				sql = sql + " DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
+				isFirstCondition = False
 			else:
-				sql = sql + " AND DateFlagged BETWEEN \'{0}\' AND \'{1}\'".format(Formalized_Date[0], Formalized_Date[1])
+				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
 
 		print (sql)
 
@@ -82,12 +86,11 @@ class CityOfficial():
 		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'"
 
 		cursor.execute(sql)
-
 		# # cursor.execute(sql, (name, city, state, zipCode, flag, Formalized_Date[0], Formalized_Date[1]))
 		results = cursor.fetchall()
 		print results
-
 		connection.close()
+
 
 
 	def showPOIDetail(self, locname, dataType, dataValue, date, time):
@@ -105,24 +108,32 @@ class CityOfficial():
 		if dataValue == None:
 			sql = sql
 		else:
-			sql = sql + " AND DataValue BETWEEN \'{0}\' AND \'{1}\'".format(dataValue[0], dataValue[1])
+			Default_DataValue = ['DataValue', 'DataValue']
+			for i in range(len(dataValue)):
+				if dataValue[i] is not None:
+					Default_DataValue[i] = "\'%s\'" % dataValue[i]
+			sql = sql + " AND DataValue BETWEEN {0} AND {1}".format(dataValue[0], dataValue[1])
 
 		if date == None:
 			sql = sql
 		else:
-			Formalized_DateTime = []
-			for i in range(0,2):
-				DateTime = date[i].split('/') + time[i].split(':')
-				DateTime = map(int, DateTime)
-				# Convert the format into yyyy-mm-dd hh:mm
-				Formalized_DateTime.append(datetime(*DateTime).strftime('%Y-%m-%d %H:%M'))
-			sql = sql + " AND DateTime BETWEEN \'{0}\' AND \'{1}\'".format(Formalized_DateTime[0], Formalized_DateTime[1])
+			Formalized_DateTime = ["DateTime", "DateTime"]
+			for i in range(len(date)):
+				if date[i] is not None:
+					DateTime = date[i].split('/') + time[i].split(':')
+					DateTime = map(int, DateTime)
+					# Convert the format into yyyy-mm-dd hh:mm
+					Formalized_DateTime[i] = (datetime(*DateTime).strftime('%Y-%m-%d %H:%M'))
+					Formalized_DateTime[i] = "\'%s\'" % Formalized_DateTime[i]
+
+			sql = sql + " AND DateTime >= {0} AND DateTime <= {1}".format(Formalized_DateTime[0], Formalized_DateTime[1])
 
 		sql = sql + " ORDER BY DateTime"
 
+		print sql
 		cursor.execute(sql)
-
-
+		results = cursor.fetchall()
+		print results
 		connection.close()
 
 	def flagPOI(self, locname):
