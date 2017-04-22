@@ -161,6 +161,8 @@ def fetch_locations():
 @check_login
 def filter_locations():
     print('filter_locations called! ', request.get_json())
+    payload = request.get_json()
+    print 'payload of filter_locations is', payload
     return jsonify({ 'succ': 0, 'c':
     [ {"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
      ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
