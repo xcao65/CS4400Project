@@ -62,7 +62,7 @@ test = CityOfficial()
 test.showPOIDetail('Georgia Tech', None, [30,100], ['1993/01/10', '2017/10/10'], ['00:00', '22:22'])
 # test.showPOIDetail('Georgia Tech', None, [30,100], [None, None], None)
 
-# test.flagPOI('Georgia Tech')
+test.flagPOI('Georgia Tech', 1)
 
 
 # connection.commit()

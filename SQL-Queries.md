@@ -12,6 +12,10 @@ SELECT UserName, B.EmailAddress, City, State, Title FROM User AS A, City_Officia
 UPDATE Data_Point SET Status = (status) WHERE LocName = (location) AND DateTime = (date_time)
 ```
 ## 4. Update many data point
+```python
+sql = "UPDATE Data_Point SET Status = \'{0}\' WHERE (LocName = \'{1}\' AND DateTime = \'{2}\')" +
+for i in range(1,len(keys)):
+	sql = sql + "OR (LocName = \'{3}\'".format(status, keys[i][0], keys[i][1])"
 
 
 
@@ -19,8 +23,6 @@ UPDATE Data_Point SET Status = (status) WHERE LocName = (location) AND DateTime 
 ```sql
 UPDATE City_Official SET Status = (status) WHERE EmailAddress = (email)
 ```
-## 6. Change many CoAs
-
 
 
 ***
@@ -92,4 +94,3 @@ SELECT EmailAddress FROM User WHERE EmailAddress = (email)
 ```sql
 DELETE FROM User WHERE Username = (name)
 ```
-	

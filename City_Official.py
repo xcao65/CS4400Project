@@ -162,7 +162,7 @@ class CityOfficial():
 		return results
 
 
-	def flagPOI(self, locname):
+	def flagPOI(self, locname, status):
 		connection = connect()
 		cursor = connection.cursor()
 
@@ -173,7 +173,7 @@ class CityOfficial():
 		
 
 
-		sql = "UPDATE POI SET Flag = 1, DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
+		sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = \'{1}\' WHERE LocationName = \'{2}\'".format(status, dateFlagged, locname)
 		# sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
 
 		cursor.execute(sql)
