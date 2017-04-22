@@ -49,28 +49,26 @@ class Admin():
 		connection.commit()
 		connection.close()
 
-	def changeDP(self, index, results, state):
+	def changeDP(self, keys, state):
 		connection = connect()
+		
 		if state == 1:
 			status = 'Accepted'
 		else:
 			status = 'Rejected'
 
-		for i in index:
-			cursor = connection.cursor()
-			sql = "UPDATE Data_Point SET Status = %s WHERE LocName = %s AND DateTime = %s"
+		sql = "UPDATE Data_Point SET Status = \'{0}\' WHERE (LocName = \'{1}\' AND DateTime = \'{2}\')".format(status, keys[0][0], keys[0][1])
+		
+		if len(keys) == 1:
+			sql = sql
+		else:
+			for i in range(1, len(keys)):
+				sql = sql + " OR (LocName = \'{0}\' AND DateTime = \'{1}\')".format(keys[i][0], keys[i][1])
 
-			key1 = (results[i])["LocName"]
-			key2 = (results[i])["DateTime"]
-			cursor.execute(sql, (status, key1, key2))
-			print '\nBefore change:'
-			print results[i]
-			cursor = connection.cursor()
-			sql = "SELECT DateTime, Status FROM Data_Point WHERE LocName = %s AND DateTime = %s"
-			cursor.execute(sql, (key1, key2))
-			result = cursor.fetchone()
-			print '\nAfter change:'
-			print result
+		cursor = connection.cursor()
+		
+		cursor.execute(sql)
+
 		connection.commit()
 		connection.close()
 
@@ -87,40 +85,42 @@ class Admin():
 		print "changed status for ", email
 
 	#change status of city official account
-	def changeCOA(self, index, results, state):
-		connection = connect()
-		if state == 1:
-			status = 'Approved'
-		else:
-			status = 'Rejected'
+	# def changeCOA(self, index, results, state):
+	# 	connection = connect()
+	# 	if state == 1:
+	# 		status = 'Approved'
+	# 	else:
+	# 		status = 'Rejected'
 
-		for i in index:
-			cursor = connection.cursor()
-			sql = "UPDATE City_Official SET Status = %s WHERE EmailAddress = %s"
+	# 	for i in index:
+	# 		cursor = connection.cursor()
+	# 		sql = "UPDATE City_Official SET Status = %s WHERE EmailAddress = %s"
 
-			key = (results[i])["EmailAddress"]
+	# 		key = (results[i])["EmailAddress"]
 
-			cursor.execute(sql, (status, key))
-			print '\nBefore change:'
-			print results[i]
+	# 		cursor.execute(sql, (status, key))
+	# 		print '\nBefore change:'
+	# 		print results[i]
 
 
-			cursor = connection.cursor()
-			sql = "SELECT EmailAddress, Status FROM City_Official WHERE EmailAddress = %s"
-			cursor.execute(sql, key)
-			result = cursor.fetchone()
-			print '\nAfter Change:'
-			print result
-		connection.commit()
-		connection.close()
+	# 		cursor = connection.cursor()
+	# 		sql = "SELECT EmailAddress, Status FROM City_Official WHERE EmailAddress = %s"
+	# 		cursor.execute(sql, key)
+	# 		result = cursor.fetchone()
+	# 		print '\nAfter Change:'
+	# 		print result
+	# 	connection.commit()
+	# 	connection.close()
 
 if __name__ == "__main__":
-	test = LogIn()
+	# test = LogIn()
 	test1 = Admin()
-	test.deleteUser('Oprah Winfrey')
-	print test.checkUniqueName('Justin Bieber')
-	print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')
-	print test1.pendingCOA()
-	test1.changeCOA_one('Oprah.Winfrey@gatech.edu', 1)
-	print test1.pendingCOA()
+	# test.deleteUser('Oprah Winfrey')
+	# print test.checkUniqueName('Justin Bieber')
+	# print test.register('Oprah Winfrey','Oprah.Winfrey@gatech.edu', 'OprahWinfrey','OprahWinfrey', 'City Official', 'Major', 'Jacksonville', 'Florida')
+	# print test1.pendingCOA()
+	# test1.changeCOA_one('Oprah.Winfrey@gatech.edu', 1)
+	# print test1.pendingCOA()
     #
+
+	test1.changeDP([['Georgia Tech', '2017-03-31 15:37'], ['Georgia Tech', '2017-03-31 15:36']], 1)
