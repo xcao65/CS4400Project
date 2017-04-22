@@ -38,13 +38,14 @@
 </footer>
 
 <script type="text/ng-template" id="/add_location.html">
-  <div id="add_loc_pack">
-    <h1 class="ctx">Add a new location</h1>
-    <table>
+  <div id="add_loc_pack" class="w100">
+    <form ng-submit="save_loc()" class="med-form">
+    <table class="ctm">
+      <tr><td></td><td><h1 class="ctx">Add a new location</h1></td></tr>
       <tr>
         <td>POI location name</td>
         <td>
-          <input type="text" ng-model="l.name"/>
+          <input type="text" ng-model="l.name" required/>
         </td>
       </tr>
       <tr>
@@ -54,20 +55,21 @@
       <tr>
         <td>State</td>
         <td><select ng-model="l.state" ng-options="State as State for State in states" ng-change="opt_cities()"></select></td></tr>
-      <tr><td>Zip code</td><td><input type="text" ng-model="l.zip"/></td></tr>
+      <tr><td>Zip code</td><td><input type="text" ng-model="l.zip" required/></td></tr>
       <tr>
         <td></td>
-        <td><button ng-click="save_loc()">ADD</button></td>
+        <td><input type="submit" value="Add"></input></td>
       </tr>
-    </table>
+    </table></form>
     <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
   </div>
 </script>
 
 <script type="text/ng-template" id="/add_point.html">
-  <div id="add_point_pack">
-  <h1 class="ctx">Add a new data point</h1>
-  <table>
+  <div id="add_point_pack" class="w100">
+  <form ng-submit="save_point()">
+  <table class="ctm med-form">
+    <tr><td></td><td><h1 class="ctx">Add a new data point</h1></td></tr>
     <tr>
       <td>POI location name</td>
       <td>
@@ -76,7 +78,7 @@
       </td>
     </tr>
     <tr>
-      <td>time and data reading</td>
+      <td>Date and time of reading</td>
       <td>
         <input type="datetime-local" id="point_ts" name="input" ng-model="p.ts"
           placeholder="mm/dd/yyyy HH:MM:SS" min="01/01/2000" max="12/13/2099" required />
@@ -86,8 +88,8 @@
       <td>Data type</td>
       <td><select ng-model="p.attr" ng-options="t as t for t in types"></select></td>
     </tr>
-    <tr><td>Data value</td><td><input type="number" ng-model="p.val"/></td></tr>
-    <tr><td></td><td><button ng-click="save_point()">ADD</button></td></tr>
+    <tr><td>Data value</td><td><input type="number" ng-model="p.val" required /></td></tr>
+    <tr><td></td><td><input type="submit" value="Add"></input></td></tr>
   </table>
   <p class="ctx nm-alert ctm" ng-class="(succ == 0)? 'bkgd-lime':'bkgd-orange'">{{msg}}</p>
   </div>

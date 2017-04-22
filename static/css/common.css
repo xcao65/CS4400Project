@@ -118,6 +118,50 @@ table {
   padding-top: 2px;
 }
 
+.med-form input {
+  border: 1px solid #797979;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 8px 15px;
+  width: 360px;
+  color: #176299;
+}
+
+.med-form h1 {
+  color: #595959;
+}
+
+.med-form input[type=submit] {
+  border: 1px solid #3498db;
+  color: #ffffff;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 8px 15px;
+  width: 360px;
+  background-color: #3498DB;
+  cursor: pointer;
+}
+
+.med-form select {
+  width: 360px;
+  padding: 5px 3px 5px 10px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 10px;
+  height: 38px;
+}
+
+.med-form td:first-child {
+  color: #797979;
+  text-align: right;
+}
+
+.med-form td {
+  padding: 8px 16px;
+}
+
 .med-btn {
   text-align: center;
   border: 2px solid transparent;
