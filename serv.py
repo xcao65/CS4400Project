@@ -19,7 +19,7 @@ import pymysql
 import pymysql.cursors
 
 app = Flask(__name__)
-t2r = {"Admin":"admin", "City Scientist":"scientist", 
+t2r = {"Admin":"admin", "City Scientist":"scientist",
     "City Official": "official"}
 
 def check_login(func):
@@ -210,10 +210,14 @@ def generate_report():
 def save_account():
     payload = request.get_json()
     print('saving account [accept / reject]', payload)
+    # {'id': p.id, 'status': acc? 1 : 0, 'email': p.EmailAddress}
     if 'id' in payload: # currently only for accpet or reject accounts
-        pass
+        # pass
+        new_admin = Admin()
+        new_admin.changeCOA_one(payload['email'], payload['status'])
     else:
         pass # won't reach here for this assignment
+    return jsonify({'succ': 0, 'c': payload})
 
 @app.route('/api/register', methods=["GET"])
 # no need to check login

@@ -101,7 +101,7 @@ angular.module('p0', ['ngRoute'])
 
     $scope.mark = function(p, acc) {
       p.Status = -2 /* hide buttons, before new status arrives*/
-      var payload = {'id': p.id, 'status': acc? 1 : 0}
+      var payload = {'id': p.id, 'status': acc? 1 : 0, 'email': p.EmailAddress}
       $http.put('api/accounts', payload).error(function(data) {
         console.log('Failed to mark account! ', data)
         p.Status = -1 /* restore on failure */
