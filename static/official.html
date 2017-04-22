@@ -61,23 +61,15 @@
       <tr>
         <td>Date Flagged</td>
         <td>
-<<<<<<< HEAD
           <input type="date" id="flag_date_start" name="input" ng-model="f.start"
-            placeholder="mm/dd/yyyy" min="01/01/1900" max="12/13/2099" required />
-          <span> to </span>
-          <input type="date" id="flag_date_end" name="input" ng-model="f.end"
-            placeholder="mm/dd/yyyy" min="01/01/1900" max="12/13/2099" required />
-=======
-          <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start"
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
         </td>
       </tr>
       <tr>
         <td>To</td>
         <td>
-          <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end" 
+          <input type="date" id="flag_date_end" name="input" ng-model="f.end"
             placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
->>>>>>> a817fdbe8e7c46a1207da29eee3bb4704572a013
         </td>
       </tr>
       <tr>
@@ -93,7 +85,7 @@
            <td>Flagged? </td> <td>Date Flagged</td>
         </tr>
         <tr ng-repeat="l in filtered" ng-click="inspect(l)" class="clickable"  ng-class-odd="'odd'" ng-class-even="'even'">
-          <td>{{l.name}}</td> 
+          <td>{{l.name}}</td>
           <td>{{id2city(l.city)}}</td>
           <td>{{id2state(l.state)}}</td>
           <td>{{l.zip}}</td>
