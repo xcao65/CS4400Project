@@ -137,6 +137,8 @@ def select_points(): #
 def filter_points():
     payload = request.get_json()
     print('filter_points is called with ', payload)
+    # {u'loc': 2, u'from': 0, u'attr': u'-', u'to': 10000,
+    # u'flag': None, u'name': u'Mt. Pleasant'}
     return jsonify({ 'succ': 0, 'c':
     [ {"loc": 1, "attr": "AQI", "val": 31, 'ts': '04-11-2017'}
     , {"loc": 1, "attr": "AQI", "val": 1099, 'ts': '04-12-2017'}
@@ -166,10 +168,14 @@ def filter_locations():
     print 'payload of filter_locations is', payload
     # {u'city': u'Atlanta', u'end': u'2012-12-12', u'name': u'- Please Select',
     # u'zip': u'111', u'start': u'2010-11-11', u'state': u'Georgia', u'flagged': True}
+    # applyFilter(name, city, state, zipCode, flag, dateFlag) YYYY/MM/DD
+
     return jsonify({ 'succ': 0, 'c':
     [ {"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
      ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
     ]})
+
+    #return jsonify({'succ': 1, 'c': []})
 
 @app.route('/api/flag', methods=["PUT"])
 @check_login

@@ -167,7 +167,9 @@ angular.module('p1', ['ngRoute'])
     DetailFactory.get_types().success(function(data, status) {
        console.log('Successfully got types!', status, data)
        if(data.succ != 0) return
-       $scope.types = $scope.non_opt.concat(data.c)
+       $scope.types = data.c
+       //console.log("types"data.c)
+       //$scope.f.attr = $scope.types[]
     })
     $scope.filter = function() {
       DetailFactory.filter_points(this.f).success(function(data, stataus) {
