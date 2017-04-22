@@ -175,9 +175,12 @@ table {
   font-size: 12pt;
 }
 
+.data-sheet {
+  border-spacing: 1px 0px;
+}
+
 .data-sheet td {
   padding: 12px 32px;
-  /*border-left: 1px solid #ffffff;*/
 }
 
 .data-sheet tr.odd {
