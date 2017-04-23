@@ -36,12 +36,18 @@ class POIreport(object):
 				dic['state'] = dic.pop(u'State')
 				dic['min_mold'] = dic.pop(u'MoldMin')
 
-				dic['avg_mold'] = str(dic.pop(u'MoldAvg'))
+				if dic[u'MoldAvg'] is not None:
+					dic['avg_mold'] = str(dic.pop(u'MoldAvg'))
+				else:
+					dic['avg_mold'] = dic.pop(u'MoldAvg')
 
 				dic['max_mold'] = dic.pop(u'MoldMax')
 				dic['min_aq'] = dic.pop(u'AQMin')
 
-				dic['avg_aq'] = str(dic.pop(u'AQAvg'))
+				if dic[u'AQAvg'] is not None:
+					dic['avg_aq'] = str(dic.pop(u'AQAvg'))
+				else:
+					dic['avg_aq'] = dic.pop(u'AQAvg')
 
 				dic['max_aq'] = dic.pop(u'AQMax')
 				dic['num_points'] = dic.pop(u'numOfDataPoint')
