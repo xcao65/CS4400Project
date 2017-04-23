@@ -47,17 +47,18 @@ class POIreport(object):
 				dic['num_points'] = dic.pop(u'numOfDataPoint')
 				dic['flag'] = dic.pop(u'DateFlagged')
 
-# 'id': 10, 'name': 'Georgia Tech', 'city': 0, 
-# 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 
+# 'id': 10, 'name': 'Georgia Tech', 'city': 0,
+# 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160,
 # 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
 
 # {u'City': 'Austin', u'MoldMin': 12344, u'State': 'Texas',
 #  u'MoldAvg': Decimal('12344.0000'), u'AQMax': None, u'LocationName': '1111',
-#   u'numOfDataPoint': 1, u'POIlocation': '1111', u'AQMin': None, u'MoldMax': 12344, 
+#   u'numOfDataPoint': 1, u'POIlocation': '1111', u'AQMin': None, u'MoldMax': 12344,
 #   u'Flag': 0, u'AQAvg': None}
 
 		print results
 		return results
 
-test = POIreport()
-test.generateReport()
+if __name__ == '__main__':
+	test = POIreport()
+	test.generateReport()

@@ -5,12 +5,13 @@ import signal
 import ssl
 import sys
 
+
 from all_user import LogIn
 from Admin import Admin
 from city_state import *
 from City_Scientist import CityScientist
 from City_Official import CityOfficial
-
+from POI_Report import POIreport
 
 from flask import (
     Flask, flash, redirect, render_template, request, session,
@@ -264,6 +265,9 @@ def save_location():
 @app.route('/api/report', methods=["POST"])
 @check_login
 def generate_report():
+    results = POIreport().generateReport()
+    return jsonify({'succ': 0, 'c': results})
+    '''
     return jsonify({'succ': 0, 'c': [
       {'id': 10, 'name': 'Georgia Tech', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
     , {'id': 11, 'name': 'GSU', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
@@ -273,6 +277,7 @@ def generate_report():
     , {'id': 19, 'name': 'Chtanooga river', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
     , {'id': 22, 'name': 'Westmar', 'city': 0, 'state': 1, 'min_mold': 2, 'avg_mold': 43.1, 'max_mold': 160, 'min_aq': 3, 'avg_aq': 33.4, 'max_aq': 84, 'num_points': 52, 'flag': '01-09-2017'}
     ]})
+    '''
 
 @app.route('/api/accounts', methods=["PUT"])
 @check_login
