@@ -95,6 +95,8 @@ class CityOfficial():
 		# return results
 		connection.close()
 
+		for result in results:
+			result['DateFlagged'] = str(result['DateFlagged'])
 		# print results
 		# print results[0].keys()
 
@@ -109,7 +111,7 @@ class CityOfficial():
 				dic['flag'] = dic.pop(u'DateFlagged')
 				dic['flagged'] = dic.pop(u'Flag')
 
-		# print results
+		print results
 		return results
 
 
