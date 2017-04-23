@@ -122,14 +122,20 @@ class CityOfficial():
 		else:
 			sql = sql + " AND DataType = \'{0}\'".format(dataType)
 
-		if dataValue == None:
+		if dataValue == [None, None]:
 			sql = sql
 		else:
-			Default_DataValue = ['DataValue', 'DataValue']
-			for i in range(len(dataValue)):
-				if dataValue[i] is not None:
-					Default_DataValue[i] = "\'%s\'" % dataValue[i]
-			sql = sql + " AND DataValue BETWEEN {0} AND {1}".format(dataValue[0], dataValue[1])
+			if dataValue[0] == None:
+				dataValue[0] = 0
+			if dataValue[1] == None:
+				dataValue[1] = 99999999
+			# Default_DataValue = ['DataValue', 'DataValue']
+			# for i in range(len(dataValue)):
+				# if dataValue[i] is not None:
+				# 	Default_DataValue[i] = "\'%s\'" % dataValue[i]
+				# 	print Default_DataValue[i]
+
+			sql = sql + " AND DataValue >= {0} AND DataValue <= {1}".format(dataValue[0], dataValue[1])
 
 		if date == None:
 			sql = sql
@@ -145,7 +151,7 @@ class CityOfficial():
 
 			sql = sql + " AND DateTime >= {0} AND DateTime <= {1}".format(Formalized_DateTime[0], Formalized_DateTime[1])
 
-		sql = sql + " ORDER BY DateTime"
+		sql = sql + " AND Status = 'Accepted' ORDER BY DateTime"
 
 		# print sql
 		cursor.execute(sql)
@@ -161,7 +167,7 @@ class CityOfficial():
 				dic['ts'] = dic.pop(u'DateTime')
 				dic['loc'] = locname
 
-		print results
+		# print results
 		return results
 
 
