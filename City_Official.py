@@ -10,10 +10,7 @@ class CityOfficial():
 
 		isFirstCondition = True
 
-		if(name == None and city == None and state == None and zipCode == None and flag == None and dateFlag == None):
-			sql = "SELECT * FROM POI"
-		else:
-			sql = "SELECT * FROM POI WHERE"
+		sql = "SELECT * FROM POI WHERE"
 
 		if name == None:
 			sql = sql
@@ -60,7 +57,7 @@ class CityOfficial():
 
 		Formalized_Date = ["DateFlagged", "DateFlagged"]
 
-		if dateFlag == None: # or maybe [None, None] ?
+		if dateFlag == [None, None]: # or maybe [None, None] ?
 			sql = sql
 		else:
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
@@ -78,7 +75,12 @@ class CityOfficial():
 				isFirstCondition = False
 			else:
 				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
-
+		
+		if isFirstCondition:
+			sql = sql + " LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
+			isFirstCondition = False
+		else:
+			sql = sql + " AND LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
 		#print (sql)
 
 		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
@@ -87,6 +89,7 @@ class CityOfficial():
 		cursor.execute(sql)
 		# # cursor.execute(sql, (name, city, state, zipCode, flag, Formalized_Date[0], Formalized_Date[1]))
 		results = cursor.fetchall()
+		# return results
 		connection.close()
 
 		# print results
