@@ -1,5 +1,6 @@
 from connection import *
 from all_user import *
+from datetime import datetime
 
 class Admin():
 
@@ -51,22 +52,24 @@ class Admin():
 
 	def changeDP(self, keys, state):
 		connection = connect()
-		
-		if state == 1:
-			status = 'Accepted'
-		else:
-			status = 'Rejected'
 
-		sql = "UPDATE Data_Point SET Status = \'{0}\' WHERE (LocName = \'{1}\' AND DateTime = \'{2}\')".format(status, keys[0][0], keys[0][1])
-		
+		for key in keys:
+			newtime = datetime.strptime(key['DateTime'], '%a, %d %b %Y %H:%M:%S %Z')
+			date, time = str(newtime.date()), str(newtime.time())
+			key['DateTime'] = date + ' ' + time[0:5]
+
+		status = 'Accepted' if state else 'Rejected'
+
+		sql = "UPDATE Data_Point SET Status = \'{0}\' WHERE (LocName = \'{1}\' AND DateTime = \'{2}\')".format(status, keys[0]["LocName"], keys[0]["DateTime"])
+
 		if len(keys) == 1:
 			sql = sql
 		else:
 			for i in range(1, len(keys)):
-				sql = sql + " OR (LocName = \'{0}\' AND DateTime = \'{1}\')".format(keys[i][0], keys[i][1])
+				sql = sql + " OR (LocName = \'{0}\' AND DateTime = \'{1}\')".format(keys[i]["LocName"], keys[i]["DateTime"])
 
 		cursor = connection.cursor()
-		
+
 		cursor.execute(sql)
 
 		connection.commit()

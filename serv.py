@@ -127,9 +127,12 @@ def fetch_points(): # fetch pending data points
 def select_points(): #
     payload = request.get_json()
     print("select_point is called: ", payload)
+    #print payload['keys'][0]
     # u'keys': [{u'LocName': u'Georgia Tech', u'DateTime': u'Tue, 31 Jan 2017 18:37:00 GMT'}]})
     if 'keys' in payload and len(payload['keys']) > 0:
-        pass
+        new_admin = Admin()
+        new_admin.changeDP(payload['keys'], payload['acc'])
+        # pass
     return jsonify({"succ": 0, "c":payload})
 
 @app.route('/api/filter_points', methods=["POST"])
