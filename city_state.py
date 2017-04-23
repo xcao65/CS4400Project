@@ -23,6 +23,19 @@ def import_location():
     #return retval
     return results
 
+def import_locationCO():
+    connection = connect()
+    cursor = connection.cursor()
+    sql = "SELECT DISTINCT LocName AS LocationName FROM Data_Point WHERE Status = 'Accepted'"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    connection.close()
+    retval = []
+    # for x in results:
+    #    retval.append(x["LocationName"])
+    #return retval
+    return results
+
 def import_type():
     connection = connect()
     cursor = connection.cursor()
@@ -43,3 +56,5 @@ if __name__ == '__main__':
     print import_location()
     print "data types are"
     print import_type()
+    print "Locations with approved data_point are"
+    print import_locationCO()
