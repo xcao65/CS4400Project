@@ -15,7 +15,6 @@
   <div class="w3-bar w3-black w3-card-2">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#point_list" class="w3-bar-item w3-button w3-padding-large">Hi, Boss!</s>
-    <a ng-click="goto('/')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending Data Points</a>
     <!-- <a ng-click="goto('/')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">[old]View Pending Data Points</a> -->
     <a ng-click="goto('/pt2')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending Data Points</a>
     <a ng-click="goto('officials')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">View Pending City Offical Accounts</a>
@@ -100,18 +99,18 @@
 <script type="text/ng-template" id="/officials.html">
   <h2 class="ctx">Pending City Official Accounts</h2>
   <p ng-show="accounts.length == 0">There is no pending accounts for now. Come back later! </p>
-  <table ng-show="accounts.length > 0">
-    <tr>
-      <td>Username</td><td>Email</td><td>City</td><td>State</td><td>Title</td>
+  <table ng-show="accounts.length > 0" class="data-sheet w100">
+    <tr class="data-header">
+      <td>Username</td><td>Email</td><td>City</td><td>State</td><td>Title</td><td>Actions</td>
     </tr>
-    <tr ng-repeat="a in accounts">
+    <tr ng-repeat="a in accounts" ng-class-odd="'odd'" ng-class-even="'even'">
       <td>{{a.UserName}}</td><td>{{a.EmailAddress}}</td><td>{{a.City}}</td>
       <td>{{a.State}}</td><td>{{a.Title}}</td>
-      <td>
-        <button ng-click="mark(a, true)" ng-show="a.Status==-1">Accept</button>
-        <button ng-click="mark(a, false)" ng-show="a.Status==-1">Reject</button>
+      <td><center>
+        <button ng-click="mark(a, true)" ng-show="a.Status==-1" class="frame-blue trans xs-btn mg16r action4">Accept</button>
+        <button ng-click="mark(a, false)" ng-show="a.Status==-1" class="frame-red trans xs-btn mg16l action4">Reject</button>
         <span ng-show="a.Status > -1">{{a.Status == 1? 'Accepted' : 'Rejected'}}</span>
-      </td>
+      </center></td>
     </tr>
   </table>
 </script>

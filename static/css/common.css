@@ -166,9 +166,16 @@ table {
   padding: 8px 16px;
 }
 
+.xs-btn {
+  text-align: center;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 2px 12px;
+}
+
 .med-btn {
   text-align: center;
-  border: 2px solid transparent;
   border-radius: 3px;
   font-size: 14px;
   font-weight: 200;
@@ -177,7 +184,6 @@ table {
 
 .big-btn {
   text-align: center;
-  border: 2px solid transparent;
   border-radius: 3px;
   font-size: 16px;
   font-weight: 200;
@@ -216,6 +222,10 @@ table {
 }
 .action3 {
   width: 360px;
+}
+
+.action4 {
+  width: 120px;
 }
 
 .fake-link {
