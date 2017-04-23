@@ -12,6 +12,7 @@ from city_state import *
 from City_Scientist import CityScientist
 from City_Official import CityOfficial
 from POI_Report import POIreport
+from checks import *
 
 from flask import (
     Flask, flash, redirect, render_template, request, session,
@@ -261,10 +262,15 @@ def save_location():
     print("save_location is called: ", payload)
     # {u'city': u'Atlanta', u'state': u'Georgia', u'name': u'111', u'zip': u'111'})
     # addNewLocation(self, locationname, city, state, zipcode)
-    newS = CityScientist()
-    newS.addNewLocation(payload["name"],payload["city"],payload["state"],payload["zip"])
-    payload["id"] = 999
-    return jsonify({"succ": 0, "c":payload})
+    if 'zip' in payload and validateZipCode(payload["zip"]):
+        newS = CityScientist()
+        newS.addNewLocation(payload["name"],payload["city"],payload["state"],payload["zip"])
+        payload["id"] = 999
+        return jsonify({"succ": 0, "c":payload})
+    else:
+        payload["id"] = 400
+        return jsonify({"succ": 1, "c":payload})
+
 
 @app.route('/api/report', methods=["POST"])
 @check_login

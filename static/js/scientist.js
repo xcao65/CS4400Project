@@ -84,11 +84,15 @@ angular.module('p2', ['ngRoute'])
       Commons.put_loc(this.l).success(function(data, status) {
         console.log("Successfully saved location: ", status, data)
         $scope.succ = data.succ
-        $scope.msg = data.succ == 0? "Success!" : "Failed:("
+        $scope.msg = data.succ == 0? "Success!" : "Error! Please enter valid zip code."
         $timeout(void_msg, 3000)
       }).error(function(error, status) {
         $scope.succ = 1000
-        $scope.msg = 'Error with status code [' + status + ']'
+        if(status == 500){
+            $scope.msg = 'Unable to add new location. Please verify your inputs.'
+        }else{
+            $scope.msg = 'Error with status code [' + status + ']'
+        }
         $timeout(void_msg, 3000)
       })
     }

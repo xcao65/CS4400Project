@@ -55,7 +55,7 @@
       <tr>
         <td>State</td>
         <td><select ng-model="l.state" ng-options="State as State for State in states" ng-change="opt_cities()"></select></td></tr>
-      <tr><td>Zip code</td><td><input type="text" ng-model="l.zip" required/></td></tr>
+      <tr><td>Zip code</td><td><input type="text" ng-model="l.zip" ng-pattern="/^(\d{5})$/" required/></td></tr>
       <tr>
         <td></td>
         <td><input type="submit" value="Add"></input></td>
