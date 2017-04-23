@@ -14,7 +14,7 @@ angular.module('p0', ['ngRoute'])
           controller: 'OfficialAccountCtrl',
           controllerAs: 'officials'
         }).otherwise({
-           redirectTo: '/points'
+           redirectTo: '/pt2'
         });
   }).factory('Commons', function Commons($location){
     var exports = {'id2p': {}, 'id2a': {}}
