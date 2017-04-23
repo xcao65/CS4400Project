@@ -172,14 +172,21 @@ class CityOfficial():
 		# get current time
 		dateFlagged = "{0}".format(datetime.now())
 		dateFlagged = dateFlagged.split(' ')
-		dateFlagged = dateFlagged[0]
 
+		dateFlagged = dateFlagged[0] if status else 'NULL'
 
-
-		sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = \'{1}\' WHERE LocationName = \'{2}\'".format(status, dateFlagged, locname)
+		if status:
+			sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = \'{1}\' WHERE LocationName = \'{2}\'".format(status, dateFlagged, locname)
+		else:
+			sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = NULL WHERE LocationName = \'{1}\'".format(status, locname)
 		# sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
 
 		cursor.execute(sql)
 
 		connection.commit()
 		connection.close()
+
+		if dateFlagged != 'NULL':
+			return dateFlagged
+		else:
+			return None
