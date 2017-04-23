@@ -10,7 +10,10 @@ class CityOfficial():
 
 		isFirstCondition = True
 
-		sql = "SELECT * FROM POI WHERE"
+		if name == None and city == None and state == None and zipCode == None and flag == None and dateFlag == [None, None]:
+			sql = "SELECT * FROM POI"
+		else:
+			sql = "SELECT * FROM POI WHERE"
 
 		if name == None:
 			sql = sql
@@ -76,11 +79,11 @@ class CityOfficial():
 			else:
 				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
 		
-		if isFirstCondition:
-			sql = sql + " LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
-			isFirstCondition = False
-		else:
-			sql = sql + " AND LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
+		# if isFirstCondition:
+		# 	sql = sql + " LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
+		# 	isFirstCondition = False
+		# else:
+		# 	sql = sql + " AND LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
 		#print (sql)
 
 		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
