@@ -13,7 +13,7 @@ UPDATE Data_Point SET Status = (status) WHERE LocName = (location) AND DateTime 
 ```
 ## 4. Update many data point
 ```sql
-UPDATE Data_Point SET Status = (status) WHERE (LocName =(keys[0]["LocName"]) AND DateTime = (keys[0]["DateTime"])) OR (LocName = (keys[i]["LocName"]) AND DateTime = (keys[i]["DateTime"]))"
+UPDATE Data_Point SET Status = (status) WHERE (LocName =(keys[0]["LocName"]) AND DateTime = (keys[0]["DateTime"])) OR (LocName = (keys[i]["LocName"]) AND DateTime = (keys[i]["DateTime"]))
 ```
 
 
@@ -51,11 +51,11 @@ INSERT INTO Data_Point (DateTime, LocName, DataType, DataValue) VALUES (Formaliz
 # City Official
 ## 1. Show POI detail
 ```sql
-SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = (locname) AND DataType = (dataType) AND DataValue BETWEEN (dataValue[0]) AND (dataValue[1]) AND DateTime BETWEEN (Formalized_DateTime[0]) AND (Formalized_DateTime[1])
+SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = (locname) AND DataType = (dataType) AND DataValue BETWEEN (dataValue[0]) AND (dataValue[1]) AND DateTime BETWEEN (Formalized_DateTime[0]) AND (Formalized_DateTime[1]) AND Status = 'Accepted' ORDER BY DateTime
 ```
 ## 2. Filter
-```python
-"SELECT * FROM POI WHERE LocationName = \'{0}\' AND State = \'{1}\' AND ZipCode = \'{2}\' AND Flag = {3} AND DateFlagged BETWEEN \'{4}\' AND \'{5}\'".format(name, city, state, zipCode, flag, Formalized_Date[0], Formalized_Date[1])
+```sql
+SELECT * FROM POI WHERE LocationName = (name) AND State = (state) AND City = (city) AND ZipCode = (zipCode) AND Flag = (flag) AND DateFlagged BETWEEN (Formalized_Date[0]) AND (Formalized_Date[1]) AND Status = 'Accepted' ORDER BY DateTime
 ```
 ***
 # POI Report
