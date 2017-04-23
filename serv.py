@@ -41,10 +41,13 @@ def home():
 @app.route('/<path:path>')
 def send_static(path):
     print("Someone wants {}".format(path))
-    if path != "login.html" and path[-5:] == '.html' and \
+    if path == "error.html":
+        print("sending error page file - " + path)
+        return send_from_directory('static', path)
+    elif path != "login.html" and path[-5:] == '.html' and \
             ('login' not in session or not session['login'][1]):
-        print("redirect to login")
-        return redirect('login.html')
+        print("redirect to error")
+        return redirect('login.html')            
     else:
         print("sending file - " + path)
         return send_from_directory('static', path)
@@ -60,7 +63,7 @@ def do_login():
     role = t2r[user_type] if user_type in t2r else None
     print("user type = {}, role = {}".format(user_type, role))
     session['login'] = (uid, role)
-    return redirect((role or 'login') + ".html")
+    return redirect((role or 'error') + ".html")
 
 @app.route('/api/logout', methods=["POST", "GET"])
 def do_logout():

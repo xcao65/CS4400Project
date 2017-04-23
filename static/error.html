@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="p4">
+<head>
+  <link rel="stylesheet" href="/static/css/common.css" type="text/css">
+  <link rel="stylesheet" href="/static/css/error.css" type="text/css">
+  <title>CS4400 Project - G79</title>
+</head>
+<body class="reg-darker">
+  <!-- Page content -->
+  <ng-view></ng-view>
+
+  <script type="text/ng-template" id="/default.html">
+    <table class="w100">
+      <tr class="reg-lighter"><td style="padding-bottom: 40px;">
+        <h1 class="ctx lbw">Sorry! We're unable to log you in.</h1>
+        <h3 class="ctx lbw">Please make sure you entered username and password correctly.</h3>
+        <h3 class="ctx lbw">If you registered as a city official, stay tuned for administrative approval.</h3>
+      </tr>
+      <tr><td>
+        <button href="/login.html" class="big-btn w360 frame-w mg16t clickable ctm blk" onclick="location.href='/login.html'">Back to log in</button>
+      </td></tr>
+    </table>
+  </script>
+
+
+  <!-- add angular 1.2.x -->
+  <script type="text/javascript" src="lib/angular.min.js"></script>
+  <script src="lib/angular-route.min.js"></script>
+  <script src="js/error.js"></script>
+</body>
+</html>
