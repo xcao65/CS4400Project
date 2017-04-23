@@ -137,8 +137,30 @@ def select_points(): #
 def filter_points():
     payload = request.get_json()
     print('filter_points is called with ', payload)
-    # {u'loc': 2, u'from': 0, u'attr': u'-', u'to': 10000,
-    # u'flag': None, u'name': u'Mt. Pleasant'}
+    # {u'loc': 1, u'from': 0, u'attr': u'-', u'to': 10000,
+    # u'flag': None, u'name': u'Emory'})
+    # showPOIDetail(locname, dataType, dataValue, date, time)
+    start_date, start_time, end_date, end_time = None, None, None, None
+    if 'start' in payload and payload['start']!= None:
+        curr_time = datetime.strptime(payload['start'], '%Y-%m-%dT%H:%M')
+        start_date, start_time = '/'.join(str(curr_time.date()).split('-')), str(curr_time.time())[0:5]
+        print start_date, start_time
+    if 'end' in payload and payload['end']!=None:
+        curr_time = datetime.strptime(payload['end'], '%Y-%m-%dT%H:%M')
+        end_date, end_time = '/'.join(str(curr_time.date()).split('-')), str(curr_time.time())[0:5]
+    date_range = [start_date, end_date]
+    time_range = [start_time, end_time]
+    value_range = [payload['from'], payload['to']]
+    value_type = None if payload['attr']=='-' else payload['attr']
+    new_official = CityOfficial()
+    # print payload['name'], value_type, value_range, date_range, time_range
+    results = new_official.showPOIDetail(payload['name'], value_type, value_range, date_range, time_range)
+    # print results
+    if results:
+        return jsonify({"succ": 0, "c": results})
+    else:
+        return jsonify({"succ": 1, "c": []})
+    '''
     return jsonify({ 'succ': 0, 'c':
     [ {"loc": 1, "attr": "AQI", "val": 31, 'ts': '04-11-2017'}
     , {"loc": 1, "attr": "AQI", "val": 1099, 'ts': '04-12-2017'}
@@ -146,7 +168,7 @@ def filter_points():
     , {"loc": 1, "attr": "AQI", "val": 12, 'ts': '04-22-2017'}
     , {"loc": 1, "attr": "AQI", "val": 15, 'ts': '04-23-2017'}
     ]})
-
+    '''
 
 @app.route('/api/locations', methods=["POST", "GET"])
 @check_login
@@ -165,16 +187,34 @@ def fetch_locations():
 def filter_locations():
     print('filter_locations called! ', request.get_json())
     payload = request.get_json()
-    print 'payload of filter_locations is', payload
     # {u'city': u'Atlanta', u'end': u'2012-12-12', u'name': u'- Please Select',
     # u'zip': u'111', u'start': u'2010-11-11', u'state': u'Georgia', u'flagged': True}
     # applyFilter(name, city, state, zipCode, flag, dateFlag) YYYY/MM/DD
-
+    start_time, end_time = None, None
+    if 'start' in payload:
+        start_time = '/'.join(payload['start'].split('-'))
+    if 'end' in payload:
+        end_time = '/'.join(payload['end'].split('-'))
+    time_range = [start_time, end_time]
+    non = "- Please Select"
+    name = None if payload['name']==non else payload['name']
+    city = None if payload['city']==non else payload['city']
+    state = None if payload['state']==non else payload['state']
+    zip_code = None if 'zip' not in payload else payload['zip']
+    flag = 1 if 'flagged' in payload and payload['flagged'] else None
+    new_official = CityOfficial()
+    results = new_official.applyFilter(name, city, state, zip_code, flag, time_range)
+    print "returned locations are: ", results
+    if results:
+        return jsonify({'succ': 0, 'c': results})
+    else:
+        return jsonify({'succ': 1, 'c': []})
+    '''
     return jsonify({ 'succ': 0, 'c':
     [ {"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
      ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
     ]})
-
+    '''
     #return jsonify({'succ': 1, 'c': []})
 
 @app.route('/api/flag', methods=["PUT"])
@@ -182,7 +222,12 @@ def filter_locations():
 def flag_loc():
     payload = request.get_json()
     print('flag called! ', payload)
-    payload['flag'] = None if payload['flag'] else '05-01-2017'
+    name = payload['name']
+    status = 0 if payload['flag'] else 1
+    # payload['flag'] = None if payload['flag'] else '05-01-2017'
+    new_official = CityOfficial()
+    result = new_official.flagPOI(name, status)
+    payload['flag'] = result
     return jsonify({'succ': 0, 'c': payload})
 
 @app.route('/api/city_state', methods=["GET", "POST"])

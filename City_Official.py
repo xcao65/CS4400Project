@@ -10,7 +10,7 @@ class CityOfficial():
 
 		isFirstCondition = True
 
-		if(name == None and city == None and state == None and zipCode == None and flag == None and dateFlag == None):
+		if name == None and city == None and state == None and zipCode == None and flag == None and dateFlag == [None, None]:
 			sql = "SELECT * FROM POI"
 		else:
 			sql = "SELECT * FROM POI WHERE"
@@ -60,7 +60,7 @@ class CityOfficial():
 
 		Formalized_Date = ["DateFlagged", "DateFlagged"]
 
-		if dateFlag == None: # or maybe [None, None] ?
+		if dateFlag == [None, None]: # or maybe [None, None] ?
 			sql = sql
 		else:
 			# Assume time format: Date: yyyy/mm/dd ; Time: hh:mm AS STRING
@@ -78,8 +78,13 @@ class CityOfficial():
 				isFirstCondition = False
 			else:
 				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
-
-		print (sql)
+		
+		# if isFirstCondition:
+		# 	sql = sql + " LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
+		# 	isFirstCondition = False
+		# else:
+		# 	sql = sql + " AND LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
+		#print (sql)
 
 		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
 		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'"
@@ -87,6 +92,7 @@ class CityOfficial():
 		cursor.execute(sql)
 		# # cursor.execute(sql, (name, city, state, zipCode, flag, Formalized_Date[0], Formalized_Date[1]))
 		results = cursor.fetchall()
+		# return results
 		connection.close()
 
 		# print results
@@ -103,7 +109,7 @@ class CityOfficial():
 				dic['flag'] = dic.pop(u'DateFlagged')
 				dic['flagged'] = dic.pop(u'Flag')
 
-		print results
+		# print results
 		return results
 
 
@@ -119,14 +125,20 @@ class CityOfficial():
 		else:
 			sql = sql + " AND DataType = \'{0}\'".format(dataType)
 
-		if dataValue == None:
+		if dataValue == [None, None]:
 			sql = sql
 		else:
-			Default_DataValue = ['DataValue', 'DataValue']
-			for i in range(len(dataValue)):
-				if dataValue[i] is not None:
-					Default_DataValue[i] = "\'%s\'" % dataValue[i]
-			sql = sql + " AND DataValue BETWEEN {0} AND {1}".format(dataValue[0], dataValue[1])
+			if dataValue[0] == None:
+				dataValue[0] = 0
+			if dataValue[1] == None:
+				dataValue[1] = 99999999
+			# Default_DataValue = ['DataValue', 'DataValue']
+			# for i in range(len(dataValue)):
+				# if dataValue[i] is not None:
+				# 	Default_DataValue[i] = "\'%s\'" % dataValue[i]
+				# 	print Default_DataValue[i]
+
+			sql = sql + " AND DataValue >= {0} AND DataValue <= {1}".format(dataValue[0], dataValue[1])
 
 		if date == None:
 			sql = sql
@@ -142,7 +154,7 @@ class CityOfficial():
 
 			sql = sql + " AND DateTime >= {0} AND DateTime <= {1}".format(Formalized_DateTime[0], Formalized_DateTime[1])
 
-		sql = sql + " ORDER BY DateTime"
+		sql = sql + " AND Status = 'Accepted' ORDER BY DateTime"
 
 		# print sql
 		cursor.execute(sql)
@@ -158,25 +170,32 @@ class CityOfficial():
 				dic['ts'] = dic.pop(u'DateTime')
 				dic['loc'] = locname
 
-		print results
+		# print results
 		return results
 
 
-	def flagPOI(self, locname):
+	def flagPOI(self, locname, status):
 		connection = connect()
 		cursor = connection.cursor()
 
 		# get current time
 		dateFlagged = "{0}".format(datetime.now())
 		dateFlagged = dateFlagged.split(' ')
-		dateFlagged = dateFlagged[0]
-		
 
+		dateFlagged = dateFlagged[0] if status else 'NULL'
 
-		sql = "UPDATE POI SET Flag = 1, DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
+		if status:
+			sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = \'{1}\' WHERE LocationName = \'{2}\'".format(status, dateFlagged, locname)
+		else:
+			sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = NULL WHERE LocationName = \'{1}\'".format(status, locname)
 		# sql = "UPDATE POI SET DateFlagged = \'{0}\' WHERE LocationName = \'{1}\'".format(dateFlagged, locname)
 
 		cursor.execute(sql)
 
 		connection.commit()
 		connection.close()
+
+		if dateFlagged != 'NULL':
+			return dateFlagged
+		else:
+			return None

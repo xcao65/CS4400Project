@@ -3,22 +3,23 @@ import pymysql.cursors
 import uuid
 from collections import OrderedDict
 import random
+from connection import *
 
 class POIreport():
-	def getlocation(self, connection):
+	def getlocation(self):
 		cursor = connection.cursor()
 		sql = "SELECT LocationName,City,State FROM POI"
-		cursor.execute(sql)		
+		cursor.execute(sql)
 		result = cursor.fetchall()
 		return result
-	
+
 	def getflag(self, connection):
 		cursor = connection.cursor()
 		sql = "SELECT Flag FROM POI"
 		cursor.execute(sql)
 		result = cursor.fetchall()
 		return result
-		
+
 	def minMold(self, connection, location):
 		cursor = connection.cursor()
 		minM = []
@@ -29,7 +30,7 @@ class POIreport():
 			result = cursor.fetchall()
 			minM.extend(result)
 		return minM
-		
+
 	def maxMold(self, connection, location):
 		cursor = connection.cursor()
 		maxM = []
@@ -40,7 +41,7 @@ class POIreport():
 			result = cursor.fetchall()
 			maxM.extend(result)
 		return maxM
-	
+
 	def avgMold(self, connection, location):
 		cursor = connection.cursor()
 		avgM = []
@@ -62,7 +63,7 @@ class POIreport():
 			result = cursor.fetchall()
 			minAQ.extend(result)
 		return minAQ
-		
+
 	def maxAQ(self, connection, location):
 		cursor = connection.cursor()
 		maxAQ = []
@@ -73,7 +74,7 @@ class POIreport():
 			result = cursor.fetchall()
 			maxAQ.extend(result)
 		return maxAQ
-	
+
 	def avgAQ(self, connection, location):
 		cursor = connection.cursor()
 		avgAQ = []
@@ -84,7 +85,7 @@ class POIreport():
 			result = cursor.fetchall()
 			avgAQ.extend(result)
 		return avgAQ
-	
+
 	def numofDP(self, connection, location):
 		cursor = connection.cursor()
 		nDP = []
@@ -94,8 +95,8 @@ class POIreport():
 			cursor.execute(sql, (locationname,))
 			result = cursor.fetchall()
 			nDP.extend(result)
-		return nDP		
-	
+		return nDP
+
 	def assignid(self, connection, location):
 		cursor = connection.cursor()
 		id = []
@@ -108,7 +109,7 @@ class POIreport():
 			#print result
 			id.extend(result)
 		return id
-		
+
 	def merge(self, connection):
 		cursor = connection.cursor()
 		mergedlist = []
@@ -122,7 +123,7 @@ class POIreport():
 		dpnum = self.numofDP(connection,location)
 		flag = self.getflag(connection)
 		id = self.assignid(connection,location)
-		
+
 		length = len(location)
 		for i in range(length):
 			temp = OrderedDict()
@@ -138,25 +139,25 @@ class POIreport():
 			temp.update(moldavg[i])
 			moldmax[i]['max_mold'] = moldmax[i].pop('MAX(DataValue)')
 			temp.update(moldmax[i])
-			
+
 			AQmin[i]['min_aq'] = AQmin[i].pop('MIN(DataValue)')
 			temp.update(AQmin[i])
 			AQavg[i]['avg_aq'] = AQavg[i].pop('AVG(DataValue)')
 			temp.update(AQavg[i])
 			AQmax[i]['max_aq'] = AQmax[i].pop('MAX(DataValue)')
 			temp.update(AQmax[i])
-			
+
 			dpnum[i]['num_points'] = dpnum[i].pop('COUNT(LocName)')
 			temp.update(dpnum[i])
 			flag[i]['flag'] = flag[i].pop('Flag')
 			temp.update(flag[i])
-			mergedlist.append(temp)	
+			mergedlist.append(temp)
 		return mergedlist
-	
+
 	def sort(self, connection, sortby):
 		cursor = connection.cursor()
 		list = self.merge(connection)
-		newlist = sorted(list, key=lambda k: k[sortby]) 
+		newlist = sorted(list, key=lambda k: k[sortby])
 		return newlist
 
 
@@ -169,7 +170,7 @@ class POIreport():
 #                              db='cs4400_Group_79',
 #                              # charset='utf8mb4',
 #                              cursorclass=pymysql.cursors.DictCursor)
-# '''                        
+# '''
 # test1 = poi.getlocation(connection)
 # print test1
 # test11 = poi.assignid(connection,test1)

@@ -94,14 +94,13 @@ angular.module('p1', ['ngRoute'])
 
     $scope.id2state = function() { $scope.states = c2s[$scope.f.city] }
     $scope.id2city = function() { $scope.cities = s2c[$scope.f.state] }
-/*
-    $scope.id2city = function(id) {
-      return "[Not implemented] Map id to city: " + id
+
+    $scope.id_city = function(id) {
+      return id
     }
-    $scope.id2state = function(id) {
-      return "[Not implemented] Map id to state: " + id
+    $scope.id_state = function(id) {
+      return id
     }
-*/
 
     console.log("before, scope non_opts are: ", $scope.non_opt)
     //$scope.f = {'flagged': false, 'name': '-', 'city': '-', 'state': '-'}
@@ -114,16 +113,19 @@ angular.module('p1', ['ngRoute'])
         if(data.succ == 0) {
             $scope.filtered = data.c
             //$scope.filtered = $scope.locations
+            console.log("filtered are : ", $scope.filtered)
         }
       })
     }
     $scope.reset = function() {
       this.filtered = []
+      $scope.filtered = []
       var none = $scope.non_opt[0].id
       this.f = {'flagged': false, 'name': none, 'city': none, 'state': none }
       $scope.states = all_states
       $scope.cities = all_cities
       console.log("after reset f is ", this.f)
+      console.log("filtered are : ", $scope.filtered)
     }
     $scope.inspect = function(obj) {
       console.log("switch to detial - ", obj)
@@ -184,6 +186,8 @@ angular.module('p1', ['ngRoute'])
       this.filtered = []
       //console.log("current scope.nonopt[0] is ", $scope.non_opt[0])
       this.f.attr = $scope.non_opt[0].id
+      $scope.f.start = null
+      $scope.f.end = null
     }
     $scope.reset()
 

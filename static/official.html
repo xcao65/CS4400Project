@@ -62,14 +62,14 @@
         <td>Date Flagged</td>
         <td>
           <input type="date" id="flag_date_start" name="input" ng-model="f.start"
-            placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+            placeholder="mm/dd/yyyy" min="01/01/1800" max="12/31/2999" required />
         </td>
       </tr>
       <tr>
         <td>To</td>
         <td>
           <input type="date" id="flag_date_end" name="input" ng-model="f.end"
-            placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+            placeholder="mm/dd/yyyy" min="01/01/1800" max="12/31/2999" required />
         </td>
       </tr>
       <tr>
@@ -86,8 +86,8 @@
         </tr>
         <tr ng-repeat="l in filtered" ng-click="inspect(l)" class="clickable"  ng-class-odd="'odd'" ng-class-even="'even'">
           <td>{{l.name}}</td>
-          <td>{{id2city(l.city)}}</td>
-          <td>{{id2state(l.state)}}</td>
+          <td>{{id_city(l.city)}}</td>
+          <td>{{id_state(l.state)}}</td>
           <td>{{l.zip}}</td>
           <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
         </tr>
@@ -118,11 +118,11 @@
     <tr>
       <td>Time &amp; date</td>
       <td>
-        <input type="date" id="flag_date_start" name="input" ng-model="f.start"
-          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+        <input type="datetime-local" id="flag_date_start" name="input" ng-model="f.start"
+          placeholder="mm/dd/yyyy" min="01/01/1800" max="12/31/2999" required />
         <span> to </span>
-        <input type="date" id="flag_date_end" name="input" ng-model="f.end"
-          placeholder="mm/dd/yyyy" min="01/01/2000" max="12/13/2099" required />
+        <input type="datetime-local" id="flag_date_end" name="input" ng-model="f.end"
+          placeholder="mm/dd/yyyy" min="01/01/1800" max="12/31/2999" required />
       </td>
     </tr>
     <tr>
