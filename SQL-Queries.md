@@ -59,16 +59,67 @@ SELECT DataType, DataValue, DateTime FROM Data_Point WHERE LocName = (locname) A
 ```
 ***
 # POI Report
-##1. Get location name
+
+**Generate the report by Only ONE SQL Query!!!!!!**
+
 ```sql
-SELECT LocationName,Flag,City,State FROM POI
+SELECT * FROM 
+(
+	SELECT COALESCE(LocName, LocationName) AS "POIlocation", MoldMin, MoldAvg, MoldMax, AQMin, AQAvg, AQMax, (COALESCE(numofMold,0) + COALESCE(numofAQ,0)) AS "numOfDataPoint" FROM
+	(
+		SELECT * FROM 
+		(	
+			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM 
+				(
+				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold' 
+				FROM Data_Point 
+				WHERE DataType = 'Mold' AND Status = 'Accepted'
+				GROUP BY LocName
+				) AS a
+			LEFT JOIN
+				(
+				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ' 
+				FROM Data_Point 
+				WHERE DataType = 'Air Quality' AND Status = 'Accepted'
+				GROUP BY LocName
+				) AS b
+			ON a.LocationName = b.LocName) as r1
+
+		UNION
+
+		SELECT * FROM 
+		(	
+			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM 
+				(
+				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold' 
+				FROM Data_Point 
+				WHERE DataType = 'Mold' AND Status = 'Accepted' 
+				GROUP BY LocName
+				) AS c
+			RIGHT JOIN
+				(
+				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ' 
+				FROM Data_Point 
+				WHERE DataType = 'Air Quality' AND Status = 'Accepted'
+				GROUP BY LocName
+				) AS d
+			ON c.LocationName = d.LocName
+		) as r2
+	) AS r3
+) AS p1
+
+JOIN
+
+(
+	SELECT LocationName, City, State, DateFlagged FROM POI
+) AS p2
+ON p1.POIlocation = p2.LocationName 
 ```
-##2. Funtions to fetch columns for the report
-```sql
-SELECT MIN(DataValue) FROM Data_Point WHERE LocName = (locationname) AND DataType = (datatype)
-SELECT MAX(DataValue) FROM Data_Point WHERE LocName = (locationname) AND DataType = (datatype)
-SELECT AVG(DataValue) FROM Data_Point SELECT COUNT(LocName) FROM Data_Point WHERE LocName = (locationname)
-```
+
+
+
+
+
 ***
 # All Users
 ## 1. Log in
