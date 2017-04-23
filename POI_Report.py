@@ -37,7 +37,7 @@ class POIreport(object):
 				dic['min_mold'] = dic.pop(u'MoldMin')
 
 				if dic[u'MoldAvg'] is not None:
-					dic['avg_mold'] = str(dic.pop(u'MoldAvg'))
+					dic['avg_mold'] = float(dic.pop(u'MoldAvg'))
 				else:
 					dic['avg_mold'] = dic.pop(u'MoldAvg')
 
@@ -45,7 +45,7 @@ class POIreport(object):
 				dic['min_aq'] = dic.pop(u'AQMin')
 
 				if dic[u'AQAvg'] is not None:
-					dic['avg_aq'] = str(dic.pop(u'AQAvg'))
+					dic['avg_aq'] = float(dic.pop(u'AQAvg'))
 				else:
 					dic['avg_aq'] = dic.pop(u'AQAvg')
 
