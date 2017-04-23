@@ -45,17 +45,20 @@ class LogIn():
         sql = "INSERT INTO User (EmailAddress, UserName, Password, Type) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (email, name, pwd, utype))
         connection.commit()
+        connection.close()
         print 'Added new user successfully'
 
-        if utype == 'City Official':
+        if utype == 3:
+            connection = connect()
             extras = []
             for x in others: extras.append(x)
             cursor = connection.cursor()
             sql = "INSERT INTO City_Official (EmailAddress, Title, City, State) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (email, extras[0], extras[1], extras[2]))
             connection.commit()
-            # print 'Added New City Official Successfully'
-        connection.close()
+            connection.close()
+            print 'Added New City Official Successfully'
+
 
     def checkUniqueName(self, name):
         connection = connect()
