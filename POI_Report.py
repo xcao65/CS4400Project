@@ -34,23 +34,25 @@ class POIreport(object):
 				dic['name'] = dic.pop(u'LocationName')
 				dic['city'] = dic.pop(u'City')
 				dic['state'] = dic.pop(u'State')
-				dic['min_mold'] = dic.pop(u'MoldMin')
+				dic['min_mold'] = dic.pop(u'MoldMin') if dic[u'MoldMin'] else 'None'
 
 				if dic[u'MoldAvg'] is not None:
 					dic['avg_mold'] = float(dic.pop(u'MoldAvg'))
 				else:
-					dic['avg_mold'] = dic.pop(u'MoldAvg')
+					# dic['avg_mold'] = dic.pop(u'MoldAvg')
+					dic['avg_mold'] = 'None'
 
-				dic['max_mold'] = dic.pop(u'MoldMax')
-				dic['min_aq'] = dic.pop(u'AQMin')
+				dic['max_mold'] = dic.pop(u'MoldMax') if dic[u'MoldMax'] else 'None'
+				dic['min_aq'] = dic.pop(u'AQMin') if dic[u'AQMin'] else 'None'
 
 				if dic[u'AQAvg'] is not None:
 					dic['avg_aq'] = float(dic.pop(u'AQAvg'))
 				else:
-					dic['avg_aq'] = dic.pop(u'AQAvg')
+					# dic['avg_aq'] = dic.pop(u'AQAvg')
+					dic['avg_aq'] = 'None'
 
-				dic['max_aq'] = dic.pop(u'AQMax')
-				dic['num_points'] = dic.pop(u'numOfDataPoint')
+				dic['max_aq'] = dic.pop(u'AQMax') if dic[u'AQMax'] else 'None'
+				dic['num_points'] = dic.pop(u'numOfDataPoint') if dic[u'numOfDataPoint'] else 'None'
 				dic['flag'] = dic.pop(u'DateFlagged')
 
 # 'id': 10, 'name': 'Georgia Tech', 'city': 0,

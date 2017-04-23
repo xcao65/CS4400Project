@@ -89,7 +89,7 @@
           <td>{{id_city(l.city)}}</td>
           <td>{{id_state(l.state)}}</td>
           <td>{{l.zip}}</td>
-          <td>{{l.flag? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
+          <td>{{l.flagged? 'yes' : 'no'}}</td> <td>{{l.flag || ''}}</td>
         </tr>
       </table>
     </div>
@@ -99,7 +99,7 @@
 <script type="text/ng-template" id="/detail.html">
   <p>POI location: {{f.name}}</p>
   <h2 class="ctx">POI Detail</h2>
-  <div class="w3-right" ng-show='f.flag'>
+  <div class="w3-right" ng-show='f.flagged'>
     <img alt="Flag" src="img/flag.svg" width="64" height="64"></img>
   </div>
   <table class="ctm med-form vgap1">
@@ -162,9 +162,9 @@
     </tr>
     <tr ng-repeat="i in items | orderBy:sort_field:sort_reverse" ng-class-odd="'odd'" ng-class-even="'even'">
       <td>{{i.name}}</td><td>{{i.city}}</td><td>{{i.state}}</td>
-      <td>{{i.min_mold}}</td><td>{{i.avg_mold}}</td><td>{{i.max_mold}}</td>
-      <td>{{i.min_aq}}</td><td>{{i.avg_aq}}</td><td>{{i.max_aq}}</td>
-      <td>{{i.num_points}}</td><td>{{i.flag? 'yes': 'no'}}</td>
+      <td>{{i.min_mold || ''}}</td><td>{{i.avg_mold || ''}}</td><td>{{i.max_mold || ''}}</td>
+      <td>{{i.min_aq || ''}}</td><td>{{i.avg_aq || ''}}</td><td>{{i.max_aq || ''}}</td>
+      <td>{{i.num_points || ''}}</td><td>{{i.flag? 'yes': 'no'}}</td>
     </tr>
   </table>
 </script>

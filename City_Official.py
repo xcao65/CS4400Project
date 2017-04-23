@@ -78,7 +78,7 @@ class CityOfficial():
 				isFirstCondition = False
 			else:
 				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
-		
+
 		# if isFirstCondition:
 		# 	sql = sql + " LocationName in (SELECT DISTINCT LocName FROM Data_Point WHERE Status = 'Accepted')"
 		# 	isFirstCondition = False
@@ -111,7 +111,7 @@ class CityOfficial():
 				dic['flag'] = dic.pop(u'DateFlagged')
 				dic['flagged'] = dic.pop(u'Flag')
 
-		print results
+		# print results
 		return results
 
 

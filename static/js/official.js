@@ -158,10 +158,10 @@ angular.module('p1', ['ngRoute'])
                                               DetailFactory, SharedData) {
     if(!SharedData || !('target' in SharedData) || !SharedData.target ||
         !'id' in SharedData.target || SharedData.target.id != $routeParams.id)
-      $scope.f = {'loc': '-', 'name': 'unknown', 'flag': null}
+      $scope.f = {'loc': '-', 'name': 'unknown', 'flag': null, 'flagged': 0}
     else
       $scope.f = {'loc': SharedData.target.id, 'name': SharedData.target.name,
-        'flag': SharedData.target.flag}
+        'flag': SharedData.target.flag, 'flagged': SharedData.target.flagged}
     $scope.non_opt = [{"id": '-', "name": "Not selected"}]
     $scope.goto = function(view){
       $location.path(view); // path not hash
@@ -196,6 +196,7 @@ angular.module('p1', ['ngRoute'])
         console.log('Successfully got flag response', status, data)
         if(data.succ != 0) return
         $scope.f.flag = data.c.flag
+        $scope.f.flagged = data.c.flagged
       })
     }
   }).controller('NavCtrl', function($scope, $location, $http) {

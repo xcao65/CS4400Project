@@ -227,11 +227,15 @@ def flag_loc():
     payload = request.get_json()
     print('flag called! ', payload)
     name = payload['name']
-    status = 0 if payload['flag'] else 1
+    # print 'before change, payload flag is ', payload['flag']
+    status = 0 if payload['flagged'] else 1
     # payload['flag'] = None if payload['flag'] else '05-01-2017'
     new_official = CityOfficial()
     result = new_official.flagPOI(name, status)
+    print "date flagged is ", result
     payload['flag'] = result
+    payload['flagged'] = 1 if result else 0
+    print 'after flag payload is ', payload
     return jsonify({'succ': 0, 'c': payload})
 
 @app.route('/api/city_state', methods=["GET", "POST"])
