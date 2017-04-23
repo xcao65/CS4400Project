@@ -137,6 +137,7 @@ angular.module('p0', ['ngRoute'])
         console.log('Successfully marked account', status, data)
         if(data.succ != 0) return
         Commons.update_account(data.c)
+        $scope.get_official_accounts() // Refresh!
       })
     }
   })
