@@ -141,17 +141,19 @@ def filter_points():
     # u'flag': None, u'name': u'Emory'})
     # showPOIDetail(locname, dataType, dataValue, date, time)
     start_date, start_time, end_date, end_time = None, None, None, None
-    if 'start' in payload:
-        curr_time = datetime.strptime(payload['start'], '%a, %d %b %Y %H:%M:%S %Z')
-        start_date, start_time = str(curr_time.date()), str(curr_time.time())
-    if 'end' in payload:
-        curr_time = datetime.strptime(payload['end'], '%a, %d %b %Y %H:%M:%S %Z')
-        end_date, end_time = str(curr_time.date()), str(curr_time.time())
+    if 'start' in payload and payload['start']!= None:
+        curr_time = datetime.strptime(payload['start'], '%Y-%m-%dT%H:%M')
+        start_date, start_time = '/'.join(str(curr_time.date()).split('-')), str(curr_time.time())[0:5]
+        print start_date, start_time
+    if 'end' in payload and payload['end']!=None:
+        curr_time = datetime.strptime(payload['end'], '%Y-%m-%dT%H:%M')
+        end_date, end_time = '/'.join(str(curr_time.date()).split('-')), str(curr_time.time())[0:5]
     date_range = [start_date, end_date]
     time_range = [start_time, end_time]
     value_range = [payload['from'], payload['to']]
     value_type = None if payload['attr']=='-' else payload['attr']
     new_official = CityOfficial()
+    # print payload['name'], value_type, value_range, date_range, time_range
     results = new_official.showPOIDetail(payload['name'], value_type, value_range, date_range, time_range)
     # print results
     if results:

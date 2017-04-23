@@ -186,6 +186,8 @@ angular.module('p1', ['ngRoute'])
       this.filtered = []
       //console.log("current scope.nonopt[0] is ", $scope.non_opt[0])
       this.f.attr = $scope.non_opt[0].id
+      $scope.f.start = null
+      $scope.f.end = null
     }
     $scope.reset()
 
