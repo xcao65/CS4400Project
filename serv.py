@@ -152,6 +152,7 @@ def filter_points():
     value_range = [payload['from'], payload['to']]
     value_type = None if payload['attr']=='-' else payload['attr']
     new_official = CityOfficial()
+    # print payload['name'], value_type, value_range, date_range, time_range
     results = new_official.showPOIDetail(payload['name'], value_type, value_range, date_range, time_range)
     # print results
     if results:
