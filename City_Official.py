@@ -79,7 +79,7 @@ class CityOfficial():
 			else:
 				sql = sql + " AND DateFlagged >= {0} AND DateFlagged <= {1}".format(Formalized_Date[0], Formalized_Date[1])
 
-		print (sql)
+		#print (sql)
 
 		# sql = "SELECT * FROM POI WHERE LocationName = %s AND City = %s AND State = %s AND ZipCode = %s AND Flag = %s AND DateFlagged BETWEEN %s AND %s"
 		# sql = "SELECT * FROM POI WHERE LocationName = \'Lenox Square\'"
@@ -103,7 +103,7 @@ class CityOfficial():
 				dic['flag'] = dic.pop(u'DateFlagged')
 				dic['flagged'] = dic.pop(u'Flag')
 
-		print results
+		# print results
 		return results
 
 
@@ -170,7 +170,7 @@ class CityOfficial():
 		dateFlagged = "{0}".format(datetime.now())
 		dateFlagged = dateFlagged.split(' ')
 		dateFlagged = dateFlagged[0]
-		
+
 
 
 		sql = "UPDATE POI SET Flag = \'{0}\', DateFlagged = \'{1}\' WHERE LocationName = \'{2}\'".format(status, dateFlagged, locname)

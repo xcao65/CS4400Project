@@ -165,16 +165,34 @@ def fetch_locations():
 def filter_locations():
     print('filter_locations called! ', request.get_json())
     payload = request.get_json()
-    print 'payload of filter_locations is', payload
     # {u'city': u'Atlanta', u'end': u'2012-12-12', u'name': u'- Please Select',
     # u'zip': u'111', u'start': u'2010-11-11', u'state': u'Georgia', u'flagged': True}
     # applyFilter(name, city, state, zipCode, flag, dateFlag) YYYY/MM/DD
-
+    start_time, end_time = None, None
+    if 'start' in payload:
+        start_time = '/'.join(payload['start'].split('-'))
+    if 'end' in payload:
+        end_time = '/'.join(payload['end'].split('-'))
+    time_range = [start_time, end_time]
+    non = "- Please Select"
+    name = None if payload['name']==non else payload['name']
+    city = None if payload['city']==non else payload['city']
+    state = None if payload['state']==non else payload['state']
+    zip_code = None if 'zip' not in payload else payload['zip']
+    flag = 1 if 'flagged' in payload and payload['flagged'] else None
+    new_official = CityOfficial()
+    results = new_official.applyFilter(name, city, state, zip_code, flag, time_range)
+    print "returned locations are: ", results
+    if results:
+        return jsonify({'succ': 0, 'c': results})
+    else:
+        return jsonify({'succ': 1, 'c': []})
+    '''
     return jsonify({ 'succ': 0, 'c':
     [ {"name": "Mt. Pleasant", "id": 2, "zip": 29472, "city": 0, "state": 0, "flag": None}
      ,{"name": "Spring Rd.", "id": 3, "zip": 92742, "city": 0, "state": 1, "flag": '04-18-2017'}
     ]})
-
+    '''
     #return jsonify({'succ': 1, 'c': []})
 
 @app.route('/api/flag', methods=["PUT"])
