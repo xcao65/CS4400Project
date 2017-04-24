@@ -49,20 +49,22 @@ class LogIn():
     def register(self, name, email, pwd, cpwd, utype, *others):
         if not self.checkUniqueName(name):
             # print 'Username has been used, try another one'
-            return
+            return False
         if not self.checkUniqueEmail(email):
             # print 'Email has been registered, try another one'
-            return
+            return False
         if pwd != cpwd:
             # print 'password must be matched'
-            return
+            return False
         connection = connect()
         cursor = connection.cursor()
         sql = "INSERT INTO User (EmailAddress, UserName, Password, Type) VALUES (%s, %s, %s, %s)"
         cursor.execute(sql, (email, name, pwd, utype))
         connection.commit()
+        result = cursor.fetchone()
         connection.close()
         print 'Added new user successfully'
+
 
         if utype == 3:
             connection = connect()
@@ -74,6 +76,11 @@ class LogIn():
             connection.commit()
             connection.close()
             print 'Added New City Official Successfully'
+
+        if result == None:
+            return True
+        else:
+            return False
 
 
     def checkUniqueName(self, name):

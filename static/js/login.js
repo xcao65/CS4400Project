@@ -87,7 +87,7 @@ angular.module('p4', ['ngRoute'])
           if(data.c.type == "official")
             $scope.msg += " Waiting administrative review..."
         } else {
-          $scope.msg = "Failed with succ code[" + data.succ + "]"
+          $scope.msg = "Failed to register!"
         }
         $timeout(void_msg, 3000)
         $timeout(function() { Commons.goto('/') }, 3000)

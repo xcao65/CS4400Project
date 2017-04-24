@@ -47,7 +47,7 @@ def send_static(path):
     elif path != "login.html" and path[-5:] == '.html' and \
             ('login' not in session or not session['login'][1]):
         print("redirect to error")
-        return redirect('login.html')            
+        return redirect('login.html')
     else:
         print("sending file - " + path)
         return send_from_directory('static', path)
@@ -324,14 +324,17 @@ def create_user():
     # (name, email, pwd, cpwd, utype, *others)
     new_user = LogIn()
     user_type = payload['type']
+    result = None
     if user_type == 'scientist':
-        new_user.register(payload['username'], payload['email'], \
+        result = new_user.register(payload['username'], payload['email'], \
         payload['password'], payload['conf_pwd'], t2i[user_type])
     else:
-        new_user.register(payload['username'], payload['email'], payload['password'], \
+        result = new_user.register(payload['username'], payload['email'], payload['password'], \
         payload['conf_pwd'], t2i[user_type], payload['title'], payload['city'], payload['state'])
     payload["id"] = 6666
-    return jsonify({'succ': 0, 'c': payload})
+    result = 0 if result else 1
+    print "register result is ", result
+    return jsonify({'succ': result, 'c': payload})
 
 @app.route('/api/accounts', methods=["POST"])
 @check_login
