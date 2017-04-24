@@ -1,5 +1,5 @@
 # Admin
-## 1. Select all pending data point	
+## 1. Select all pending data point
 ```sql
 SELECT LocName, DataType, DataValue, DateTime, Status FROM Data_Point WHERE Status = 'Pending'
 ```
@@ -7,7 +7,7 @@ SELECT LocName, DataType, DataValue, DateTime, Status FROM Data_Point WHERE Stat
 ```sql
 SELECT UserName, B.EmailAddress, City, State, Title FROM User AS A, City_Official AS B WHERE Status = 'Pending' AND A.EmailAddress = B.EmailAddress
 ```
-## 3. Update one data point	
+## 3. Update one data point
 ```sql
 UPDATE Data_Point SET Status = (status) WHERE LocName = (location) AND DateTime = (date_time)
 ```
@@ -30,7 +30,7 @@ UPDATE City_Official SET Status = (status) WHERE EmailAddress = (email)
 SELECT * FROM City_State
 ```
 ## 2. Import locations into frontend
-```sql 
+```sql
 SELECT DISTINCT LocationName FROM POI
 ```
 ## 3. Import datatypes into frontend
@@ -63,23 +63,23 @@ SELECT * FROM POI WHERE LocationName = (name) AND State = (state) AND City = (ci
 **Generate the report by Only ONE SQL Query!!!!!!**
 
 ```sql
-SELECT * FROM 
+SELECT * FROM
 (
 	SELECT COALESCE(LocName, LocationName) AS "POIlocation", MoldMin, MoldAvg, MoldMax, AQMin, AQAvg, AQMax, (COALESCE(numofMold,0) + COALESCE(numofAQ,0)) AS "numOfDataPoint" FROM
 	(
-		SELECT * FROM 
-		(	
-			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM 
+		SELECT * FROM
+		(
+			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM
 				(
-				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold' 
-				FROM Data_Point 
+				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold'
+				FROM Data_Point
 				WHERE DataType = 'Mold' AND Status = 'Accepted'
 				GROUP BY LocName
 				) AS a
 			LEFT JOIN
 				(
-				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ' 
-				FROM Data_Point 
+				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ'
+				FROM Data_Point
 				WHERE DataType = 'Air Quality' AND Status = 'Accepted'
 				GROUP BY LocName
 				) AS b
@@ -87,19 +87,19 @@ SELECT * FROM
 
 		UNION
 
-		SELECT * FROM 
-		(	
-			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM 
+		SELECT * FROM
+		(
+			SELECT LocName, LocationName, MoldMin, MoldAvg, MoldMax,numofMold, AQMin, AQAvg, AQMax, numofAQ FROM
 				(
-				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold' 
-				FROM Data_Point 
-				WHERE DataType = 'Mold' AND Status = 'Accepted' 
+				SELECT LocName AS 'LocationName', min(DataValue) AS 'MoldMin', avg(DataValue) AS 'MoldAvg', max(DataValue) AS 'MoldMax', count(*) AS 'numofMold'
+				FROM Data_Point
+				WHERE DataType = 'Mold' AND Status = 'Accepted'
 				GROUP BY LocName
 				) AS c
 			RIGHT JOIN
 				(
-				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ' 
-				FROM Data_Point 
+				SELECT LocName, min(DataValue) AS 'AQMin', avg(DataValue) AS 'AQAvg', max(DataValue) AS 'AQMax', count(*) AS 'numofAQ'
+				FROM Data_Point
 				WHERE DataType = 'Air Quality' AND Status = 'Accepted'
 				GROUP BY LocName
 				) AS d
@@ -113,7 +113,7 @@ JOIN
 (
 	SELECT LocationName, City, State, DateFlagged FROM POI
 ) AS p2
-ON p1.POIlocation = p2.LocationName 
+ON p1.POIlocation = p2.LocationName
 ```
 
 
@@ -130,6 +130,7 @@ SELECT Username, Password, Type FROM User WHERE Username = (username)
 ### (1) New user
 ```sql
 INSERT INTO User (EmailAddress, UserName, Password, Type) VALUES (email, name, pwd, utype)
+INSERT INTO City_Official (EmailAddress, Title, City, State) VALUES (email, title, city, state)
 ```
 ### (2) Check whether the username exists
 ```sql
